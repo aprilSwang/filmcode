@@ -1,0 +1,102 @@
+{
+  "launch_date": "2026-10-28",
+  "time_zone": "UTC",
+  "puzzles": [
+    {
+      "id": "big-buck-bunny",
+      "title": "Big Buck Bunny",
+      "year": 2008,
+      "genre": "Animated comedy",
+      "answer": 1,
+      "choices": [
+        {
+          "title": "Sintel",
+          "year": 2010
+        },
+        {
+          "title": "Big Buck Bunny",
+          "year": 2008
+        },
+        {
+          "title": "The Secret of Kells",
+          "year": 2009
+        },
+        {
+          "title": "Over the Hedge",
+          "year": 2006
+        }
+      ],
+      "license": "CC BY 3.0 · © 2008 Blender Foundation",
+      "source": "https://peach.blender.org/about/"
+    },
+    {
+      "id": "trip-to-moon",
+      "title": "A Trip to the Moon",
+      "year": 1902,
+      "genre": "Silent science fiction",
+      "answer": 1,
+      "choices": [
+        {
+          "title": "Metropolis",
+          "year": 1927
+        },
+        {
+          "title": "A Trip to the Moon",
+          "year": 1902
+        },
+        {
+          "title": "The Cabinet of Dr. Caligari",
+          "year": 1920
+        },
+        {
+          "title": "Nosferatu",
+          "year": 1922
+        }
+      ],
+      "license": "Public domain · Georges Méliès",
+      "source": "https://commons.wikimedia.org/wiki/File:Le_Voyage_dans_la_Lune_(1902).webm"
+    },
+    {
+      "id": "coffee-run",
+      "title": "Coffee Run",
+      "year": 2020,
+      "genre": "Animated drama",
+      "license": "CC BY 4.0 · © Blender Foundation",
+      "source": "https://studio.blender.org/projects/coffee-run/pages/licensing/",
+      "choices": [
+        {
+          "title": "The Artist",
+          "year": 2011,
+          "genres": [
+            "romance",
+            "comedy",
+            "drama"
+          ]
+        },
+        {
+          "title": "La La Land",
+          "year": 2016,
+          "genres": [
+            "musical",
+            "romance",
+            "drama"
+          ]
+        },
+        {
+          "title": "The Shape of Water",
+          "year": 2017,
+          "genres": [
+            "fantasy",
+            "romance",
+            "drama"
+          ]
+        },
+        {
+          "title": "Coffee Run",
+          "year": 2020
+        }
+      ],
+      "answer": 3
+    }
+  ]
+}
