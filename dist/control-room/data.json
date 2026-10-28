@@ -221,6 +221,47 @@
       "answer": 2,
       "license": "CC BY 4.0 · © Blender Foundation",
       "source": "https://commons.wikimedia.org/wiki/File:WING_IT!_-_Blender_Open_Movie-full_movie.webm"
+    },
+    {
+      "id": "sprite-fright",
+      "title": "Sprite Fright",
+      "year": 2021,
+      "date": "2026-11-03",
+      "choices": [
+        {
+          "title": "Coraline",
+          "year": 2009,
+          "genres": [
+            "animation",
+            "fantasy",
+            "horror"
+          ]
+        },
+        {
+          "title": "WALL-E",
+          "year": 2008,
+          "genres": [
+            "animation",
+            "science fiction",
+            "comedy"
+          ]
+        },
+        {
+          "title": "Sprite Fright",
+          "year": 2021
+        },
+        {
+          "title": "The Daily Dweebs",
+          "year": 2017,
+          "genres": [
+            "animation",
+            "comedy"
+          ]
+        }
+      ],
+      "answer": 2,
+      "license": "CC BY 4.0 · Wikimedia Commons",
+      "source": "https://commons.wikimedia.org/wiki/File:Sprite_Fright_-_Blender_Open_Movie-full_movie.webm"
     }
   ],
   "pending": [
@@ -251,13 +292,6 @@
       "year": 2015,
       "license": "CC BY 4.0 · Wikimedia Commons",
       "source": "https://commons.wikimedia.org/wiki/File:Glass_Half_-_Blender_Open_Movie-full_movie.webm"
-    },
-    {
-      "id": "sprite-fright",
-      "title": "Sprite Fright",
-      "year": 2021,
-      "license": "CC BY 4.0 · Wikimedia Commons",
-      "source": "https://commons.wikimedia.org/wiki/File:Sprite_Fright_-_Blender_Open_Movie-full_movie.webm"
     },
     {
       "id": "tears-of-steel",

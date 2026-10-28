@@ -223,6 +223,47 @@
         }
       ],
       "answer": 2
+    },
+    {
+      "id": "sprite-fright",
+      "title": "Sprite Fright",
+      "year": 2021,
+      "genre": "animation / horror",
+      "license": "CC BY 4.0 · Wikimedia Commons",
+      "source": "https://commons.wikimedia.org/wiki/File:Sprite_Fright_-_Blender_Open_Movie-full_movie.webm",
+      "choices": [
+        {
+          "title": "Coraline",
+          "year": 2009,
+          "genres": [
+            "animation",
+            "fantasy",
+            "horror"
+          ]
+        },
+        {
+          "title": "WALL-E",
+          "year": 2008,
+          "genres": [
+            "animation",
+            "science fiction",
+            "comedy"
+          ]
+        },
+        {
+          "title": "Sprite Fright",
+          "year": 2021
+        },
+        {
+          "title": "The Daily Dweebs",
+          "year": 2017,
+          "genres": [
+            "animation",
+            "comedy"
+          ]
+        }
+      ],
+      "answer": 2
     }
   ]
 }
