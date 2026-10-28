@@ -65,9 +65,33 @@ def download(url,destination):
             if total>2_000_000_000:raise ValueError('Source exceeds 2 GB safety limit')
             stream.write(chunk)
 
-def generate_barcode(video,slug,duration):
+def detect_content_window(video,duration):
+    """Trim contiguous near-black leaders/tails, but preserve dark scenes inside.
+
+    A tiny 1 FPS grayscale pass is much cheaper than decoding full-resolution
+    frames.  The 20% per-edge cap avoids swallowing an unusually dark film.
+    """
+    sample=run(['ffmpeg','-hide_banner','-loglevel','error','-i',str(video),
+                '-vf','fps=1,scale=16:9,format=gray','-f','rawvideo','-']).stdout
+    stride=16*9
+    frames=[sample[i:i+stride] for i in range(0,len(sample)-stride+1,stride)]
+    if len(frames)<10:return 0.0,duration
+    def dark(frame):
+        return sum(frame)/len(frame)<38 and sum(pixel<=32 for pixel in frame)/len(frame)>.86
+    cap=min(int(len(frames)*.20),180)
+    leading=0
+    while leading<cap and dark(frames[leading]):leading+=1
+    trailing=0
+    while trailing<cap and dark(frames[-1-trailing]):trailing+=1
+    # Ignore isolated dark frames; don't over-trim short cinematic fades.
+    start=float(leading) if leading>=2 else 0.0
+    end=min(duration,float(len(frames)-trailing)) if trailing>=2 else duration
+    if end-start<max(8,duration*.5):return 0.0,duration
+    return start,end
+
+def generate_barcode(video,slug,duration,start=0):
     frame_count=560
-    raw=run(['ffmpeg','-hide_banner','-loglevel','error','-i',str(video),'-vf',f'fps={frame_count/duration:.8f},scale=24:14,format=rgb24','-f','rawvideo','-']).stdout
+    raw=run(['ffmpeg','-hide_banner','-loglevel','error','-ss',str(start),'-i',str(video),'-t',str(duration),'-vf',f'fps={frame_count/duration:.8f},scale=24:14,format=rgb24','-f','rawvideo','-']).stdout
     stride=24*14*3
     colors=[]
     for offset in range(0,len(raw)-stride+1,stride):
@@ -88,10 +112,10 @@ def frame_score(image):
     brightness=max(0,1-abs(mean-118)/118)
     return gray.entropy()*7+std*.25+brightness*12
 
-def choose_frames(video,slug,duration,temp):
+def choose_frames(video,slug,duration,temp,start=0):
     interval=max(3,duration/45)
     candidate_dir=temp/'candidates';candidate_dir.mkdir()
-    run(['ffmpeg','-hide_banner','-loglevel','error','-i',str(video),'-vf',f'fps=1/{interval:.6f},scale=720:-2','-q:v','3','-y',str(candidate_dir/'%04d.jpg')])
+    run(['ffmpeg','-hide_banner','-loglevel','error','-ss',str(start),'-i',str(video),'-t',str(duration),'-vf',f'fps=1/{interval:.6f},scale=720:-2','-q:v','3','-y',str(candidate_dir/'%04d.jpg')])
     paths=sorted(candidate_dir.glob('*.jpg'))
     if len(paths)<10:raise ValueError('Not enough candidate frames')
     # Rank visual *distinctiveness* alongside image quality: otherwise a long
@@ -132,8 +156,11 @@ def generate(movie):
         probe=json.loads(run(['ffprobe','-v','error','-show_entries','format=duration','-of','json',str(video)]).stdout)
         duration=float(probe['format']['duration'])
         if duration<=0:raise ValueError('Invalid video duration')
-        count=generate_barcode(video,movie['id'],duration)
-        frame_names=choose_frames(video,movie['id'],duration,temp)
+        start,end=detect_content_window(video,duration)
+        print(f'Content window: {start:.1f}s–{end:.1f}s of {duration:.1f}s (excluded {start:.1f}s opening, {duration-end:.1f}s ending)')
+        usable=end-start
+        count=generate_barcode(video,movie['id'],usable,start)
+        frame_names=choose_frames(video,movie['id'],usable,temp,start)
         return count,frame_names
 
 def main():
