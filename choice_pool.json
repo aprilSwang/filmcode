@@ -327,5 +327,31 @@
       "animation",
       "comedy"
     ]
+  },
+  {
+    "title": "Sprite Fright",
+    "year": 2021,
+    "genres": [
+      "animation",
+      "horror",
+      "comedy"
+    ]
+  },
+  {
+    "title": "Tears of Steel",
+    "year": 2012,
+    "genres": [
+      "science fiction",
+      "action",
+      "drama"
+    ]
+  },
+  {
+    "title": "The Daily Dweebs",
+    "year": 2017,
+    "genres": [
+      "animation",
+      "comedy"
+    ]
   }
 ]

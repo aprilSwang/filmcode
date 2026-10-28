@@ -139,6 +139,48 @@
         }
       ],
       "answer": 0
+    },
+    {
+      "id": "hero",
+      "title": "Hero",
+      "year": 2018,
+      "genre": "Animated adventure",
+      "license": "CC BY 4.0 · © Blender Foundation",
+      "source": "https://commons.wikimedia.org/wiki/File:HERO_-_Blender_Open_Movie-full_movie.webm",
+      "choices": [
+        {
+          "title": "Spirited Away",
+          "year": 2001,
+          "genres": [
+            "animation",
+            "fantasy",
+            "adventure"
+          ]
+        },
+        {
+          "title": "The Secret of Kells",
+          "year": 2009,
+          "genres": [
+            "animation",
+            "fantasy",
+            "adventure"
+          ]
+        },
+        {
+          "title": "Spring",
+          "year": 2019,
+          "genres": [
+            "animation",
+            "fantasy",
+            "adventure"
+          ]
+        },
+        {
+          "title": "Hero",
+          "year": 2018
+        }
+      ],
+      "answer": 3
     }
   ]
 }

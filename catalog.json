@@ -145,5 +145,49 @@
     "license": "CC BY 4.0 · Wikimedia Commons",
     "source": "https://commons.wikimedia.org/wiki/File:Glass_Half_-_Blender_Open_Movie-full_movie.webm",
     "video_url": "https://upload.wikimedia.org/wikipedia/commons/0/02/Glass_Half_-_Blender_Open_Movie-full_movie.webm?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original"
+  },
+  {
+    "id": "sprite-fright",
+    "title": "Sprite Fright",
+    "year": 2021,
+    "genre": "animation / horror",
+    "genres": [
+      "animation",
+      "horror",
+      "comedy"
+    ],
+    "popularity": 50,
+    "license": "CC BY 4.0 · Wikimedia Commons",
+    "source": "https://commons.wikimedia.org/wiki/File:Sprite_Fright_-_Blender_Open_Movie-full_movie.webm",
+    "video_url": "https://upload.wikimedia.org/wikipedia/commons/7/76/Sprite_Fright_-_Blender_Open_Movie-full_movie.webm?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original"
+  },
+  {
+    "id": "tears-of-steel",
+    "title": "Tears of Steel",
+    "year": 2012,
+    "genre": "science fiction / action",
+    "genres": [
+      "science fiction",
+      "action",
+      "drama"
+    ],
+    "popularity": 50,
+    "license": "CC BY 3.0 · Wikimedia Commons",
+    "source": "https://commons.wikimedia.org/wiki/File:Tears_of_Steel_in_4k_-_Official_Blender_Foundation_release.webm",
+    "video_url": "https://upload.wikimedia.org/wikipedia/commons/1/10/Tears_of_Steel_in_4k_-_Official_Blender_Foundation_release.webm?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original"
+  },
+  {
+    "id": "the-daily-dweebs",
+    "title": "The Daily Dweebs",
+    "year": 2017,
+    "genre": "animation / comedy",
+    "genres": [
+      "animation",
+      "comedy"
+    ],
+    "popularity": 50,
+    "license": "CC BY 4.0 · Wikimedia Commons",
+    "source": "https://commons.wikimedia.org/wiki/File:The_Daily_Dweebs_-_Blender_Open_Movie-full_movie.webm",
+    "video_url": "https://upload.wikimedia.org/wikipedia/commons/b/b2/The_Daily_Dweebs_-_Blender_Open_Movie-full_movie.webm?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original"
   }
 ]
