@@ -34,11 +34,13 @@ jobs:
       - name: Check puzzle queue
         id: health
         run: python scripts/health.py
+      - name: Build MKIA Control Room data
+        run: python scripts/build_control_data.py
       - name: Commit generated puzzle assets
         run: |
           git config user.name "chroma-daily-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add dist/puzzles.json dist/assets catalog.json choice_pool.json discovery_review.json
+          git add dist/puzzles.json dist/assets dist/control-room/data.json catalog.json choice_pool.json discovery_review.json
           if ! git diff --cached --quiet; then
             git commit -m "Generate next daily movie barcode"
             git push
