@@ -1,36 +1,331 @@
 [
-  {"title":"Barbie","year":2023,"genres":["comedy","fantasy"]},
-  {"title":"Dune","year":2021,"genres":["science fiction","adventure"]},
-  {"title":"Blade Runner 2049","year":2017,"genres":["science fiction","thriller"]},
-  {"title":"Interstellar","year":2014,"genres":["science fiction","adventure","drama"]},
-  {"title":"The Matrix","year":1999,"genres":["science fiction","action"]},
-  {"title":"Mad Max: Fury Road","year":2015,"genres":["action","adventure"]},
-  {"title":"The Martian","year":2015,"genres":["science fiction","adventure"]},
-  {"title":"The Grand Budapest Hotel","year":2014,"genres":["comedy","drama"]},
-  {"title":"La La Land","year":2016,"genres":["musical","romance","drama"]},
-  {"title":"The Shape of Water","year":2017,"genres":["fantasy","romance","drama"]},
-  {"title":"The Dark Knight","year":2008,"genres":["action","crime","drama"]},
-  {"title":"Avatar","year":2009,"genres":["science fiction","adventure"]},
-  {"title":"The Lion King","year":1994,"genres":["animation","adventure","drama"]},
-  {"title":"Spirited Away","year":2001,"genres":["animation","fantasy","adventure"]},
-  {"title":"WALL-E","year":2008,"genres":["animation","science fiction","comedy"]},
-  {"title":"Up","year":2009,"genres":["animation","adventure","comedy"]},
-  {"title":"Finding Nemo","year":2003,"genres":["animation","adventure","comedy"]},
-  {"title":"Coraline","year":2009,"genres":["animation","fantasy","horror"]},
-  {"title":"Fantastic Mr. Fox","year":2009,"genres":["animation","comedy","adventure"]},
-  {"title":"The Secret of Kells","year":2009,"genres":["animation","fantasy","adventure"]},
-  {"title":"Over the Hedge","year":2006,"genres":["animation","comedy"]},
-  {"title":"Sintel","year":2010,"genres":["animation","fantasy","adventure"]},
-  {"title":"Big Buck Bunny","year":2008,"genres":["animation","comedy"]},
-  {"title":"Coffee Run","year":2020,"genres":["animation","drama","romance"]},
-  {"title":"WING IT!","year":2023,"genres":["animation","comedy","adventure"]},
-  {"title":"Hero","year":2018,"genres":["animation","fantasy","adventure"]},
-  {"title":"Spring","year":2019,"genres":["animation","fantasy","adventure"]},
-  {"title":"Metropolis","year":1927,"genres":["science fiction","drama","silent"]},
-  {"title":"A Trip to the Moon","year":1902,"genres":["science fiction","silent","adventure"]},
-  {"title":"Nosferatu","year":1922,"genres":["horror","silent"]},
-  {"title":"The Cabinet of Dr. Caligari","year":1920,"genres":["horror","silent","thriller"]},
-  {"title":"The General","year":1926,"genres":["silent","comedy","action"]},
-  {"title":"Modern Times","year":1936,"genres":["comedy","drama","silent"]},
-  {"title":"The Artist","year":2011,"genres":["romance","comedy","drama"]}
+  {
+    "title": "Barbie",
+    "year": 2023,
+    "genres": [
+      "comedy",
+      "fantasy"
+    ]
+  },
+  {
+    "title": "Dune",
+    "year": 2021,
+    "genres": [
+      "science fiction",
+      "adventure"
+    ]
+  },
+  {
+    "title": "Blade Runner 2049",
+    "year": 2017,
+    "genres": [
+      "science fiction",
+      "thriller"
+    ]
+  },
+  {
+    "title": "Interstellar",
+    "year": 2014,
+    "genres": [
+      "science fiction",
+      "adventure",
+      "drama"
+    ]
+  },
+  {
+    "title": "The Matrix",
+    "year": 1999,
+    "genres": [
+      "science fiction",
+      "action"
+    ]
+  },
+  {
+    "title": "Mad Max: Fury Road",
+    "year": 2015,
+    "genres": [
+      "action",
+      "adventure"
+    ]
+  },
+  {
+    "title": "The Martian",
+    "year": 2015,
+    "genres": [
+      "science fiction",
+      "adventure"
+    ]
+  },
+  {
+    "title": "The Grand Budapest Hotel",
+    "year": 2014,
+    "genres": [
+      "comedy",
+      "drama"
+    ]
+  },
+  {
+    "title": "La La Land",
+    "year": 2016,
+    "genres": [
+      "musical",
+      "romance",
+      "drama"
+    ]
+  },
+  {
+    "title": "The Shape of Water",
+    "year": 2017,
+    "genres": [
+      "fantasy",
+      "romance",
+      "drama"
+    ]
+  },
+  {
+    "title": "The Dark Knight",
+    "year": 2008,
+    "genres": [
+      "action",
+      "crime",
+      "drama"
+    ]
+  },
+  {
+    "title": "Avatar",
+    "year": 2009,
+    "genres": [
+      "science fiction",
+      "adventure"
+    ]
+  },
+  {
+    "title": "The Lion King",
+    "year": 1994,
+    "genres": [
+      "animation",
+      "adventure",
+      "drama"
+    ]
+  },
+  {
+    "title": "Spirited Away",
+    "year": 2001,
+    "genres": [
+      "animation",
+      "fantasy",
+      "adventure"
+    ]
+  },
+  {
+    "title": "WALL-E",
+    "year": 2008,
+    "genres": [
+      "animation",
+      "science fiction",
+      "comedy"
+    ]
+  },
+  {
+    "title": "Up",
+    "year": 2009,
+    "genres": [
+      "animation",
+      "adventure",
+      "comedy"
+    ]
+  },
+  {
+    "title": "Finding Nemo",
+    "year": 2003,
+    "genres": [
+      "animation",
+      "adventure",
+      "comedy"
+    ]
+  },
+  {
+    "title": "Coraline",
+    "year": 2009,
+    "genres": [
+      "animation",
+      "fantasy",
+      "horror"
+    ]
+  },
+  {
+    "title": "Fantastic Mr. Fox",
+    "year": 2009,
+    "genres": [
+      "animation",
+      "comedy",
+      "adventure"
+    ]
+  },
+  {
+    "title": "The Secret of Kells",
+    "year": 2009,
+    "genres": [
+      "animation",
+      "fantasy",
+      "adventure"
+    ]
+  },
+  {
+    "title": "Over the Hedge",
+    "year": 2006,
+    "genres": [
+      "animation",
+      "comedy"
+    ]
+  },
+  {
+    "title": "Sintel",
+    "year": 2010,
+    "genres": [
+      "animation",
+      "fantasy",
+      "adventure"
+    ]
+  },
+  {
+    "title": "Big Buck Bunny",
+    "year": 2008,
+    "genres": [
+      "animation",
+      "comedy"
+    ]
+  },
+  {
+    "title": "Coffee Run",
+    "year": 2020,
+    "genres": [
+      "animation",
+      "drama",
+      "romance"
+    ]
+  },
+  {
+    "title": "WING IT!",
+    "year": 2023,
+    "genres": [
+      "animation",
+      "comedy",
+      "adventure"
+    ]
+  },
+  {
+    "title": "Hero",
+    "year": 2018,
+    "genres": [
+      "animation",
+      "fantasy",
+      "adventure"
+    ]
+  },
+  {
+    "title": "Spring",
+    "year": 2019,
+    "genres": [
+      "animation",
+      "fantasy",
+      "adventure"
+    ]
+  },
+  {
+    "title": "Metropolis",
+    "year": 1927,
+    "genres": [
+      "science fiction",
+      "drama",
+      "silent"
+    ]
+  },
+  {
+    "title": "A Trip to the Moon",
+    "year": 1902,
+    "genres": [
+      "science fiction",
+      "silent",
+      "adventure"
+    ]
+  },
+  {
+    "title": "Nosferatu",
+    "year": 1922,
+    "genres": [
+      "horror",
+      "silent"
+    ]
+  },
+  {
+    "title": "The Cabinet of Dr. Caligari",
+    "year": 1920,
+    "genres": [
+      "horror",
+      "silent",
+      "thriller"
+    ]
+  },
+  {
+    "title": "The General",
+    "year": 1926,
+    "genres": [
+      "silent",
+      "comedy",
+      "action"
+    ]
+  },
+  {
+    "title": "Modern Times",
+    "year": 1936,
+    "genres": [
+      "comedy",
+      "drama",
+      "silent"
+    ]
+  },
+  {
+    "title": "The Artist",
+    "year": 2011,
+    "genres": [
+      "romance",
+      "comedy",
+      "drama"
+    ]
+  },
+  {
+    "title": "Caminandes: Llama Drama",
+    "year": 2013,
+    "genres": [
+      "animation",
+      "comedy",
+      "adventure"
+    ]
+  },
+  {
+    "title": "Charge",
+    "year": 2022,
+    "genres": [
+      "animation",
+      "science fiction",
+      "action"
+    ]
+  },
+  {
+    "title": "Elephants Dream",
+    "year": 2006,
+    "genres": [
+      "animation",
+      "science fiction"
+    ]
+  },
+  {
+    "title": "Glass Half",
+    "year": 2015,
+    "genres": [
+      "animation",
+      "comedy"
+    ]
+  }
 ]

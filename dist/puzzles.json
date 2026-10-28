@@ -97,6 +97,48 @@
         }
       ],
       "answer": 3
+    },
+    {
+      "id": "spring",
+      "title": "Spring",
+      "year": 2019,
+      "genre": "Animated fantasy",
+      "license": "CC BY 4.0 · © Blender Foundation",
+      "source": "https://studio.blender.org/projects/spring/pages/about/",
+      "choices": [
+        {
+          "title": "Spring",
+          "year": 2019
+        },
+        {
+          "title": "Sintel",
+          "year": 2010,
+          "genres": [
+            "animation",
+            "fantasy",
+            "adventure"
+          ]
+        },
+        {
+          "title": "Hero",
+          "year": 2018,
+          "genres": [
+            "animation",
+            "fantasy",
+            "adventure"
+          ]
+        },
+        {
+          "title": "The Secret of Kells",
+          "year": 2009,
+          "genres": [
+            "animation",
+            "fantasy",
+            "adventure"
+          ]
+        }
+      ],
+      "answer": 0
     }
   ]
 }
