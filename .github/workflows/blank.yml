@@ -1,0 +1,42 @@
+name: MKIA — curate and publish daily movie
+on:
+  schedule:
+    - cron: '5 0 * * *'
+  workflow_dispatch:
+  push:
+    branches: [main]
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+concurrency:
+  group: chroma-pages
+  cancel-in-progress: false
+jobs:
+  generate-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: sudo apt-get update && sudo apt-get install -y ffmpeg
+      - run: python -m pip install pillow
+      - name: MKIA discovers eligible open movies
+        run: python scripts/discover.py
+      - name: MKIA selects and generates next film
+        run: python scripts/mkia.py
+      - name: Commit generated puzzle assets
+        run: |
+          git config user.name "chroma-daily-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add dist/puzzles.json dist/assets catalog.json choice_pool.json discovery_review.json
+          if ! git diff --cached --quiet; then
+            git commit -m "Generate next daily movie barcode"
+            git push
+          fi
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+      - uses: actions/deploy-pages@v4
