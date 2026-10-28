@@ -9,6 +9,7 @@ permissions:
   contents: write
   pages: write
   id-token: write
+  issues: write
 concurrency:
   group: chroma-pages
   cancel-in-progress: false
@@ -23,9 +24,16 @@ jobs:
       - run: sudo apt-get update && sudo apt-get install -y ffmpeg
       - run: python -m pip install pillow
       - name: MKIA discovers eligible open movies
+        id: discovery
+        continue-on-error: true
         run: python scripts/discover.py
       - name: MKIA selects and generates next film
+        id: generation
+        continue-on-error: true
         run: python scripts/mkia.py
+      - name: Check puzzle queue
+        id: health
+        run: python scripts/health.py
       - name: Commit generated puzzle assets
         run: |
           git config user.name "chroma-daily-bot"
@@ -40,3 +48,26 @@ jobs:
         with:
           path: dist
       - uses: actions/deploy-pages@v4
+      - name: Alert on failed generation or low puzzle supply
+        if: always() && steps.health.outcome == 'success'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          DISCOVERY_FAILED: ${{ steps.discovery.outcome == 'failure' }}
+          GENERATION_FAILED: ${{ steps.generation.outcome == 'failure' }}
+          LOW_QUEUE: ${{ steps.health.outputs.low }}
+          REMAINING: ${{ steps.health.outputs.remaining }}
+          AVAILABLE: ${{ steps.health.outputs.available }}
+        run: |
+          title='MKIA needs attention'
+          existing=$(gh issue list --state open --limit 100 --json number,title --jq '.[] | select(.title == "MKIA needs attention") | .number' | head -1)
+          if [[ "$DISCOVERY_FAILED" == true || "$GENERATION_FAILED" == true || "$LOW_QUEUE" == true ]]; then
+            body="MKIA health check: **${REMAINING}** playable days remain; **${AVAILABLE}** approved unused sources. Discovery failed: **${DISCOVERY_FAILED}**. Generation failed: **${GENERATION_FAILED}**. [Inspect this workflow run](${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID})."
+            if [[ -z "$existing" ]]; then
+              gh issue create --title "$title" --body "$body"
+            else
+              gh issue comment "$existing" --body "$body"
+            fi
+          elif [[ -n "$existing" ]]; then
+            gh issue comment "$existing" --body 'MKIA health recovered; the queue is above the warning threshold.'
+            gh issue close "$existing" --reason completed
+          fi
