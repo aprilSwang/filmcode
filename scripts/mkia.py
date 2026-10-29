@@ -236,7 +236,11 @@ def main():
             print(f'Skipping unsuitable film: {error}')
             movie['color_mode']='monochrome'
             (ROOT/'catalog.json').write_text(json.dumps(catalog,ensure_ascii=False,indent=2)+'\n')
-    record={key:value for key,value in movie.items() if key not in ('video_url','popularity','genres')}
+    # Local still paths and source video URLs belong in the private MKIA repo.
+    # Only player-facing metadata may enter the public daily JSON.
+    record={key:value for key,value in movie.items()
+            if key not in ('video_url','stills_manifest','popularity','genres')}
+    record['barcode_method']='B' if movie.get('stills_manifest') else 'A'
     record['choices']=choices;record['answer']=answer
     data['puzzles'].append(record)
     (OUT/'puzzles.json').write_text(json.dumps(data,ensure_ascii=False,indent=2)+'\n')

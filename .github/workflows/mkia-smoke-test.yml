@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - 'scripts/mkia.py'
+      - 'scripts/stills_barcode.py'
       - 'scripts/shot_selector.py'
       - 'scripts/mkia_smoke_test.py'
       - '.github/workflows/mkia-smoke-test.yml'
