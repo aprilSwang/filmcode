@@ -264,6 +264,47 @@
         }
       ],
       "answer": 2
+    },
+    {
+      "id": "tears-of-steel",
+      "title": "Tears of Steel",
+      "year": 2012,
+      "genre": "science fiction / action",
+      "license": "CC BY 3.0 · Wikimedia Commons",
+      "source": "https://commons.wikimedia.org/wiki/File:Tears_of_Steel_in_4k_-_Official_Blender_Foundation_release.webm",
+      "choices": [
+        {
+          "title": "Tears of Steel",
+          "year": 2012
+        },
+        {
+          "title": "The Matrix",
+          "year": 1999,
+          "genres": [
+            "science fiction",
+            "action"
+          ]
+        },
+        {
+          "title": "Interstellar",
+          "year": 2014,
+          "genres": [
+            "science fiction",
+            "adventure",
+            "drama"
+          ]
+        },
+        {
+          "title": "Charge",
+          "year": 2022,
+          "genres": [
+            "animation",
+            "science fiction",
+            "action"
+          ]
+        }
+      ],
+      "answer": 0
     }
   ]
 }

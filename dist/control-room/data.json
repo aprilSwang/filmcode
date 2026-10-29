@@ -262,6 +262,47 @@
       "answer": 2,
       "license": "CC BY 4.0 · Wikimedia Commons",
       "source": "https://commons.wikimedia.org/wiki/File:Sprite_Fright_-_Blender_Open_Movie-full_movie.webm"
+    },
+    {
+      "id": "tears-of-steel",
+      "title": "Tears of Steel",
+      "year": 2012,
+      "date": "2026-11-04",
+      "choices": [
+        {
+          "title": "Tears of Steel",
+          "year": 2012
+        },
+        {
+          "title": "The Matrix",
+          "year": 1999,
+          "genres": [
+            "science fiction",
+            "action"
+          ]
+        },
+        {
+          "title": "Interstellar",
+          "year": 2014,
+          "genres": [
+            "science fiction",
+            "adventure",
+            "drama"
+          ]
+        },
+        {
+          "title": "Charge",
+          "year": 2022,
+          "genres": [
+            "animation",
+            "science fiction",
+            "action"
+          ]
+        }
+      ],
+      "answer": 0,
+      "license": "CC BY 3.0 · Wikimedia Commons",
+      "source": "https://commons.wikimedia.org/wiki/File:Tears_of_Steel_in_4k_-_Official_Blender_Foundation_release.webm"
     }
   ],
   "pending": [
@@ -292,13 +333,6 @@
       "year": 2015,
       "license": "CC BY 4.0 · Wikimedia Commons",
       "source": "https://commons.wikimedia.org/wiki/File:Glass_Half_-_Blender_Open_Movie-full_movie.webm"
-    },
-    {
-      "id": "tears-of-steel",
-      "title": "Tears of Steel",
-      "year": 2012,
-      "license": "CC BY 3.0 · Wikimedia Commons",
-      "source": "https://commons.wikimedia.org/wiki/File:Tears_of_Steel_in_4k_-_Official_Blender_Foundation_release.webm"
     },
     {
       "id": "the-daily-dweebs",
