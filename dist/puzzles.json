@@ -346,6 +346,48 @@
         }
       ],
       "answer": 0
+    },
+    {
+      "id": "elephants-dream",
+      "title": "Elephants Dream",
+      "year": 2006,
+      "genre": "animation / science fiction",
+      "license": "CC BY 2.5 · Wikimedia Commons",
+      "source": "https://commons.wikimedia.org/wiki/File:Elephants_Dream_(2006)_1080p24.webm",
+      "choices": [
+        {
+          "title": "Elephants Dream",
+          "year": 2006
+        },
+        {
+          "title": "WALL-E",
+          "year": 2008,
+          "genres": [
+            "animation",
+            "science fiction",
+            "comedy"
+          ]
+        },
+        {
+          "title": "Charge",
+          "year": 2022,
+          "genres": [
+            "animation",
+            "science fiction",
+            "action"
+          ]
+        },
+        {
+          "title": "The Secret of Kells",
+          "year": 2009,
+          "genres": [
+            "animation",
+            "fantasy",
+            "adventure"
+          ]
+        }
+      ],
+      "answer": 0
     }
   ]
 }

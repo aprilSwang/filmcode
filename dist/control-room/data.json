@@ -182,7 +182,8 @@
       ],
       "answer": 3,
       "license": "CC BY 4.0 · © Blender Foundation",
-      "source": "https://commons.wikimedia.org/wiki/File:HERO_-_Blender_Open_Movie-full_movie.webm"
+      "source": "https://commons.wikimedia.org/wiki/File:HERO_-_Blender_Open_Movie-full_movie.webm",
+      "plot_summary": null
     },
     {
       "id": "wing-it",
@@ -224,7 +225,8 @@
       ],
       "answer": 2,
       "license": "CC BY 4.0 · © Blender Foundation",
-      "source": "https://commons.wikimedia.org/wiki/File:WING_IT!_-_Blender_Open_Movie-full_movie.webm"
+      "source": "https://commons.wikimedia.org/wiki/File:WING_IT!_-_Blender_Open_Movie-full_movie.webm",
+      "plot_summary": null
     },
     {
       "id": "sprite-fright",
@@ -265,7 +267,8 @@
       ],
       "answer": 2,
       "license": "CC BY 4.0 · Wikimedia Commons",
-      "source": "https://commons.wikimedia.org/wiki/File:Sprite_Fright_-_Blender_Open_Movie-full_movie.webm"
+      "source": "https://commons.wikimedia.org/wiki/File:Sprite_Fright_-_Blender_Open_Movie-full_movie.webm",
+      "plot_summary": null
     },
     {
       "id": "tears-of-steel",
@@ -306,7 +309,8 @@
       ],
       "answer": 0,
       "license": "CC BY 3.0 · Wikimedia Commons",
-      "source": "https://commons.wikimedia.org/wiki/File:Tears_of_Steel_in_4k_-_Official_Blender_Foundation_release.webm"
+      "source": "https://commons.wikimedia.org/wiki/File:Tears_of_Steel_in_4k_-_Official_Blender_Foundation_release.webm",
+      "plot_summary": null
     },
     {
       "id": "the-daily-dweebs",
@@ -347,7 +351,51 @@
       ],
       "answer": 0,
       "license": "CC BY 4.0 · Wikimedia Commons",
-      "source": "https://commons.wikimedia.org/wiki/File:The_Daily_Dweebs_-_Blender_Open_Movie-full_movie.webm"
+      "source": "https://commons.wikimedia.org/wiki/File:The_Daily_Dweebs_-_Blender_Open_Movie-full_movie.webm",
+      "plot_summary": null
+    },
+    {
+      "id": "elephants-dream",
+      "title": "Elephants Dream",
+      "year": 2006,
+      "date": "2026-11-06",
+      "choices": [
+        {
+          "title": "Elephants Dream",
+          "year": 2006
+        },
+        {
+          "title": "WALL-E",
+          "year": 2008,
+          "genres": [
+            "animation",
+            "science fiction",
+            "comedy"
+          ]
+        },
+        {
+          "title": "Charge",
+          "year": 2022,
+          "genres": [
+            "animation",
+            "science fiction",
+            "action"
+          ]
+        },
+        {
+          "title": "The Secret of Kells",
+          "year": 2009,
+          "genres": [
+            "animation",
+            "fantasy",
+            "adventure"
+          ]
+        }
+      ],
+      "answer": 0,
+      "license": "CC BY 2.5 · Wikimedia Commons",
+      "source": "https://commons.wikimedia.org/wiki/File:Elephants_Dream_(2006)_1080p24.webm",
+      "plot_summary": null
     }
   ],
   "pending": [
@@ -356,28 +404,24 @@
       "title": "Caminandes: Llama Drama",
       "year": 2013,
       "license": "CC BY 3.0 · Wikimedia Commons",
-      "source": "https://commons.wikimedia.org/wiki/File:Caminandes-_Llama_Drama_-_Short_Movie.ogv"
+      "source": "https://commons.wikimedia.org/wiki/File:Caminandes-_Llama_Drama_-_Short_Movie.ogv",
+      "plot_summary": null
     },
     {
       "id": "charge",
       "title": "Charge",
       "year": 2022,
       "license": "CC BY 4.0 · Wikimedia Commons",
-      "source": "https://commons.wikimedia.org/wiki/File:Charge_-_Blender_Open_Movie-full_movie.webm"
-    },
-    {
-      "id": "elephants-dream",
-      "title": "Elephants Dream",
-      "year": 2006,
-      "license": "CC BY 2.5 · Wikimedia Commons",
-      "source": "https://commons.wikimedia.org/wiki/File:Elephants_Dream_(2006)_1080p24.webm"
+      "source": "https://commons.wikimedia.org/wiki/File:Charge_-_Blender_Open_Movie-full_movie.webm",
+      "plot_summary": null
     },
     {
       "id": "glass-half",
       "title": "Glass Half",
       "year": 2015,
       "license": "CC BY 4.0 · Wikimedia Commons",
-      "source": "https://commons.wikimedia.org/wiki/File:Glass_Half_-_Blender_Open_Movie-full_movie.webm"
+      "source": "https://commons.wikimedia.org/wiki/File:Glass_Half_-_Blender_Open_Movie-full_movie.webm",
+      "plot_summary": null
     }
   ]
 }
