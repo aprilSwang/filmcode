@@ -1,0 +1,33 @@
+name: Copyright or film credit report
+description: Report a movie frame, barcode, attribution, or rights concern
+title: "[Content review] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This report will be publicly visible on GitHub. Do not post private identity documents, addresses, or confidential contact details. A formal GitHub DMCA route is also available at https://github.com/contact/dmca.
+  - type: input
+    id: material
+    attributes:
+      label: Filmcode material
+      description: Film title, date, or URL of the specific game content.
+      placeholder: "Example: film on 2026-10-29 — barcode and reveal frames"
+    validations:
+      required: true
+  - type: textarea
+    id: concern
+    attributes:
+      label: Rights concern or correction
+      description: What should we review or correct? Explain your connection to the work where relevant.
+    validations:
+      required: true
+  - type: dropdown
+    id: requested_action
+    attributes:
+      label: Requested action
+      options:
+        - Remove or restrict content
+        - Correct attribution or license
+        - Other review
+    validations:
+      required: true
