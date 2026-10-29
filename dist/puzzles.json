@@ -305,6 +305,47 @@
         }
       ],
       "answer": 0
+    },
+    {
+      "id": "the-daily-dweebs",
+      "title": "The Daily Dweebs",
+      "year": 2017,
+      "genre": "animation / comedy",
+      "license": "CC BY 4.0 · Wikimedia Commons",
+      "source": "https://commons.wikimedia.org/wiki/File:The_Daily_Dweebs_-_Blender_Open_Movie-full_movie.webm",
+      "choices": [
+        {
+          "title": "The Daily Dweebs",
+          "year": 2017
+        },
+        {
+          "title": "WALL-E",
+          "year": 2008,
+          "genres": [
+            "animation",
+            "science fiction",
+            "comedy"
+          ]
+        },
+        {
+          "title": "Big Buck Bunny",
+          "year": 2008,
+          "genres": [
+            "animation",
+            "comedy"
+          ]
+        },
+        {
+          "title": "Finding Nemo",
+          "year": 2003,
+          "genres": [
+            "animation",
+            "adventure",
+            "comedy"
+          ]
+        }
+      ],
+      "answer": 0
     }
   ]
 }
