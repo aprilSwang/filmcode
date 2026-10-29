@@ -1,109 +1,31 @@
-# Filmcode daily movie guessing game
+# Filmcode — daily movie color barcode game
 
-**MKIA (Movie Know-It-All)** discovers eligible films, chooses the next movie,
-generates multiple-choice answers, barcodes, and reveal frames. **Filmcode** is
-the provisional player-facing game brand.
+Play: https://aprilswang.github.io/filmcode/
 
-Static, mobile-first daily movie challenge. One shared puzzle per UTC day, four
-choices, one guess, five reveal frames, countdown, and browser-local streaks.
+Each day, Filmcode shows a color barcode generated from a film. Players choose one of four movie titles; afterward, five movie frames reveal the answer. Progress and streaks are stored locally in the browser.
 
-## Run locally
+## Hosting and automation
 
-From this directory:
+- **Public repository (`aprilSwang/filmcode`)** contains the static player website and reusable generation scripts.
+- **Private repository (`aprilSwang/filmcode-admin`)** owns MKIA's full queue, approved movie sources, research catalog, candidate frames, and daily publishing schedule.
+- The private `MKIA — private daily publisher` GitHub Action runs at **00:05 UTC**, prepares the next approved film when possible, and pushes **only the current day's puzzle and six game images** to the public repository.
+- The public `Filmcode — deploy website` GitHub Action builds and deploys GitHub Pages when the public repository changes.
+- GitHub's scheduled Actions are not guaranteed to start at the exact scheduled minute. Until the next daily payload arrives, the game displays a temporary availability message.
+
+To preview locally:
 
 ```bash
 python3 -m http.server 8000 --directory dist
 ```
 
-Open http://localhost:8000. The game uses `fetch` for the puzzle catalog, so
-opening `index.html` directly from the filesystem may be blocked by browser
-file-origin restrictions.
+Open http://localhost:8000.
 
-## Daily automation
+## Content and licensing
 
-### Deployment separation
+MKIA processes only video sources with configured rights metadata; it does not scrape or automatically license commercial movies. The existing launch-era demo films include openly licensed productions and public-domain footage. A ShotDeck subscription is not treated as permission to scrape or republish images.
 
-The `Filmcode — deploy website` workflow publishes frontend changes on pushes.
-It does **not** run MKIA. The scheduled `MKIA — curate and publish daily movie`
-workflow creates one puzzle (if eligible footage remains) and deploys the
-result itself. The manual regeneration workflow only replaces the selected
-movie's generated assets. This avoids consuming movie sources on code pushes.
+## Security limitations
 
-All three workflows use `scripts/export_public.py` to omit `dist/control-room/`
-from the GitHub Pages artifact. The Control Room remains in the repository for
-development and review, but is not a private service: this is a public
-repository, and future answers in `dist/puzzles.json` remain publicly readable.
-Real spoiler protection and private approvals require a private repository or
-authenticated backend; do not treat the export as a security boundary.
+The public payload necessarily contains the **current day's answer**, which a determined player can inspect. Future answers are no longer present in the current public tree, but **earlier public commits still contain historic queued answers and assets**. Fully preventing historical Git access would require a separate, carefully planned history rewrite, and static hosting cannot prevent inspection of today's answer.
 
-The included GitHub Actions workflow runs each day at **00:05 UTC**. MKIA first
-discovers openly licensed film sources from Wikimedia Commons using machine-readable
-license metadata. Unknown film identities and ambiguous rights are recorded in
-`discovery_review.json` instead of published. MKIA then selects an unused film,
-favors well-known films
-and variety over recent genres, and automatically builds four answer choices
-using `choice_pool.json`. It uses FFmpeg to sample roughly 560 frames, creates
-a barcode, selects five high-detail frames spread through the movie, appends
-the puzzle, then deploys the static site with GitHub Pages.
-
-Enable GitHub Pages **Source: GitHub Actions** in the repository settings and
-keep Actions enabled. A push also deploys the initial catalog. The workflow
-requires write permission to commit generated assets.
-
-The discovery feed is limited; it won't automatically obtain Hollywood movies.
-To expand beyond the openly licensed sources, add entries to `catalog.json` with a lawfully usable video URL,
-title, year, genre tags, and rights/source reference. The bot chooses the
-answer distractors and reveal frames automatically. It does **not** acquire
-commercial movie videos on its own. It stops when the approved queue
-is empty. To inspect the next selection without downloading anything, run
-`python scripts/mkia.py --dry-run`.
-
-Three pilot films are pre-generated (Big Buck Bunny, A Trip to the Moon and
-Coffee Run), and three more Blender films are in the approved input queue.
-Add additional approved films before the catalog runs out. Editing `launch_date` in
-`dist/puzzles.json` changes the day assigned to the first film; later films
-follow in array order. Avoid changing this after launch, or existing streaks
-and puzzle assignments will shift.
-
-## Production caveats
-
-## MKIA shot intelligence
-
-### Recognizable film research
-
-`research_catalog.json` is a curated shortlist of recognizable, colorful
-commercial films. Entries are **not playable sources**: they contain no footage
-URLs and are intentionally excluded from MKIA's automated generation queue.
-The Control Room displays this shortlist separately from approved video sources.
-Only move a movie into `catalog.json` once its usable source and rights have
-been verified. ShotDeck screenshots are not imported, scraped, or republished.
-
-On each new movie, MKIA checks video colorfulness and skips predominantly
-monochrome sources. It extracts candidate frames from the color footage,
-ranks them for detail, exposure, composition and visual diversity, saves a
-15-frame shortlist in `dist/assets/`, and chooses five reveal images.
-
-The public, read-only Control Room (`dist/control-room/`) shows the shortlist
-and MKIA's selection notes. Older puzzles gain a shortlist when regenerated.
-
-Optional plot-aware vision scoring activates only when **both** of these exist:
-
-- `plot_summary` (or `synopsis`) on that movie's `catalog.json` entry.
-- A GitHub Actions secret named `OPENAI_API_KEY`.
-
-The daily and regeneration workflows must explicitly pass that secret through
-their environment for plot-aware scoring. If it is absent, MKIA always falls
-back to deterministic visual analysis. The vision model is configurable with
-`MKIA_VISION_MODEL` (default `gpt-4.1-mini`). API image-analysis usage may incur
-charges. Neither secret nor source footage is included in the website output.
-
-ShotDeck images are not downloaded or used; its collection is reference-only
-unless separately licensed for automated use.
-
-- Local storage is per device; no accounts or cross-device sync.
-- Answer data is in public JSON, so this is a casual game, not cheat-proof.
-- GitHub scheduled workflows can be delayed; the two-day seed gives a small buffer.
-- The project has **not** been published or scheduled on a user-owned GitHub
-  account. The workflow becomes active only after repository setup.
-- Film assets and sources must be checked for appropriate rights before adding
-  them to the catalog.
+Administration and full movie queues belong in the private `filmcode-admin` repository. Do not add secrets, research queues, candidate frames, or future answers to this public repository.
