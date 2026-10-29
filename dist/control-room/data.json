@@ -182,8 +182,7 @@
       ],
       "answer": 3,
       "license": "CC BY 4.0 · © Blender Foundation",
-      "source": "https://commons.wikimedia.org/wiki/File:HERO_-_Blender_Open_Movie-full_movie.webm",
-      "plot_summary": null
+      "source": "https://commons.wikimedia.org/wiki/File:HERO_-_Blender_Open_Movie-full_movie.webm"
     },
     {
       "id": "wing-it",
@@ -225,8 +224,7 @@
       ],
       "answer": 2,
       "license": "CC BY 4.0 · © Blender Foundation",
-      "source": "https://commons.wikimedia.org/wiki/File:WING_IT!_-_Blender_Open_Movie-full_movie.webm",
-      "plot_summary": null
+      "source": "https://commons.wikimedia.org/wiki/File:WING_IT!_-_Blender_Open_Movie-full_movie.webm"
     },
     {
       "id": "sprite-fright",
@@ -267,8 +265,7 @@
       ],
       "answer": 2,
       "license": "CC BY 4.0 · Wikimedia Commons",
-      "source": "https://commons.wikimedia.org/wiki/File:Sprite_Fright_-_Blender_Open_Movie-full_movie.webm",
-      "plot_summary": null
+      "source": "https://commons.wikimedia.org/wiki/File:Sprite_Fright_-_Blender_Open_Movie-full_movie.webm"
     },
     {
       "id": "tears-of-steel",
@@ -309,8 +306,7 @@
       ],
       "answer": 0,
       "license": "CC BY 3.0 · Wikimedia Commons",
-      "source": "https://commons.wikimedia.org/wiki/File:Tears_of_Steel_in_4k_-_Official_Blender_Foundation_release.webm",
-      "plot_summary": null
+      "source": "https://commons.wikimedia.org/wiki/File:Tears_of_Steel_in_4k_-_Official_Blender_Foundation_release.webm"
     },
     {
       "id": "the-daily-dweebs",
@@ -351,8 +347,7 @@
       ],
       "answer": 0,
       "license": "CC BY 4.0 · Wikimedia Commons",
-      "source": "https://commons.wikimedia.org/wiki/File:The_Daily_Dweebs_-_Blender_Open_Movie-full_movie.webm",
-      "plot_summary": null
+      "source": "https://commons.wikimedia.org/wiki/File:The_Daily_Dweebs_-_Blender_Open_Movie-full_movie.webm"
     },
     {
       "id": "elephants-dream",
@@ -394,8 +389,7 @@
       ],
       "answer": 0,
       "license": "CC BY 2.5 · Wikimedia Commons",
-      "source": "https://commons.wikimedia.org/wiki/File:Elephants_Dream_(2006)_1080p24.webm",
-      "plot_summary": null
+      "source": "https://commons.wikimedia.org/wiki/File:Elephants_Dream_(2006)_1080p24.webm"
     }
   ],
   "pending": [
@@ -404,24 +398,348 @@
       "title": "Caminandes: Llama Drama",
       "year": 2013,
       "license": "CC BY 3.0 · Wikimedia Commons",
-      "source": "https://commons.wikimedia.org/wiki/File:Caminandes-_Llama_Drama_-_Short_Movie.ogv",
-      "plot_summary": null
+      "source": "https://commons.wikimedia.org/wiki/File:Caminandes-_Llama_Drama_-_Short_Movie.ogv"
     },
     {
       "id": "charge",
       "title": "Charge",
       "year": 2022,
       "license": "CC BY 4.0 · Wikimedia Commons",
-      "source": "https://commons.wikimedia.org/wiki/File:Charge_-_Blender_Open_Movie-full_movie.webm",
-      "plot_summary": null
+      "source": "https://commons.wikimedia.org/wiki/File:Charge_-_Blender_Open_Movie-full_movie.webm"
     },
     {
       "id": "glass-half",
       "title": "Glass Half",
       "year": 2015,
       "license": "CC BY 4.0 · Wikimedia Commons",
-      "source": "https://commons.wikimedia.org/wiki/File:Glass_Half_-_Blender_Open_Movie-full_movie.webm",
-      "plot_summary": null
+      "source": "https://commons.wikimedia.org/wiki/File:Glass_Half_-_Blender_Open_Movie-full_movie.webm"
+    }
+  ],
+  "research": [
+    {
+      "id": "the-grand-budapest-hotel",
+      "title": "The Grand Budapest Hotel",
+      "year": 2014,
+      "priority": 10,
+      "palette": "pastel pink, lavender, burgundy; symmetrical interiors",
+      "genres": [
+        "comedy",
+        "drama"
+      ],
+      "plot_summary": "A hotel concierge and his young lobby boy become entangled in an inheritance dispute and a stolen painting.",
+      "source_status": "needs_authorized_footage"
+    },
+    {
+      "id": "blade-runner-2049",
+      "title": "Blade Runner 2049",
+      "year": 2017,
+      "priority": 10,
+      "palette": "orange haze, cyan neon, purple and blue night",
+      "genres": [
+        "science fiction",
+        "mystery"
+      ],
+      "plot_summary": "A replicant detective's discovery leads him toward a mystery about memory and humanity.",
+      "source_status": "needs_authorized_footage"
+    },
+    {
+      "id": "barbie",
+      "title": "Barbie",
+      "year": 2023,
+      "priority": 10,
+      "palette": "saturated pink, bright cyan, candy-colored sets",
+      "genres": [
+        "comedy",
+        "fantasy"
+      ],
+      "plot_summary": "A doll leaves her idealized world to question her identity in the real world.",
+      "source_status": "needs_authorized_footage"
+    },
+    {
+      "id": "mad-max-fury-road",
+      "title": "Mad Max: Fury Road",
+      "year": 2015,
+      "priority": 10,
+      "palette": "rust orange desert, cobalt skies, high contrast",
+      "genres": [
+        "action",
+        "science fiction"
+      ],
+      "plot_summary": "A group of fugitives races across a wasteland to escape a tyrant.",
+      "source_status": "needs_authorized_footage"
+    },
+    {
+      "id": "the-matrix",
+      "title": "The Matrix",
+      "year": 1999,
+      "priority": 10,
+      "palette": "green digital tint, dark black leather, cold blue",
+      "genres": [
+        "science fiction",
+        "action"
+      ],
+      "plot_summary": "A hacker learns the nature of his reality and joins a rebellion.",
+      "source_status": "needs_authorized_footage"
+    },
+    {
+      "id": "interstellar",
+      "title": "Interstellar",
+      "year": 2014,
+      "priority": 10,
+      "palette": "amber farmland, desaturated space, icy planetary landscapes",
+      "genres": [
+        "science fiction",
+        "drama"
+      ],
+      "plot_summary": "Explorers travel beyond Earth searching for a future home for humanity.",
+      "source_status": "needs_authorized_footage"
+    },
+    {
+      "id": "amelie",
+      "title": "Amélie",
+      "year": 2001,
+      "priority": 9,
+      "palette": "rich reds, golden yellow, saturated green",
+      "genres": [
+        "romance",
+        "comedy"
+      ],
+      "plot_summary": "A shy Parisian woman secretly helps people around her while learning to pursue her own happiness.",
+      "source_status": "needs_authorized_footage"
+    },
+    {
+      "id": "la-la-land",
+      "title": "La La Land",
+      "year": 2016,
+      "priority": 9,
+      "palette": "primary-color dresses, blue twilight, golden city lights",
+      "genres": [
+        "musical",
+        "romance"
+      ],
+      "plot_summary": "A musician and aspiring actor chase their ambitions in Los Angeles.",
+      "source_status": "needs_authorized_footage"
+    },
+    {
+      "id": "the-shining",
+      "title": "The Shining",
+      "year": 1980,
+      "priority": 9,
+      "palette": "red carpets, golden hotel interiors, icy snow",
+      "genres": [
+        "horror",
+        "thriller"
+      ],
+      "plot_summary": "A winter caretaker's isolation in a mountain hotel leads to escalating terror.",
+      "source_status": "needs_authorized_footage"
+    },
+    {
+      "id": "avatar",
+      "title": "Avatar",
+      "year": 2009,
+      "priority": 9,
+      "palette": "bioluminescent blue, lush emerald jungle, violet night",
+      "genres": [
+        "science fiction",
+        "adventure"
+      ],
+      "plot_summary": "A soldier on an alien moon becomes caught between human interests and the native inhabitants.",
+      "source_status": "needs_authorized_footage"
+    },
+    {
+      "id": "up",
+      "title": "Up",
+      "year": 2009,
+      "priority": 9,
+      "palette": "rainbow balloons, blue sky, warm house interiors",
+      "genres": [
+        "animation",
+        "adventure"
+      ],
+      "plot_summary": "An elderly widower and a young scout embark on an airborne adventure.",
+      "source_status": "needs_authorized_footage"
+    },
+    {
+      "id": "finding-nemo",
+      "title": "Finding Nemo",
+      "year": 2003,
+      "priority": 9,
+      "palette": "turquoise ocean, orange clownfish, vivid coral",
+      "genres": [
+        "animation",
+        "adventure"
+      ],
+      "plot_summary": "A cautious clownfish crosses the ocean to find his missing son.",
+      "source_status": "needs_authorized_footage"
+    },
+    {
+      "id": "inside-out",
+      "title": "Inside Out",
+      "year": 2015,
+      "priority": 9,
+      "palette": "bright yellow, blue, red, purple emotions",
+      "genres": [
+        "animation",
+        "comedy"
+      ],
+      "plot_summary": "Personified emotions navigate a girl's difficult move to a new city.",
+      "source_status": "needs_authorized_footage"
+    },
+    {
+      "id": "the-lion-king",
+      "title": "The Lion King",
+      "year": 1994,
+      "priority": 9,
+      "palette": "golden savanna, fiery orange sunsets, green jungle",
+      "genres": [
+        "animation",
+        "drama"
+      ],
+      "plot_summary": "A young lion prince must confront his past to reclaim his place in the circle of life.",
+      "source_status": "needs_authorized_footage"
+    },
+    {
+      "id": "spirited-away",
+      "title": "Spirited Away",
+      "year": 2001,
+      "priority": 9,
+      "palette": "red bathhouse, teal water, warm lantern light",
+      "genres": [
+        "animation",
+        "fantasy"
+      ],
+      "plot_summary": "A girl enters a spirit world and works to rescue her transformed parents.",
+      "source_status": "needs_authorized_footage"
+    },
+    {
+      "id": "coraline",
+      "title": "Coraline",
+      "year": 2009,
+      "priority": 9,
+      "palette": "electric blue, purple shadows, vivid alternate world",
+      "genres": [
+        "animation",
+        "fantasy"
+      ],
+      "plot_summary": "A curious girl discovers a parallel home that hides a sinister secret.",
+      "source_status": "needs_authorized_footage"
+    },
+    {
+      "id": "dune-part-one",
+      "title": "Dune",
+      "year": 2021,
+      "priority": 9,
+      "palette": "sand beige, burnt ochre, muted blue and black",
+      "genres": [
+        "science fiction",
+        "adventure"
+      ],
+      "plot_summary": "A noble family is drawn into a struggle over a desert planet and its valuable resource.",
+      "source_status": "needs_authorized_footage"
+    },
+    {
+      "id": "everything-everywhere-all-at-once",
+      "title": "Everything Everywhere All at Once",
+      "year": 2022,
+      "priority": 9,
+      "palette": "multicolored neon, warm laundromat, shifting universes",
+      "genres": [
+        "science fiction",
+        "comedy"
+      ],
+      "plot_summary": "A woman discovers alternate versions of her life while confronting a multiverse crisis.",
+      "source_status": "needs_authorized_footage"
+    },
+    {
+      "id": "eternal-sunshine-of-the-spotless-mind",
+      "title": "Eternal Sunshine of the Spotless Mind",
+      "year": 2004,
+      "priority": 8,
+      "palette": "winter blue, orange hair, pale memory interiors",
+      "genres": [
+        "romance",
+        "science fiction"
+      ],
+      "plot_summary": "A man undergoes a procedure to erase memories of a former relationship.",
+      "source_status": "needs_authorized_footage"
+    },
+    {
+      "id": "the-truman-show",
+      "title": "The Truman Show",
+      "year": 1998,
+      "priority": 8,
+      "palette": "pastel suburb, bright blue sky, artificial sunshine",
+      "genres": [
+        "comedy",
+        "drama"
+      ],
+      "plot_summary": "A man slowly discovers that his ordinary life is part of a televised construction.",
+      "source_status": "needs_authorized_footage"
+    },
+    {
+      "id": "jurassic-park",
+      "title": "Jurassic Park",
+      "year": 1993,
+      "priority": 9,
+      "palette": "lush tropical greens, amber lab lights, stormy blue",
+      "genres": [
+        "adventure",
+        "science fiction"
+      ],
+      "plot_summary": "Visitors to a dinosaur theme park face disaster when its systems fail.",
+      "source_status": "needs_authorized_footage"
+    },
+    {
+      "id": "the-dark-knight",
+      "title": "The Dark Knight",
+      "year": 2008,
+      "priority": 8,
+      "palette": "steel blue Gotham, orange explosions, black silhouettes",
+      "genres": [
+        "action",
+        "crime"
+      ],
+      "plot_summary": "A masked vigilante battles a criminal mastermind who challenges the city's moral boundaries.",
+      "source_status": "needs_authorized_footage"
+    },
+    {
+      "id": "her",
+      "title": "Her",
+      "year": 2013,
+      "priority": 8,
+      "palette": "warm red, cream interiors, soft pink urban light",
+      "genres": [
+        "romance",
+        "science fiction"
+      ],
+      "plot_summary": "A lonely writer forms an emotional bond with an advanced operating system.",
+      "source_status": "needs_authorized_footage"
+    },
+    {
+      "id": "oppenheimer",
+      "title": "Oppenheimer",
+      "year": 2023,
+      "priority": 7,
+      "palette": "orange fire, earthy laboratories, muted wartime tones",
+      "genres": [
+        "biography",
+        "drama"
+      ],
+      "plot_summary": "A physicist leads a wartime scientific project and confronts its consequences.",
+      "source_status": "needs_authorized_footage"
+    },
+    {
+      "id": "the-wizard-of-oz",
+      "title": "The Wizard of Oz",
+      "year": 1939,
+      "priority": 8,
+      "palette": "sepia opening, emerald city, colorful fantasy landscapes",
+      "genres": [
+        "fantasy",
+        "musical"
+      ],
+      "plot_summary": "A girl journeys through a fantastical land seeking a way home.",
+      "source_status": "needs_authorized_footage"
     }
   ]
 }

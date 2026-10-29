@@ -54,6 +54,15 @@ and puzzle assignments will shift.
 
 ## MKIA shot intelligence
 
+### Recognizable film research
+
+`research_catalog.json` is a curated shortlist of recognizable, colorful
+commercial films. Entries are **not playable sources**: they contain no footage
+URLs and are intentionally excluded from MKIA's automated generation queue.
+The Control Room displays this shortlist separately from approved video sources.
+Only move a movie into `catalog.json` once its usable source and rights have
+been verified. ShotDeck screenshots are not imported, scraped, or republished.
+
 On each new movie, MKIA checks video colorfulness and skips predominantly
 monochrome sources. It extracts candidate frames from the color footage,
 ranks them for detail, exposure, composition and visual diversity, saves a
