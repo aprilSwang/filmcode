@@ -1,35 +1,6 @@
 {
-  "launch_date": "2026-10-28",
+  "launch_date": "2026-10-29",
   "time_zone": "UTC",
-  "daily_date": "2026-10-29",
-  "puzzle_number": 2,
-  "puzzles": [
-    {
-      "id": "trip-to-moon",
-      "title": "A Trip to the Moon",
-      "year": 1902,
-      "genre": "Silent science fiction",
-      "answer": 1,
-      "choices": [
-        {
-          "title": "Metropolis",
-          "year": 1927
-        },
-        {
-          "title": "A Trip to the Moon",
-          "year": 1902
-        },
-        {
-          "title": "The Cabinet of Dr. Caligari",
-          "year": 1920
-        },
-        {
-          "title": "Nosferatu",
-          "year": 1922
-        }
-      ],
-      "license": "Public domain · Georges Méliès",
-      "source": "https://commons.wikimedia.org/wiki/File:Le_Voyage_dans_la_Lune_(1902).webm"
-    }
-  ]
+  "status": "paused_for_catalog_rebuild",
+  "puzzles": []
 }
