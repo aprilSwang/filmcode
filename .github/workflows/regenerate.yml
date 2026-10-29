@@ -1,0 +1,45 @@
+name: MKIA — regenerate puzzle assets
+on:
+  workflow_dispatch:
+    inputs:
+      movie_id:
+        description: 'Existing scheduled movie ID (for example: big-buck-bunny)'
+        required: true
+        type: string
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+concurrency:
+  group: chroma-pages
+  cancel-in-progress: false
+jobs:
+  regenerate-and-deploy:
+    runs-on: ubuntu-latest
+    env:
+      MOVIE_ID: ${{ inputs.movie_id }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: sudo apt-get update && sudo apt-get install -y ffmpeg
+      - run: python -m pip install pillow
+      - name: Verify existing movie ID without downloading
+        run: python scripts/mkia.py --regenerate "$MOVIE_ID" --dry-run
+      - name: Regenerate barcode and reveal frames
+        run: python scripts/mkia.py --regenerate "$MOVIE_ID"
+      - name: Commit regenerated assets
+        run: |
+          git config user.name 'MKIA bot'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add dist/assets
+          if ! git diff --cached --quiet; then
+            git commit -m "Regenerate Filmcode assets for $MOVIE_ID"
+            git push
+          fi
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+      - uses: actions/deploy-pages@v4

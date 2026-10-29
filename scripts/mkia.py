@@ -166,11 +166,23 @@ def generate(movie):
 def main():
     parser=argparse.ArgumentParser()
     parser.add_argument('--dry-run',action='store_true',help='Choose the next movie and answers without downloading')
+    parser.add_argument('--regenerate',metavar='MOVIE_ID',help='Replace an existing puzzle barcode and five frames without changing the queue or answer')
     parser.add_argument('--date',default=datetime.now(timezone.utc).date().isoformat())
     args=parser.parse_args()
     catalog=json.loads((ROOT/'catalog.json').read_text())
     pool=json.loads((ROOT/'choice_pool.json').read_text())
     data=json.loads((OUT/'puzzles.json').read_text())
+    if args.regenerate:
+        existing=next((p for p in data['puzzles'] if p['id']==args.regenerate),None)
+        source=next((m for m in catalog if m['id']==args.regenerate),None)
+        if existing is None:raise ValueError(f'Puzzle {args.regenerate!r} is not scheduled; cannot regenerate')
+        if source is None or not source.get('video_url') or not source.get('license'):
+            raise ValueError(f'No approved source video for {args.regenerate!r}')
+        print(f'Regenerating assets for {existing["title"]}; keeping its scheduled date, choices, and answer unchanged')
+        if args.dry_run:return
+        count,frames=generate(source)
+        print(f'Regenerated {count} barcode stripes and {len(frames)} reveal frames')
+        return
     movie=choose_movie(catalog,data['puzzles'],args.date)
     if not movie:
         print('No eligible movies remain. Add a rights-cleared video source to catalog.json.')
