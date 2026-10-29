@@ -1,0 +1,157 @@
+{
+  "movie_id": "glass-half",
+  "selection_mode": "visual-only",
+  "plot_available": false,
+  "candidates": [
+    {
+      "image": "assets/glass-half-candidate-01.jpg",
+      "time_seconds": 34.4,
+      "quality": 82.99,
+      "sharpness": 60.08,
+      "plot_relevance": null,
+      "spoiler_risk": null,
+      "reason": "Selected by visual quality, distinctiveness and scene spacing.",
+      "selected": false
+    },
+    {
+      "image": "assets/glass-half-candidate-02.jpg",
+      "time_seconds": 51.5,
+      "quality": 79.77,
+      "sharpness": 63.77,
+      "plot_relevance": null,
+      "spoiler_risk": null,
+      "reason": "Selected by visual quality, distinctiveness and scene spacing.",
+      "selected": false
+    },
+    {
+      "image": "assets/glass-half-candidate-03.jpg",
+      "time_seconds": 60.1,
+      "quality": 86.38,
+      "sharpness": 52.43,
+      "plot_relevance": null,
+      "spoiler_risk": null,
+      "reason": "Selected by visual quality, distinctiveness and scene spacing.",
+      "selected": true
+    },
+    {
+      "image": "assets/glass-half-candidate-04.jpg",
+      "time_seconds": 64.4,
+      "quality": 60.04,
+      "sharpness": 43.99,
+      "plot_relevance": null,
+      "spoiler_risk": null,
+      "reason": "Selected by visual quality, distinctiveness and scene spacing.",
+      "selected": true
+    },
+    {
+      "image": "assets/glass-half-candidate-05.jpg",
+      "time_seconds": 68.7,
+      "quality": 84.32,
+      "sharpness": 49.45,
+      "plot_relevance": null,
+      "spoiler_risk": null,
+      "reason": "Selected by visual quality, distinctiveness and scene spacing.",
+      "selected": false
+    },
+    {
+      "image": "assets/glass-half-candidate-06.jpg",
+      "time_seconds": 77.3,
+      "quality": 81.0,
+      "sharpness": 58.73,
+      "plot_relevance": null,
+      "spoiler_risk": null,
+      "reason": "Selected by visual quality, distinctiveness and scene spacing.",
+      "selected": false
+    },
+    {
+      "image": "assets/glass-half-candidate-07.jpg",
+      "time_seconds": 85.9,
+      "quality": 75.22,
+      "sharpness": 50.66,
+      "plot_relevance": null,
+      "spoiler_risk": null,
+      "reason": "Selected by visual quality, distinctiveness and scene spacing.",
+      "selected": false
+    },
+    {
+      "image": "assets/glass-half-candidate-08.jpg",
+      "time_seconds": 90.2,
+      "quality": 89.8,
+      "sharpness": 60.23,
+      "plot_relevance": null,
+      "spoiler_risk": null,
+      "reason": "Selected by visual quality, distinctiveness and scene spacing.",
+      "selected": false
+    },
+    {
+      "image": "assets/glass-half-candidate-09.jpg",
+      "time_seconds": 115.9,
+      "quality": 82.83,
+      "sharpness": 64.99,
+      "plot_relevance": null,
+      "spoiler_risk": null,
+      "reason": "Selected by visual quality, distinctiveness and scene spacing.",
+      "selected": true
+    },
+    {
+      "image": "assets/glass-half-candidate-10.jpg",
+      "time_seconds": 133.1,
+      "quality": 85.23,
+      "sharpness": 62.27,
+      "plot_relevance": null,
+      "spoiler_risk": null,
+      "reason": "Selected by visual quality, distinctiveness and scene spacing.",
+      "selected": false
+    },
+    {
+      "image": "assets/glass-half-candidate-11.jpg",
+      "time_seconds": 137.4,
+      "quality": 88.78,
+      "sharpness": 67.23,
+      "plot_relevance": null,
+      "spoiler_risk": null,
+      "reason": "Selected by visual quality, distinctiveness and scene spacing.",
+      "selected": true
+    },
+    {
+      "image": "assets/glass-half-candidate-12.jpg",
+      "time_seconds": 141.7,
+      "quality": 78.26,
+      "sharpness": 61.16,
+      "plot_relevance": null,
+      "spoiler_risk": null,
+      "reason": "Selected by visual quality, distinctiveness and scene spacing.",
+      "selected": false
+    },
+    {
+      "image": "assets/glass-half-candidate-13.jpg",
+      "time_seconds": 146.0,
+      "quality": 85.13,
+      "sharpness": 57.22,
+      "plot_relevance": null,
+      "spoiler_risk": null,
+      "reason": "Selected by visual quality, distinctiveness and scene spacing.",
+      "selected": false
+    },
+    {
+      "image": "assets/glass-half-candidate-14.jpg",
+      "time_seconds": 163.2,
+      "quality": 82.88,
+      "sharpness": 44.48,
+      "plot_relevance": null,
+      "spoiler_risk": null,
+      "reason": "Selected by visual quality, distinctiveness and scene spacing.",
+      "selected": true
+    },
+    {
+      "image": "assets/glass-half-candidate-15.jpg",
+      "time_seconds": 167.5,
+      "quality": 77.55,
+      "sharpness": 46.54,
+      "plot_relevance": null,
+      "spoiler_risk": null,
+      "reason": "Selected by visual quality, distinctiveness and scene spacing.",
+      "selected": false
+    }
+  ]
+}

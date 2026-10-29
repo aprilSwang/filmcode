@@ -388,6 +388,47 @@
         }
       ],
       "answer": 0
+    },
+    {
+      "id": "glass-half",
+      "title": "Glass Half",
+      "year": 2015,
+      "genre": "animation / comedy",
+      "license": "CC BY 4.0 · Wikimedia Commons",
+      "source": "https://commons.wikimedia.org/wiki/File:Glass_Half_-_Blender_Open_Movie-full_movie.webm",
+      "choices": [
+        {
+          "title": "Up",
+          "year": 2009,
+          "genres": [
+            "animation",
+            "adventure",
+            "comedy"
+          ]
+        },
+        {
+          "title": "Fantastic Mr. Fox",
+          "year": 2009,
+          "genres": [
+            "animation",
+            "comedy",
+            "adventure"
+          ]
+        },
+        {
+          "title": "Big Buck Bunny",
+          "year": 2008,
+          "genres": [
+            "animation",
+            "comedy"
+          ]
+        },
+        {
+          "title": "Glass Half",
+          "year": 2015
+        }
+      ],
+      "answer": 3
     }
   ]
 }
