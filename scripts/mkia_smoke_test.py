@@ -10,6 +10,7 @@ import tempfile
 from pathlib import Path
 
 import mkia
+from stills_barcode import generate as generate_stills
 
 
 def command(args):
@@ -73,8 +74,28 @@ def main():
             assert (mkia.OUT / "control-room/reviews/test.json").exists()
         finally:
             mkia.OUT, mkia.ASSETS = original_out, original_assets
+        # Separate pipeline: chronological stills can generate a barcode
+        # without implying we sampled the whole movie.
+        still_dir = root / 'stills'
+        still_dir.mkdir()
+        from PIL import Image
+        colors = ['#b72e2a', '#22b8c8', '#eac14a', '#a2309f', '#299858']
+        shots = []
+        for i in range(30):
+            filename = f'{i:02d}.png'
+            Image.new('RGB', (64, 36), colors[i//6]).save(still_dir/filename)
+            shots.append({'file': filename, 'time_seconds': i*90+20})
+        manifest = still_dir/'manifest.json'
+        manifest.write_text(json.dumps({'movie_id': 'test', 'source': 'Synthetic color fixture',
+                                        'duration_seconds': 2700, 'shots': shots}))
+        report = generate_stills(manifest, root/'stills-barcode.png', root/'stills-report.json')
+        assert report['stripe_count'] == 560
+        assert report['sampling'] == 'timestamped_stills'
+        assert report['shot_count'] == 30
+        assert (root/'stills-report.json').exists()
         print(f"MKIA smoke test passed: {stripes} chronological stripes, "
-              f"5 reveal frames, trimmed black head/tail ({start:.0f}s/{duration-end:.0f}s)")
+              f"5 legacy frame selections, trimmed black head/tail ({start:.0f}s/{duration-end:.0f}s), "
+              'and 30 timestamped stills → 560 stripes')
 
 
 if __name__ == "__main__":

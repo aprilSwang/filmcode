@@ -17,6 +17,7 @@ from pathlib import Path
 
 from PIL import Image, ImageDraw
 from shot_selector import features, shortlist, select_five, vision_review
+from stills_barcode import generate as generate_stills_barcode
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / 'dist'
@@ -38,7 +39,7 @@ def tags(movie):
 
 def choose_movie(catalog,completed,date):
     done={item['id'] for item in completed}
-    pending=[item for item in catalog if item['id'] not in done and item.get('video_url') and item.get('license')
+    pending=[item for item in catalog if item['id'] not in done and (item.get('video_url') or item.get('stills_manifest')) and item.get('license')
              and str(item.get('color_mode','color')).lower() not in ('black-and-white','monochrome','grayscale')]
     if not pending:return None
     recent=completed[-3:]
@@ -172,6 +173,19 @@ def choose_frames(video,movie,duration,temp,start=0):
 
 def generate(movie):
     ASSETS.mkdir(parents=True,exist_ok=True)
+    # A poster is the only public answer-reveal image. Keep it in the private
+    # source checkout until the scheduled day; never publish upcoming posters.
+    poster=(ROOT / 'posters' / f"{movie['id']}.jpg").resolve()
+    if not poster.is_relative_to(ROOT / 'posters') or not poster.is_file():
+        raise ValueError(f"Missing authorized poster: posters/{movie['id']}.jpg")
+    if movie.get('stills_manifest'):
+        manifest=(ROOT / movie['stills_manifest']).resolve()
+        if not manifest.is_relative_to(ROOT / 'stills'):
+            raise ValueError('Stills manifest must be stored under stills/')
+        report=generate_stills_barcode(manifest,ASSETS/f"{movie['id']}-barcode.png",
+                                      OUT/'control-room'/'reviews'/f"{movie['id']}.json")
+        shutil.copyfile(poster,ASSETS/f"{movie['id']}-poster.jpg")
+        return report['stripe_count'],[]
     with tempfile.TemporaryDirectory(prefix='chroma-curator-') as root:
         temp=Path(root);video=temp/'source.video'
         download(movie['video_url'],video)
@@ -183,8 +197,8 @@ def generate(movie):
         print(f'Content window: {start:.1f}s–{end:.1f}s of {duration:.1f}s (excluded {start:.1f}s opening, {duration-end:.1f}s ending)')
         usable=end-start
         count=generate_barcode(video,movie['id'],usable,start)
-        frame_names=choose_frames(video,movie,usable,temp,start)
-        return count,frame_names
+        shutil.copyfile(poster,ASSETS/f"{movie['id']}-poster.jpg")
+        return count,[]
 
 def main():
     parser=argparse.ArgumentParser()
@@ -199,17 +213,17 @@ def main():
         existing=next((p for p in data['puzzles'] if p['id']==args.regenerate),None)
         source=next((m for m in catalog if m['id']==args.regenerate),None)
         if existing is None:raise ValueError(f'Puzzle {args.regenerate!r} is not scheduled; cannot regenerate')
-        if source is None or not source.get('video_url') or not source.get('license'):
-            raise ValueError(f'No approved source video for {args.regenerate!r}')
+        if source is None or not (source.get('video_url') or source.get('stills_manifest')) or not source.get('license'):
+            raise ValueError(f'No approved source for {args.regenerate!r}')
         print(f'Regenerating assets for {existing["title"]}; keeping its scheduled date, choices, and answer unchanged')
         if args.dry_run:return
         count,frames=generate(source)
-        print(f'Regenerated {count} barcode stripes and {len(frames)} reveal frames')
+        print(f'Regenerated {count} barcode stripes and one poster reveal')
         return
     while True:
         movie=choose_movie(catalog,data['puzzles'],args.date)
         if not movie:
-            print('No eligible color movies remain. Add a rights-cleared color video source to catalog.json.')
+            print('No eligible color movies remain. Add an approved video or chronological-stills manifest to catalog.json.')
             return
         choices,answer=choose_choices(movie,pool)
         print(f"Selected: {movie['title']} ({movie['year']}); answer slot {answer+1}")
@@ -226,6 +240,6 @@ def main():
     record['choices']=choices;record['answer']=answer
     data['puzzles'].append(record)
     (OUT/'puzzles.json').write_text(json.dumps(data,ensure_ascii=False,indent=2)+'\n')
-    print(f'Published puzzle #{len(data["puzzles"])}: {count} barcode stripes; selected frames {frames}')
+    print(f'Prepared puzzle #{len(data["puzzles"])}: {count} barcode stripes; poster reveal')
 
 if __name__=='__main__':main()
