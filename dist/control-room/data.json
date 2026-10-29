@@ -25,7 +25,8 @@
       ],
       "answer": 1,
       "license": "CC BY 3.0 · © 2008 Blender Foundation",
-      "source": "https://peach.blender.org/about/"
+      "source": "https://peach.blender.org/about/",
+      "plot_summary": "A peaceful giant rabbit is bullied by three forest creatures and turns the tables on them."
     },
     {
       "id": "trip-to-moon",
@@ -52,7 +53,8 @@
       ],
       "answer": 1,
       "license": "Public domain · Georges Méliès",
-      "source": "https://commons.wikimedia.org/wiki/File:Le_Voyage_dans_la_Lune_(1902).webm"
+      "source": "https://commons.wikimedia.org/wiki/File:Le_Voyage_dans_la_Lune_(1902).webm",
+      "plot_summary": "A group of astronomers travel to the Moon, encounter its strange inhabitants, and escape back to Earth."
     },
     {
       "id": "coffee-run",
@@ -94,7 +96,8 @@
       ],
       "answer": 3,
       "license": "CC BY 4.0 · © Blender Foundation",
-      "source": "https://studio.blender.org/projects/coffee-run/pages/licensing/"
+      "source": "https://studio.blender.org/projects/coffee-run/pages/licensing/",
+      "plot_summary": "A young woman revisits memories of a past romance during an eventful coffee run."
     },
     {
       "id": "spring",
@@ -136,7 +139,8 @@
       ],
       "answer": 0,
       "license": "CC BY 4.0 · © Blender Foundation",
-      "source": "https://studio.blender.org/projects/spring/pages/about/"
+      "source": "https://studio.blender.org/projects/spring/pages/about/",
+      "plot_summary": "A young shepherdess and her dog encounter ancient spirits while facing a powerful storm."
     },
     {
       "id": "hero",

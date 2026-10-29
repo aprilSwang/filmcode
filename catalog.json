@@ -11,7 +11,8 @@
     "popularity": 60,
     "license": "CC BY 3.0 · © 2008 Blender Foundation",
     "source": "https://peach.blender.org/about/",
-    "video_url": "https://upload.wikimedia.org/wikipedia/commons/transcoded/c/c0/Big_Buck_Bunny_4K.webm/Big_Buck_Bunny_4K.webm.240p.vp9.webm"
+    "video_url": "https://upload.wikimedia.org/wikipedia/commons/transcoded/c/c0/Big_Buck_Bunny_4K.webm/Big_Buck_Bunny_4K.webm.240p.vp9.webm",
+    "plot_summary": "A peaceful giant rabbit is bullied by three forest creatures and turns the tables on them."
   },
   {
     "id": "trip-to-moon",
@@ -26,7 +27,9 @@
     "popularity": 80,
     "license": "Public domain · Georges Méliès",
     "source": "https://commons.wikimedia.org/wiki/File:Le_Voyage_dans_la_Lune_(1902).webm",
-    "video_url": "https://upload.wikimedia.org/wikipedia/commons/transcoded/6/6d/Le_Voyage_dans_la_Lune_%281902%29.webm/Le_Voyage_dans_la_Lune_%281902%29.webm.240p.vp9.webm"
+    "video_url": "https://upload.wikimedia.org/wikipedia/commons/transcoded/6/6d/Le_Voyage_dans_la_Lune_%281902%29.webm/Le_Voyage_dans_la_Lune_%281902%29.webm.240p.vp9.webm",
+    "plot_summary": "A group of astronomers travel to the Moon, encounter its strange inhabitants, and escape back to Earth.",
+    "color_mode": "black-and-white"
   },
   {
     "id": "coffee-run",
@@ -41,7 +44,8 @@
     "popularity": 70,
     "license": "CC BY 4.0 · © Blender Foundation",
     "source": "https://studio.blender.org/projects/coffee-run/pages/licensing/",
-    "video_url": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Coffee_Run_-_Blender_Open_Movie-full_movie.webm"
+    "video_url": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Coffee_Run_-_Blender_Open_Movie-full_movie.webm",
+    "plot_summary": "A young woman revisits memories of a past romance during an eventful coffee run."
   },
   {
     "id": "wing-it",
@@ -86,7 +90,8 @@
     "popularity": 78,
     "license": "CC BY 4.0 · © Blender Foundation",
     "source": "https://studio.blender.org/projects/spring/pages/about/",
-    "video_url": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Spring_-_Blender_Open_Movie.webm"
+    "video_url": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Spring_-_Blender_Open_Movie.webm",
+    "plot_summary": "A young shepherdess and her dog encounter ancient spirits while facing a powerful storm."
   },
   {
     "id": "caminandes-llama-drama",

@@ -15,11 +15,16 @@ import urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
 
-from PIL import Image, ImageChops, ImageDraw, ImageStat
+from PIL import Image, ImageDraw
+from shot_selector import features, shortlist, select_five, vision_review
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / 'dist'
 ASSETS = OUT / 'assets'
+
+
+class MonochromeMovie(Exception):
+    """A mostly grayscale video is unsuitable for the color-barcode game."""
 
 def run(args):
     return subprocess.run(args,check=True,capture_output=True)
@@ -33,7 +38,8 @@ def tags(movie):
 
 def choose_movie(catalog,completed,date):
     done={item['id'] for item in completed}
-    pending=[item for item in catalog if item['id'] not in done and item.get('video_url') and item.get('license')]
+    pending=[item for item in catalog if item['id'] not in done and item.get('video_url') and item.get('license')
+             and str(item.get('color_mode','color')).lower() not in ('black-and-white','monochrome','grayscale')]
     if not pending:return None
     recent=completed[-3:]
     rng=stable_rng('movie:'+date)
@@ -89,6 +95,30 @@ def detect_content_window(video,duration):
     if end-start<max(8,duration*.5):return 0.0,duration
     return start,end
 
+
+def is_monochrome(video):
+    """Detect predominantly grayscale footage using sampled chroma, not title/year.
+
+    Faintly tinted black-and-white footage also fails the colorfulness test.
+    We sample frames from across the film so monochrome opening logos alone
+    won't disqualify a genuinely colorful movie.
+    """
+    raw=run(['ffmpeg','-hide_banner','-loglevel','error','-i',str(video),
+             '-vf','fps=1/15,scale=24:14,format=rgb24','-f','rawvideo','-']).stdout
+    stride=24*14*3
+    frames=[raw[offset:offset+stride] for offset in range(0,len(raw)-stride+1,stride)]
+    if len(frames)<3:return False
+    colorful=0
+    for frame in frames:
+        saturated=0
+        for j in range(0,stride,3):
+            rgb=frame[j:j+3]
+            if max(rgb)-min(rgb)>18:saturated+=1
+        if saturated/(24*14)>.07:colorful+=1
+    fraction=colorful/len(frames)
+    print(f'Colorfulness check: {colorful}/{len(frames)} sample frames show meaningful color')
+    return fraction<.15
+
 def generate_barcode(video,slug,duration,start=0):
     frame_count=560
     raw=run(['ffmpeg','-hide_banner','-loglevel','error','-ss',str(start),'-i',str(video),'-t',str(duration),'-vf',f'fps={frame_count/duration:.8f},scale=24:14,format=rgb24','-f','rawvideo','-']).stdout
@@ -103,50 +133,42 @@ def generate_barcode(video,slug,duration,start=0):
     image.save(ASSETS/f'{slug}-barcode.png',optimize=True)
     return len(colors)
 
-def frame_score(image):
-    image=image.convert('RGB').resize((120,68))
-    gray=image.convert('L')
-    mean=ImageStat.Stat(gray).mean[0]
-    std=ImageStat.Stat(gray).stddev[0]
-    # Dark/white cuts and low-information fades should lose to actual scenes.
-    brightness=max(0,1-abs(mean-118)/118)
-    return gray.entropy()*7+std*.25+brightness*12
-
-def choose_frames(video,slug,duration,temp,start=0):
+def choose_frames(video,movie,duration,temp,start=0):
+    slug=movie['id']
     interval=max(3,duration/45)
     candidate_dir=temp/'candidates';candidate_dir.mkdir()
     run(['ffmpeg','-hide_banner','-loglevel','error','-ss',str(start),'-i',str(video),'-t',str(duration),'-vf',f'fps=1/{interval:.6f},scale=720:-2','-q:v','3','-y',str(candidate_dir/'%04d.jpg')])
     paths=sorted(candidate_dir.glob('*.jpg'))
     if len(paths)<10:raise ValueError('Not enough candidate frames')
-    # Rank visual *distinctiveness* alongside image quality: otherwise a long
-    # static scene can occupy all five reveal slots despite good entropy.
     candidates=[]
     for index,path in enumerate(paths):
         if index<max(1,int(.04*len(paths))) or index>int(.96*len(paths)):
             continue
-        with Image.open(path) as frame:
-            feature=frame.convert('RGB').resize((48,27))
-            quality=frame_score(frame)
-        candidates.append((index,path,feature,quality))
+        candidates.append(features(path,index))
     if len(candidates)<5:raise ValueError('Not enough useful frame candidates')
-    chosen=[]
-    def difference(a,b):
-        return sum(ImageStat.Stat(ImageChops.difference(a,b)).mean)/3
-    for step in range(5):
-        target=(step+.5)/5*len(paths)
-        def score(item):
-            index,_,image,quality=item
-            if any(abs(index-prev[0])<max(2,len(paths)*.06) for prev in chosen):
-                return -1e5
-            novelty=min((difference(image,prev[2]) for prev in chosen),default=42)
-            spread_penalty=abs(index-target)/len(paths)*18
-            return novelty*2.2+quality*.45-spread_penalty
-        candidate=max((item for item in candidates if item not in chosen),key=score)
-        chosen.append(candidate)
-    chosen.sort(key=lambda item:item[0])
-    for i,(_,path,_,_) in enumerate(chosen,1):
-        shutil.copyfile(path,ASSETS/f'{slug}-{i}.jpg')
-    return [item[1].name for item in chosen]
+    pool=shortlist(candidates,15)
+    reviews=vision_review(pool,movie)
+    chosen=select_five(pool,reviews)
+    selected={item['index'] for item in chosen}
+    report=[]
+    for i,item in enumerate(pool,1):
+        filename=f'{slug}-candidate-{i:02d}.jpg'
+        shutil.copyfile(item['path'],ASSETS/filename)
+        review=reviews.get(i,{})
+        report.append({'image':'assets/'+filename,'time_seconds':round(start+item['index']*interval,1),
+                       'quality':item['quality'],'sharpness':item['sharpness'],
+                       'plot_relevance':review.get('relevance'),
+                       'spoiler_risk':review.get('spoiler'),
+                       'reason':review.get('reason') or 'Selected by visual quality, distinctiveness and scene spacing.',
+                       'selected':item['index'] in selected})
+    for i,item in enumerate(chosen,1):
+        shutil.copyfile(item['path'],ASSETS/f'{slug}-{i}.jpg')
+    review_dir=OUT/'control-room'/'reviews';review_dir.mkdir(parents=True,exist_ok=True)
+    (review_dir/f'{slug}.json').write_text(json.dumps({
+        'movie_id':slug,'selection_mode':'vision+plot' if reviews else 'visual-only',
+        'plot_available':bool(movie.get('plot_summary') or movie.get('synopsis')),
+        'candidates':report},ensure_ascii=False,indent=2)+'\n')
+    return [item['path'].name for item in chosen]
 
 def generate(movie):
     ASSETS.mkdir(parents=True,exist_ok=True)
@@ -156,11 +178,12 @@ def generate(movie):
         probe=json.loads(run(['ffprobe','-v','error','-show_entries','format=duration','-of','json',str(video)]).stdout)
         duration=float(probe['format']['duration'])
         if duration<=0:raise ValueError('Invalid video duration')
+        if is_monochrome(video):raise MonochromeMovie(f'{movie["title"]} is predominantly monochrome')
         start,end=detect_content_window(video,duration)
         print(f'Content window: {start:.1f}s–{end:.1f}s of {duration:.1f}s (excluded {start:.1f}s opening, {duration-end:.1f}s ending)')
         usable=end-start
         count=generate_barcode(video,movie['id'],usable,start)
-        frame_names=choose_frames(video,movie['id'],usable,temp,start)
+        frame_names=choose_frames(video,movie,usable,temp,start)
         return count,frame_names
 
 def main():
@@ -183,15 +206,22 @@ def main():
         count,frames=generate(source)
         print(f'Regenerated {count} barcode stripes and {len(frames)} reveal frames')
         return
-    movie=choose_movie(catalog,data['puzzles'],args.date)
-    if not movie:
-        print('No eligible movies remain. Add a rights-cleared video source to catalog.json.')
-        return
-    choices,answer=choose_choices(movie,pool)
-    print(f"Selected: {movie['title']} ({movie['year']}); answer slot {answer+1}")
-    if args.dry_run:
-        print('Choices:',', '.join(item['title'] for item in choices));return
-    count,frames=generate(movie)
+    while True:
+        movie=choose_movie(catalog,data['puzzles'],args.date)
+        if not movie:
+            print('No eligible color movies remain. Add a rights-cleared color video source to catalog.json.')
+            return
+        choices,answer=choose_choices(movie,pool)
+        print(f"Selected: {movie['title']} ({movie['year']}); answer slot {answer+1}")
+        if args.dry_run:
+            print('Choices:',', '.join(item['title'] for item in choices));return
+        try:
+            count,frames=generate(movie)
+            break
+        except MonochromeMovie as error:
+            print(f'Skipping unsuitable film: {error}')
+            movie['color_mode']='monochrome'
+            (ROOT/'catalog.json').write_text(json.dumps(catalog,ensure_ascii=False,indent=2)+'\n')
     record={key:value for key,value in movie.items() if key not in ('video_url','popularity','genres')}
     record['choices']=choices;record['answer']=answer
     data['puzzles'].append(record)

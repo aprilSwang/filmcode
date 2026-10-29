@@ -52,6 +52,30 @@ and puzzle assignments will shift.
 
 ## Production caveats
 
+## MKIA shot intelligence
+
+On each new movie, MKIA checks video colorfulness and skips predominantly
+monochrome sources. It extracts candidate frames from the color footage,
+ranks them for detail, exposure, composition and visual diversity, saves a
+15-frame shortlist in `dist/assets/`, and chooses five reveal images.
+
+The public, read-only Control Room (`dist/control-room/`) shows the shortlist
+and MKIA's selection notes. Older puzzles gain a shortlist when regenerated.
+
+Optional plot-aware vision scoring activates only when **both** of these exist:
+
+- `plot_summary` (or `synopsis`) on that movie's `catalog.json` entry.
+- A GitHub Actions secret named `OPENAI_API_KEY`.
+
+The daily and regeneration workflows must explicitly pass that secret through
+their environment for plot-aware scoring. If it is absent, MKIA always falls
+back to deterministic visual analysis. The vision model is configurable with
+`MKIA_VISION_MODEL` (default `gpt-4.1-mini`). API image-analysis usage may incur
+charges. Neither secret nor source footage is included in the website output.
+
+ShotDeck images are not downloaded or used; its collection is reference-only
+unless separately licensed for automated use.
+
 - Local storage is per device; no accounts or cross-device sync.
 - Answer data is in public JSON, so this is a casual game, not cheat-proof.
 - GitHub scheduled workflows can be delayed; the two-day seed gives a small buffer.

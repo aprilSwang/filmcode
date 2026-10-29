@@ -30,6 +30,8 @@ jobs:
       - name: MKIA selects and generates next film
         id: generation
         continue-on-error: true
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: python scripts/mkia.py
       - name: Check puzzle queue
         id: health
@@ -40,7 +42,7 @@ jobs:
         run: |
           git config user.name "chroma-daily-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add dist/puzzles.json dist/assets dist/control-room/data.json catalog.json choice_pool.json discovery_review.json
+          git add dist/puzzles.json dist/assets dist/control-room/data.json dist/control-room/reviews catalog.json choice_pool.json discovery_review.json
           if ! git diff --cached --quiet; then
             git commit -m "Generate next daily movie barcode"
             git push

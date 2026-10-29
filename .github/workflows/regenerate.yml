@@ -28,12 +28,14 @@ jobs:
       - name: Verify existing movie ID without downloading
         run: python scripts/mkia.py --regenerate "$MOVIE_ID" --dry-run
       - name: Regenerate barcode and reveal frames
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: python scripts/mkia.py --regenerate "$MOVIE_ID"
       - name: Commit regenerated assets
         run: |
           git config user.name 'MKIA bot'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add dist/assets
+          git add dist/assets dist/control-room/reviews
           if ! git diff --cached --quiet; then
             git commit -m "Regenerate Filmcode assets for $MOVIE_ID"
             git push
