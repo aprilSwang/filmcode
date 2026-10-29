@@ -1,0 +1,24 @@
+name: Filmcode — deploy website
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: chroma-pages
+  cancel-in-progress: false
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Export player-facing site
+        run: python scripts/export_public.py "$RUNNER_TEMP/filmcode-pages"
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: ${{ runner.temp }}/filmcode-pages
+      - uses: actions/deploy-pages@v4

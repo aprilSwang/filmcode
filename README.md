@@ -21,6 +21,21 @@ file-origin restrictions.
 
 ## Daily automation
 
+### Deployment separation
+
+The `Filmcode — deploy website` workflow publishes frontend changes on pushes.
+It does **not** run MKIA. The scheduled `MKIA — curate and publish daily movie`
+workflow creates one puzzle (if eligible footage remains) and deploys the
+result itself. The manual regeneration workflow only replaces the selected
+movie's generated assets. This avoids consuming movie sources on code pushes.
+
+All three workflows use `scripts/export_public.py` to omit `dist/control-room/`
+from the GitHub Pages artifact. The Control Room remains in the repository for
+development and review, but is not a private service: this is a public
+repository, and future answers in `dist/puzzles.json` remain publicly readable.
+Real spoiler protection and private approvals require a private repository or
+authenticated backend; do not treat the export as a security boundary.
+
 The included GitHub Actions workflow runs each day at **00:05 UTC**. MKIA first
 discovers openly licensed film sources from Wikimedia Commons using machine-readable
 license metadata. Unknown film identities and ambiguous rights are recorded in

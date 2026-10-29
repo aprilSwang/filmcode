@@ -3,8 +3,6 @@ on:
   schedule:
     - cron: '5 0 * * *'
   workflow_dispatch:
-  push:
-    branches: [main]
 permissions:
   contents: write
   pages: write
@@ -47,10 +45,12 @@ jobs:
             git commit -m "Generate next daily movie barcode"
             git push
           fi
+      - name: Export player-facing site
+        run: python scripts/export_public.py "$RUNNER_TEMP/filmcode-pages"
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: dist
+          path: ${{ runner.temp }}/filmcode-pages
       - uses: actions/deploy-pages@v4
       - name: Alert on failed generation or low puzzle supply
         if: always() && steps.health.outcome == 'success'

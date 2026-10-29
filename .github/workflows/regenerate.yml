@@ -40,8 +40,10 @@ jobs:
             git commit -m "Regenerate Filmcode assets for $MOVIE_ID"
             git push
           fi
+      - name: Export player-facing site
+        run: python scripts/export_public.py "$RUNNER_TEMP/filmcode-pages"
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: dist
+          path: ${{ runner.temp }}/filmcode-pages
       - uses: actions/deploy-pages@v4
