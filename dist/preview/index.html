@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#090a10">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Filmcode — Preview Challenge</title>
+  <meta name="description" content="Try a Filmcode movie color barcode challenge. No daily countdown or score tracking.">
+  <style>
+    :root{color-scheme:dark;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#090a10;color:#f8f5f1}
+    *{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(ellipse 70% 36% at 50% 0%,#252230 0%,#101017 55%,#090a10 100%)}
+    a{color:inherit;text-decoration:none}.top{height:78px;border-bottom:1px solid #ffffff16;display:flex;align-items:center;justify-content:space-between;padding:0 max(24px,calc((100vw - 1040px)/2))}
+    .logo{letter-spacing:.04em;font-size:19px;font-weight:850}.logo span{color:#efb65b}.top-label{font-size:11px;letter-spacing:.17em;color:#a9a4b2;font-weight:700}
+    main{width:min(760px,calc(100% - 36px));margin:68px auto 90px;text-align:center}.eyebrow{font-size:11px;letter-spacing:.25em;color:#f1b765;font-weight:750}
+    h1{font-size:clamp(35px,6vw,58px);line-height:1.07;margin:18px 0 14px;letter-spacing:-.052em}.lead{color:#b5afbc;font-size:15px;line-height:1.65;max-width:530px;margin:0 auto 34px}
+    .panel{border:1px solid #ffffff23;background:#14141c;border-radius:20px;padding:clamp(18px,4vw,34px);box-shadow:0 24px 70px #0006;text-align:left}
+    .section-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;gap:8px}.section-title strong{letter-spacing:.15em;font-size:11px;color:#c9c1ca}.pill{border:1px solid #a57d4855;background:#dba85a13;color:#eec288;font-size:10px;padding:6px 10px;border-radius:99px;white-space:nowrap}
+    .barcode{width:100%;height:245px;object-fit:fill;display:block;border-radius:8px;border:1px solid #ffffff16;background:#090a10;image-rendering:auto}
+    .timeline{display:flex;justify-content:space-between;color:#837f8c;font-size:10px;letter-spacing:.12em;margin-top:12px}.question{font-size:21px;font-weight:750;margin:34px 0 17px;letter-spacing:-.03em}
+    .options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.choice{appearance:none;cursor:pointer;text-align:left;border-radius:10px;background:#20202a;color:#f3f0ed;border:1px solid #ffffff22;padding:18px 17px;font-family:inherit;font-size:14px;font-weight:650;line-height:1.45;transition:border-color .2s,background .2s}.choice:hover:not(:disabled){background:#302b37;border-color:#e9b967}.choice:disabled{cursor:default}.choice.correct{background:#15382e;border-color:#5adbb4}.choice.incorrect{background:#3b2328;border-color:#e58a93}.letter{display:inline-grid;place-items:center;width:25px;height:25px;border:1px solid #ffffff32;border-radius:6px;margin-right:10px;color:#b9afbf;font-size:11px}
+    #result{margin-top:26px;padding:22px;border:1px solid #ffffff25;border-radius:12px;background:linear-gradient(130deg,#27202b,#1b2028);text-align:center}#result[hidden]{display:none}.result-label{color:#e5bb7f;font-weight:800;letter-spacing:.18em;font-size:11px;margin-bottom:8px}.film-title{font-size:29px;letter-spacing:-.04em;font-weight:850}.film-year{color:#bbb4be;margin-top:4px}.result-message{font-size:13px;color:#c7bfcb;line-height:1.5;margin:12px 0 0}
+    .again{margin-top:18px;border:1px solid #e2ae68;background:#e4b574;color:#151017;border-radius:9px;padding:12px 17px;font-weight:800;cursor:pointer}
+    .footer{text-align:center;color:#88818d;font-size:12px;line-height:1.7;margin-top:30px}.footer a{text-decoration:underline;text-underline-offset:3px}
+    @media(max-width:540px){.top{height:65px;padding:0 18px}.top-label{font-size:9px}.options{grid-template-columns:1fr}.barcode{height:185px}main{margin:48px auto 60px}.choice{padding:14px}}
+  </style>
+</head>
+<body>
+<header class="top"><a class="logo" href="/">FILM<span>CODE</span></a><span class="top-label">MOVIE COLOR GAME</span></header>
+<main>
+  <div class="eyebrow">MKIA PLAYTEST · NO DAILY TIMER</div>
+  <h1>Can you read the movie<br>in its colors?</h1>
+  <p class="lead">Each thin stripe represents a moment from the film, moving from its beginning to its end. Pick the movie that matches this color journey.</p>
+  <section class="panel" aria-label="Filmcode preview challenge">
+    <div class="section-title"><strong>THE COLOR CODE</strong><span class="pill">PREVIEW MODE</span></div>
+    <img class="barcode" src="../assets/preview/how-to-train-your-dragon-barcode.png" width="560" height="240" alt="A chronological movie color barcode with thin vertical stripes" loading="eager">
+    <div class="timeline"><span>OPENING</span><span>FILM TIMELINE</span><span>FINALE</span></div>
+    <div class="question" id="question">Which movie is this?</div>
+    <div class="options" id="choices">
+      <button class="choice" data-choice="0"><span class="letter">A</span>Avatar</button>
+      <button class="choice" data-choice="1"><span class="letter">B</span>Inception</button>
+      <button class="choice" data-choice="2"><span class="letter">C</span>How to Train Your Dragon</button>
+      <button class="choice" data-choice="3"><span class="letter">D</span>Spirited Away</button>
+    </div>
+    <div id="result" hidden role="status" aria-live="polite">
+      <div id="result-label" class="result-label"></div>
+      <div class="film-title">How to Train Your Dragon</div>
+      <div class="film-year">2010</div>
+      <p class="result-message">A story of dragons, flight and friendship—told through its changing palette.</p>
+      <button id="again" class="again">Try again</button>
+    </div>
+  </section>
+  <p class="footer">This is a single experimental challenge. No countdown, saved score or daily streak.<br><a href="/">Back to Filmcode</a> · <a href="/copyright.html">Copyright &amp; content reports</a></p>
+</main>
+<script>
+  (()=>{
+    const answer=2,choices=[...document.querySelectorAll('[data-choice]')],result=document.getElementById('result');
+    function reset(){result.hidden=true;choices.forEach(b=>{b.disabled=false;b.classList.remove('correct','incorrect')});document.getElementById('question').textContent='Which movie is this?'}
+    choices.forEach(button=>button.addEventListener('click',()=>{
+      const selected=Number(button.dataset.choice),correct=selected===answer;
+      choices.forEach(b=>{b.disabled=true;if(Number(b.dataset.choice)===answer)b.classList.add('correct');else if(b===button)b.classList.add('incorrect')});
+      document.getElementById('result-label').textContent=correct?'YOU GOT IT!':'THE MOVIE WAS…';
+      document.getElementById('question').textContent=correct?'Well played.':'Nice try!';
+      result.hidden=false;
+    }));
+    document.getElementById('again').addEventListener('click',reset);
+  })();
+</script>
+</body>
+</html>
