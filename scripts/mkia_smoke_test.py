@@ -106,12 +106,17 @@ def main():
                 Image.new('RGB', (80, 45), color).save(buffer, format='PNG')
                 archive.writestr(f'stills/frame_{i+1:04d}.png', buffer.getvalue())
         result = build_screencap_zip(screencaps, 'synthetic-test',
-                                    root/'zip-barcode.png', root/'zip-report.json')
+                                    root/'zip-barcode.png', root/'zip-report.json',
+                                    variants=True)
         assert result['stripe_count'] == 560
         assert result['source_frame_count'] == 120
         assert result['trimmed_opening_frames'] == 6
         assert result['trimmed_ending_frames'] == 6
         assert (root/'zip-barcode.png').exists()
+        assert (root/'zip-barcode-comparison.png').exists()
+        assert set(result['treatments']) == {'original', 'dominant', 'perceptual', 'enhanced'}
+        for name in result['treatments']:
+            assert (root/f'zip-barcode-{name}.png').exists()
         print(f"MKIA smoke test passed: {stripes} chronological stripes, "
               f"5 legacy frame selections, trimmed black head/tail ({start:.0f}s/{duration-end:.0f}s), "
               '30 timestamped stills and ordered screencap ZIP → 560 stripes')

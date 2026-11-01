@@ -27,3 +27,13 @@ python scripts/screencap_zip.py --zip /path/to/approved-screenshots.zip \
 ```
 
 This is a private curation tool, not a scheduled image downloader. Add a separately authorized poster and review results before scheduling a puzzle. The full ZIP should not be committed to GitHub.
+
+### Compare barcode color treatments
+
+Rerun the same approved ZIP with `--variants` to generate `*-original.png`, `*-dominant.png`, `*-perceptual.png`, `*-enhanced.png` and `*-comparison.png` in one pass. The original output path remains the unmodified average baseline. The review JSON contains per-method brightness, colorful fraction and bright fraction. Color treatments are preview experiments; review before using one in a public puzzle.
+
+```bash
+python3 scripts/screencap_zip.py --zip 'hidden-figures(2016).zip' \
+  --movie-id hidden-figures --output hidden-figures-barcode.png \
+  --report hidden-figures-review.json --variants
+```

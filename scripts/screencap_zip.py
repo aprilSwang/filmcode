@@ -10,6 +10,7 @@ Usage:
       --report /tmp/example-review.json
 """
 import argparse
+import colorsys
 import hashlib
 import io
 import json
@@ -18,7 +19,7 @@ import re
 import zipfile
 from pathlib import Path
 
-from PIL import Image, ImageDraw, ImageStat
+from PIL import Image, ImageDraw, ImageFont, ImageStat
 
 STRIPES = 560
 IMAGE_EXTENSIONS = {'.jpg', '.jpeg', '.png', '.webp'}
@@ -60,7 +61,47 @@ def candidates(archive):
     return folder, chosen
 
 
-def inspect_image(archive, member):
+def enhance(color, gamma=.72, saturation=1.3):
+    """Contrast-preserving, hue-preserving display treatment for dark films."""
+    r, g, b = [v/255 for v in color]
+    h, s, v = colorsys.rgb_to_hsv(r, g, b)
+    s = min(1, s*saturation)
+    v = min(1, v**gamma)
+    return tuple(round(c*255) for c in colorsys.hsv_to_rgb(h, s, v))
+
+
+def weighted_color(pixels):
+    channels = [0., 0., 0.]
+    total = 0.
+    for color in pixels:
+        h, s, v = colorsys.rgb_to_hsv(*(c/255 for c in color))
+        weight = (.15 + 2.4*s**1.7)*(.15 + v**.65)
+        for n in range(3):
+            channels[n] += color[n]*weight
+        total += weight
+    return tuple(round(c/total) for c in channels)
+
+
+def dominant_color(pixels):
+    """Find a meaningful hue cluster; ignore pure black and grey dominance."""
+    bins = {}
+    for color in pixels:
+        h, s, v = colorsys.rgb_to_hsv(*(c/255 for c in color))
+        if v < .10 or s < .10:
+            continue
+        bucket = min(11, int(h*12))
+        weight = s**1.2*(.25+v)
+        count, rgb = bins.setdefault(bucket, [0., [0., 0., 0.]])
+        bins[bucket][0] += weight
+        for n in range(3):
+            rgb[n] += color[n]*weight
+    if not bins:
+        return weighted_color(pixels)
+    count, rgb = max(bins.values(), key=lambda entry: entry[0])
+    return tuple(round(c/count) for c in rgb)
+
+
+def inspect_image(archive, member, variants=False):
     with archive.open(member) as file:
         content = file.read()
     with Image.open(io.BytesIO(content)) as raw:
@@ -68,16 +109,54 @@ def inspect_image(archive, member):
         # Exclude typical letterbox bars and frame-edge overlays.
         w, h = image.size
         image = image.crop((int(w*.02), int(h*.12), int(w*.98), int(h*.88)))
-        image.thumbnail((32, 18))
+        image.thumbnail((48, 27))
         mean = tuple(round(v) for v in ImageStat.Stat(image).mean)
         gray = image.convert('L')
         pixels = list(gray.getdata())
         near_black = sum(v < 32 for v in pixels)/len(pixels)
         dark = sum(pixels)/len(pixels) < 38 and near_black > .86
+        if variants:
+            pixels = list(image.getdata())
+            perceptual = enhance(weighted_color(pixels), gamma=.80, saturation=1.22)
+            dominant = enhance(dominant_color(pixels), gamma=.88, saturation=1.16)
+            enhanced = enhance(mean, gamma=.64, saturation=1.4)
+            return {'original': mean, 'dominant': dominant,
+                    'perceptual': perceptual, 'enhanced': enhanced}, dark
     return mean, dark
 
 
-def build(zip_path, movie_id, output, report=None):
+def render_barcode(colors, output):
+    out = Image.new('RGB', (STRIPES, 240))
+    draw = ImageDraw.Draw(out)
+    for x, color in enumerate(colors):
+        draw.line((x, 0, x, 239), fill=color)
+    output.parent.mkdir(parents=True, exist_ok=True)
+    out.save(output, optimize=True)
+
+
+def metrics(colors):
+    return {
+        'mean_rgb': [round(sum(c[i] for c in colors)/len(colors)) for i in range(3)],
+        'median_brightness': sorted(max(c) for c in colors)[len(colors)//2],
+        'colorful_fraction': round(sum(max(c)-min(c) >= 20 for c in colors)/len(colors), 3),
+        'bright_fraction': round(sum(max(c) >= 130 for c in colors)/len(colors), 3),
+    }
+
+
+def comparison_image(paths, destination):
+    order = ('original', 'dominant', 'perceptual', 'enhanced')
+    width, block_height = STRIPES, 280
+    sheet = Image.new('RGB', (width, block_height*4+32), '#101116')
+    draw = ImageDraw.Draw(sheet)
+    for i, name in enumerate(order):
+        y = i*block_height+18
+        draw.text((12, y-14), name.upper().replace('-', ' '), fill='white')
+        with Image.open(paths[name]) as frame:
+            sheet.paste(frame, (0, y+12))
+    sheet.save(destination, optimize=True)
+
+
+def build(zip_path, movie_id, output, report=None, variants=False):
     zip_path = Path(zip_path)
     if not re.fullmatch(r'[a-z0-9]+(?:-[a-z0-9]+)*', movie_id):
         raise ValueError('movie_id must be a lowercase hyphenated slug')
@@ -109,18 +188,26 @@ def build(zip_path, movie_id, output, report=None):
         colors = []
         for index in indices:
             if index not in cache:
-                cache[index] = inspect_image(archive, frames[index])[0]
+                cache[index] = inspect_image(archive, frames[index], variants=variants)[0]
             colors.append(cache[index])
-    fraction = sum(max(c)-min(c) >= 20 for c in colors)/len(colors)
+    original = [x['original'] for x in colors] if variants else colors
+    fraction = sum(max(c)-min(c) >= 20 for c in original)/len(original)
     if fraction < .15:
         raise ValueError('Images are predominantly monochrome; not suitable for Filmcode')
-    out = Image.new('RGB', (STRIPES, 240))
-    draw = ImageDraw.Draw(out)
-    for x, color in enumerate(colors):
-        draw.line((x, 0, x, 239), fill=color)
     output = Path(output)
-    output.parent.mkdir(parents=True, exist_ok=True)
-    out.save(output, optimize=True)
+    if variants:
+        outputs = {}
+        for name in ('original', 'dominant', 'perceptual', 'enhanced'):
+            path = output.with_name(output.stem+'-'+name+output.suffix)
+            render_barcode([entry[name] for entry in colors], path)
+            outputs[name] = path
+        # Preserve the user's existing output argument as the unmodified
+        # baseline, while the named files make comparisons explicit.
+        render_barcode(original, output)
+        comparison = output.with_name(output.stem+'-comparison.png')
+        comparison_image(outputs, comparison)
+    else:
+        render_barcode(colors, output)
     result = {
         'movie_id': movie_id, 'method': 'B',
         'sampling': 'ordered_screencap_zip_equal_weight',
@@ -136,6 +223,13 @@ def build(zip_path, movie_id, output, report=None):
         'last_filename': Path(frames[last].filename).name,
         'caution': 'Numbered screenshot order is assumed, not verified against film timecodes. Review sequence and usage rights before publishing.',
     }
+    if variants:
+        result['treatments'] = {
+            name: {'file': outputs[name].name,
+                   **metrics([entry[name] for entry in colors])}
+            for name in outputs
+        }
+        result['comparison_file'] = comparison.name
     if report:
         report = Path(report)
         report.parent.mkdir(parents=True, exist_ok=True)
@@ -149,5 +243,7 @@ if __name__ == '__main__':
     parser.add_argument('--movie-id', required=True)
     parser.add_argument('--output', required=True, type=Path)
     parser.add_argument('--report', type=Path)
+    parser.add_argument('--variants', action='store_true',
+                        help='Generate four color treatments and a comparison sheet')
     args = parser.parse_args()
-    print(json.dumps(build(args.zip, args.movie_id, args.output, args.report), indent=2))
+    print(json.dumps(build(args.zip, args.movie_id, args.output, args.report, args.variants), indent=2))
