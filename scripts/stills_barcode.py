@@ -16,6 +16,7 @@ from bisect import bisect_right
 from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageStat
+from screencap_zip import enhance, metrics, quality_assessment
 
 
 STRIPES = 560
@@ -76,6 +77,8 @@ def generate(manifest_path, output_path, report_path=None):
     colorful = sum(max(c)-min(c) >= 20 for c in images)
     if colorful / len(images) < .15:
         raise ValueError('Stills are predominantly monochrome or nearly grayscale')
+    original_colors = stripes
+    stripes = [enhance(c, gamma=.64, saturation=1.4) for c in original_colors]
     output_path = Path(output_path)
     output_path.parent.mkdir(parents=True, exist_ok=True)
     barcode = Image.new('RGB', (STRIPES, 240))
@@ -86,6 +89,9 @@ def generate(manifest_path, output_path, report_path=None):
     report = {'movie_id': manifest.get('movie_id'), 'method': 'B',
               'sampling': mode, 'source': manifest['source'],
               'shot_count': len(shots), 'stripe_count': STRIPES,
+              'primary_treatment': 'enhanced',
+              'quality': quality_assessment(metrics(stripes)),
+              'original_color_metrics': metrics(original_colors),
               'colorful_fraction': round(colorful/len(images), 3),
               'uncovered_edge_fraction': edge_coverage,
               'note': 'Chronological still-based approximation; not full-film video sampling.'}

@@ -28,10 +28,16 @@ This is a private curation tool, not a scheduled image downloader. Add a separat
 
 ### Compare barcode color treatments
 
-Rerun the same approved ZIP with `--variants` to generate `*-original.png`, `*-dominant.png`, `*-perceptual.png`, `*-enhanced.png` and `*-comparison.png` in one pass. The original output path remains the unmodified average baseline. The review JSON contains per-method brightness, colorful fraction and bright fraction. Color treatments are preview experiments; review before using one in a public puzzle.
+Rerun the same approved ZIP with `--variants` to generate `*-original.png`, `*-dominant.png`, `*-perceptual.png`, `*-enhanced.png` and `*-comparison.png` in one pass. The primary barcode output now uses the Enhanced treatment; the unmodified average is kept separately as `*-original.png`. The review JSON contains per-method brightness, colorful fraction and bright fraction. Color treatments are preview experiments; review before using one in a public puzzle.
 
 ```bash
 python3 scripts/screencap_zip.py --zip 'hidden-figures(2016).zip' --variants
 ```
 
-The ZIP filename automatically determines the movie name. Results are saved together under `generated/<movie-name>/` (for example, `generated/hidden-figures/hidden-figures-barcode-comparison.png`). The `--movie-id`, `--output` and `--report` arguments remain optional overrides. `generated/` and the local Python environment are Git-ignored.
+The ZIP filename automatically determines the movie name. Results are saved together under `generated/<movie-name-year>/` (for example, `generated/hidden-figures-2016/hidden-figures-2016-barcode-comparison.png`). The `--movie-id`, `--output` and `--report` arguments remain optional overrides. `generated/` and the local Python environment are Git-ignored.
+
+### MKIA quality gate
+
+Every generated barcode has a 0–100 visual quality score and explanatory flags (brightness, colorfulness, highlights and palette variation). The primary treatment is **Enhanced** for screencap ZIPs, full-film video and chronological stills. Scores below 75 or individual warning thresholds are marked `needs_review`; higher scores are only visual *candidates*. This does **not** verify source rights, chronological accuracy or how easily players can guess the answer. Original RGB samples are retained for full-film video, and comparison variants retain the original ZIP averages.
+
+Release years in ZIP filenames are preserved in the slug to distinguish remakes (e.g., `Dune (2021).zip` → `dune-2021`). Existing generated folders are not renamed automatically.

@@ -18,6 +18,7 @@ from pathlib import Path
 from PIL import Image, ImageDraw
 from shot_selector import features, shortlist, select_five, vision_review
 from stills_barcode import generate as generate_stills_barcode
+from screencap_zip import enhance, metrics, quality_assessment
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / 'dist'
@@ -129,9 +130,18 @@ def generate_barcode(video,slug,duration,start=0):
         sample=raw[offset:offset+stride]
         colors.append(tuple(sum(sample[channel::3])//(24*14) for channel in range(3)))
     if len(colors)<30:raise ValueError('Video yielded too few frames')
+    display_colors=[enhance(c,gamma=.64,saturation=1.4) for c in colors]
     image=Image.new('RGB',(len(colors),240));draw=ImageDraw.Draw(image)
-    for x,color in enumerate(colors):draw.line((x,0,x,239),fill=color)
+    for x,color in enumerate(display_colors):draw.line((x,0,x,239),fill=color)
     image.save(ASSETS/f'{slug}-barcode.png',optimize=True)
+    report_dir=OUT/'control-room'/'reviews'
+    report_dir.mkdir(parents=True,exist_ok=True)
+    (report_dir/f'{slug}-barcode.json').write_text(json.dumps({
+        'movie_id':slug,'method':'A','sampling':'full_video',
+        'primary_treatment':'enhanced','stripe_count':len(colors),
+        'original_colors_rgb':colors,
+        'quality':quality_assessment(metrics(display_colors)),
+    },indent=2)+'\n')
     return len(colors)
 
 def choose_frames(video,movie,duration,temp,start=0):

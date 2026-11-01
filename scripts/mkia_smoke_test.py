@@ -11,7 +11,7 @@ from pathlib import Path
 
 import mkia
 from stills_barcode import generate as generate_stills
-from screencap_zip import build as build_screencap_zip, movie_slug
+from screencap_zip import build as build_screencap_zip, movie_slug, quality_assessment
 
 
 def command(args):
@@ -57,6 +57,10 @@ def main():
             mkia.ASSETS.mkdir(parents=True)
             stripes = mkia.generate_barcode(source, "test", end - start, start)
             assert 550 <= stripes <= 565, stripes
+            report = json.loads((mkia.OUT/'control-room/reviews/test-barcode.json').read_text())
+            assert report['primary_treatment'] == 'enhanced'
+            assert len(report['original_colors_rgb']) == stripes
+            assert report['quality']['status'] in ('candidate', 'needs_review')
             from PIL import Image
             with Image.open(mkia.ASSETS / "test-barcode.png") as barcode:
                 assert barcode.size == (stripes, 240), barcode.size
@@ -93,6 +97,8 @@ def main():
         assert report['stripe_count'] == 560
         assert report['sampling'] == 'timestamped_stills'
         assert report['shot_count'] == 30
+        assert report['primary_treatment'] == 'enhanced'
+        assert 'score' in report['quality']
         assert (root/'stills-report.json').exists()
         # The ZIP importer must honor numbered ordering and exclude black
         # leaders/tails without extracting thousands of frames to disk.
@@ -113,13 +119,23 @@ def main():
         assert result['trimmed_opening_frames'] == 6
         assert result['trimmed_ending_frames'] == 6
         assert (root/'zip-barcode.png').exists()
-        assert movie_slug('Hidden Figures (2016).zip') == 'hidden-figures'
-        assert movie_slug('hidden-figures(2016).zip') == 'hidden-figures'
+        assert quality_assessment({'median_brightness':91,'colorful_fraction':.595,
+                                   'bright_fraction':.091,'palette_variation':21.42})['status'] == 'needs_review'
+        assert quality_assessment({'median_brightness':98,'colorful_fraction':.754,
+                                   'bright_fraction':.223,'palette_variation':35.25})['status'] == 'candidate'
+        assert movie_slug('Hidden Figures (2016).zip') == 'hidden-figures-2016'
+        assert movie_slug('hidden-figures(2016).zip') == 'hidden-figures-2016'
+        assert movie_slug('Dune (1984).zip') != movie_slug('Dune (2021).zip')
         assert movie_slug('Blade Runner 2049.zip') == 'blade-runner-2049'
         assert (root/'zip-barcode-comparison.png').exists()
         assert set(result['treatments']) == {'original', 'dominant', 'perceptual', 'enhanced'}
+        assert result['primary_treatment'] == 'enhanced'
+        assert 0 <= result['quality']['score'] <= 100
+        assert result['quality']['status'] in ('candidate', 'needs_review')
         for name in result['treatments']:
             assert (root/f'zip-barcode-{name}.png').exists()
+        with Image.open(root/'zip-barcode.png') as primary, Image.open(root/'zip-barcode-enhanced.png') as expected:
+            assert primary.tobytes() == expected.tobytes()
         import os
         previous = Path.cwd()
         try:

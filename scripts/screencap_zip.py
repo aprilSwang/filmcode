@@ -7,7 +7,7 @@ timeline. The report records that timestamp/coverage accuracy is *estimated*.
 Usage:
   python scripts/screencap_zip.py --zip '/path/to/Film Name (2016).zip' --variants
 
-By default results go to generated/film-name/film-name-barcode*.png,
+By default results go to generated/film-name-year/film-name-year-barcode*.png,
 with the review JSON alongside them. --movie-id, --output and --report
 are optional overrides for existing automation.
 """
@@ -21,7 +21,7 @@ import re
 import zipfile
 from pathlib import Path
 
-from PIL import Image, ImageDraw, ImageFont, ImageStat
+from PIL import Image, ImageDraw, ImageStat
 
 STRIPES = 560
 IMAGE_EXTENSIONS = {'.jpg', '.jpeg', '.png', '.webp'}
@@ -29,7 +29,9 @@ IMAGE_EXTENSIONS = {'.jpg', '.jpeg', '.png', '.webp'}
 
 def movie_slug(zip_path):
     name = Path(zip_path).stem
-    name = re.sub(r'\s*[\[(](?:19|20)\d{2}[\])](?=\s*$)', '', name)
+    # Preserve a trailing release year to avoid collisions between remakes,
+    # e.g. Dune (1984) and Dune (2021). A year in the title is left intact.
+    name = re.sub(r'\s*[\[(]((?:19|20)\d{2})[\])](?=\s*$)', r' \1', name)
     slug = re.sub(r'[^a-z0-9]+', '-', name.casefold()).strip('-')
     if not slug:
         raise ValueError('Cannot determine movie name from ZIP filename; use --movie-id')
@@ -146,11 +148,43 @@ def render_barcode(colors, output):
 
 
 def metrics(colors):
+    means = [sum(c[i] for c in colors)/len(colors) for i in range(3)]
     return {
-        'mean_rgb': [round(sum(c[i] for c in colors)/len(colors)) for i in range(3)],
+        'mean_rgb': [round(x) for x in means],
         'median_brightness': sorted(max(c) for c in colors)[len(colors)//2],
         'colorful_fraction': round(sum(max(c)-min(c) >= 20 for c in colors)/len(colors), 3),
         'bright_fraction': round(sum(max(c) >= 130 for c in colors)/len(colors), 3),
+        'palette_variation': round(sum(sum(abs(c[i]-means[i]) for i in range(3))/3
+                                       for c in colors)/len(colors), 2),
+    }
+
+
+def quality_assessment(stats):
+    """Review heuristic, not a prediction of whether people can guess a film."""
+    contributions = {
+        'brightness': min(1., stats['median_brightness']/110)*25,
+        'colorfulness': min(1., stats['colorful_fraction']/.65)*25,
+        'highlights': min(1., stats['bright_fraction']/.20)*25,
+        'palette_variation': min(1., stats['palette_variation']/40)*25,
+    }
+    score = round(sum(contributions.values()))
+    flags = []
+    if stats['median_brightness'] < 70:
+        flags.append('low_brightness')
+    if stats['colorful_fraction'] < .35:
+        flags.append('low_colorfulness')
+    if stats['bright_fraction'] < .12:
+        flags.append('few_highlights')
+    if stats['palette_variation'] < 20:
+        flags.append('limited_palette_variation')
+    if score < 75:
+        flags.append('low_quality_score')
+    return {
+        'score': score,
+        'status': 'needs_review' if flags else 'candidate',
+        'flags': flags,
+        'score_components': {k: round(v, 1) for k,v in contributions.items()},
+        'note': 'Heuristic for visual review only; never implies rights approval or player guessability.',
     }
 
 
@@ -208,6 +242,8 @@ def build(zip_path, movie_id=None, output=None, report=None, variants=False):
                 cache[index] = inspect_image(archive, frames[index], variants=variants)[0]
             colors.append(cache[index])
     original = [x['original'] for x in colors] if variants else colors
+    enhanced = ([x['enhanced'] for x in colors] if variants
+                else [enhance(c, gamma=.64, saturation=1.4) for c in original])
     fraction = sum(max(c)-min(c) >= 20 for c in original)/len(original)
     if fraction < .15:
         raise ValueError('Images are predominantly monochrome; not suitable for Filmcode')
@@ -218,13 +254,13 @@ def build(zip_path, movie_id=None, output=None, report=None, variants=False):
             path = output.with_name(output.stem+'-'+name+output.suffix)
             render_barcode([entry[name] for entry in colors], path)
             outputs[name] = path
-        # Preserve the user's existing output argument as the unmodified
-        # baseline, while the named files make comparisons explicit.
-        render_barcode(original, output)
+        # The primary barcode is now the Enhanced treatment. Original data
+        # is still available in the explicitly named -original asset.
+        render_barcode(enhanced, output)
         comparison = output.with_name(output.stem+'-comparison.png')
         comparison_image(outputs, comparison)
     else:
-        render_barcode(colors, output)
+        render_barcode(enhanced, output)
     result = {
         'movie_id': movie_id, 'method': 'B',
         'sampling': 'ordered_screencap_zip_equal_weight',
@@ -234,11 +270,13 @@ def build(zip_path, movie_id=None, output=None, report=None, variants=False):
         'trimmed_opening_frames': first,
         'trimmed_ending_frames': total-1-last,
         'stripe_count': STRIPES,
+        'primary_treatment': 'enhanced',
         'sampled_unique_frames': len(cache),
         'colorful_stripe_fraction': round(fraction, 3),
         'first_filename': Path(frames[first].filename).name,
         'last_filename': Path(frames[last].filename).name,
         'caution': 'Numbered screenshot order is assumed, not verified against film timecodes. Review sequence and usage rights before publishing.',
+        'quality': quality_assessment(metrics(enhanced)),
     }
     if variants:
         result['treatments'] = {
@@ -247,6 +285,9 @@ def build(zip_path, movie_id=None, output=None, report=None, variants=False):
             for name in outputs
         }
         result['comparison_file'] = comparison.name
+    else:
+        result['treatments'] = {'original': metrics(original),
+                                'enhanced': {'file': output.name, **metrics(enhanced)}}
     if report:
         report = Path(report)
         report.parent.mkdir(parents=True, exist_ok=True)
