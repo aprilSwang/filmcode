@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="theme-color" content="#090a10">
+  <title>Filmcode — MKIA Admin</title>
+  <style>
+    :root{color-scheme:dark;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;background:#090a10;color:#faf8f3}
+    *{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 50% 0%,#2c2237,#090a10 64%)}
+    .top{border-bottom:1px solid #ffffff19;height:74px;display:flex;align-items:center;justify-content:space-between;padding:0 max(24px,calc((100vw - 980px)/2));gap:12px}
+    a{color:inherit;text-decoration:none}.brand{font-size:20px;font-weight:850;letter-spacing:.04em}.brand span{color:#efb660}.tag{font-size:11px;letter-spacing:.15em;color:#a9a3b5}
+    main{max-width:720px;margin:76px auto;padding:0 22px 80px}.eyebrow{font-size:11px;letter-spacing:.24em;color:#efbc7a;font-weight:800}h1{font-size:clamp(38px,6vw,61px);letter-spacing:-.055em;line-height:1.08;margin:16px 0}.intro{color:#bab2c0;line-height:1.7;font-size:16px;margin:0 0 32px}
+    .panel{background:#17151f;border:1px solid #ffffff24;border-radius:20px;padding:28px;box-shadow:0 22px 60px #0007}.lock{font-size:14px;color:#e6b979;font-weight:700;margin-bottom:12px}.panel h2{font-size:23px;letter-spacing:-.025em;margin:0 0 10px}.panel p{color:#b8b2bd;font-size:14px;line-height:1.7;margin:0 0 23px}.primary,.secondary{display:inline-flex;justify-content:center;align-items:center;min-height:50px;border-radius:11px;font-weight:800;font-size:14px;padding:14px 19px;gap:8px}.primary{background:#efbd75;color:#151118}.primary:hover{background:#ffd294}.secondary{background:#2a2631;border:1px solid #ffffff2c;color:#eee6ef}.secondary:hover{border-color:#e9b875}
+    .actions{display:flex;flex-wrap:wrap;gap:12px}.note{margin-top:22px;padding-top:20px;border-top:1px solid #ffffff1b;font-size:12px;line-height:1.65;color:#8f8999}.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:13px;margin-top:26px}.step{border:1px solid #ffffff1c;background:#16131b;border-radius:13px;padding:18px}.step b{color:#f1c184;font-size:12px}.step strong{display:block;margin:10px 0 6px}.step p{font-size:12px;color:#a8a0af;line-height:1.55;margin:0}
+    footer{margin-top:28px;text-align:center;color:#898493;font-size:12px}footer a{text-decoration:underline;text-underline-offset:3px}
+    @media(max-width:620px){.steps{grid-template-columns:1fr}.panel{padding:22px}.top{height:64px}.tag{font-size:9px}main{margin:54px auto}}
+  </style>
+</head>
+<body>
+  <header class="top"><a class="brand" href="/">FILM<span>CODE</span></a><span class="tag">MKIA PRIVATE CONTROL</span></header>
+  <main>
+    <div class="eyebrow">MOVIE KNOW-IT-ALL</div>
+    <h1>Control Room</h1>
+    <p class="intro">Review movie barcodes, select color treatments, and refine the four guessing choices before a film enters Filmcode.</p>
+    <section class="panel">
+      <div class="lock">🔒 Authenticated through GitHub</div>
+      <h2>Continue to private MKIA</h2>
+      <p>Filmcode uses GitHub's existing account login and private-repository permissions for admin actions. No GitHub password or access token is collected on this page.</p>
+      <div class="actions">
+        <a class="primary" href="https://github.com/aprilSwang/filmcode-admin/actions/workflows/edit-candidate.yml">Sign in to edit a review ↗</a>
+        <a class="secondary" href="https://github.com/aprilSwang/filmcode-admin/blob/main/CONTROL_ROOM.md">View private Control Room ↗</a>
+      </div>
+      <div class="note">This landing page is publicly accessible. The candidate list and edit controls are hosted in the private GitHub repository; GitHub verifies your permission before showing them. Changes here do not publish a daily challenge.</div>
+    </section>
+    <div class="steps">
+      <div class="step"><b>01</b><strong>Review</strong><p>Open the private Control Room and inspect a movie's barcode and quality report.</p></div>
+      <div class="step"><b>02</b><strong>Edit</strong><p>Choose a barcode version, update four movie titles, or mark it for another review.</p></div>
+      <div class="step"><b>03</b><strong>Save</strong><p>Run the authenticated GitHub workflow. The private review updates automatically.</p></div>
+    </div>
+    <footer><a href="/">Back to Filmcode</a> · No public puzzle data is changed here.</footer>
+  </main>
+</body>
+</html>
