@@ -11,7 +11,7 @@ from pathlib import Path
 
 import mkia
 from stills_barcode import generate as generate_stills
-from screencap_zip import build as build_screencap_zip
+from screencap_zip import build as build_screencap_zip, movie_slug
 
 
 def command(args):
@@ -113,10 +113,23 @@ def main():
         assert result['trimmed_opening_frames'] == 6
         assert result['trimmed_ending_frames'] == 6
         assert (root/'zip-barcode.png').exists()
+        assert movie_slug('Hidden Figures (2016).zip') == 'hidden-figures'
+        assert movie_slug('hidden-figures(2016).zip') == 'hidden-figures'
+        assert movie_slug('Blade Runner 2049.zip') == 'blade-runner-2049'
         assert (root/'zip-barcode-comparison.png').exists()
         assert set(result['treatments']) == {'original', 'dominant', 'perceptual', 'enhanced'}
         for name in result['treatments']:
             assert (root/f'zip-barcode-{name}.png').exists()
+        import os
+        previous = Path.cwd()
+        try:
+            os.chdir(root)
+            default = build_screencap_zip(screencaps, variants=True)
+            assert default['movie_id'] == 'synthetic-screencaps'
+            assert (root/'generated/synthetic-screencaps/synthetic-screencaps-barcode-comparison.png').exists()
+            assert (root/'generated/synthetic-screencaps/synthetic-screencaps-review.json').exists()
+        finally:
+            os.chdir(previous)
         print(f"MKIA smoke test passed: {stripes} chronological stripes, "
               f"5 legacy frame selections, trimmed black head/tail ({start:.0f}s/{duration-end:.0f}s), "
               '30 timestamped stills and ordered screencap ZIP → 560 stripes')

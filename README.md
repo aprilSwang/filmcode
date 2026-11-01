@@ -21,9 +21,7 @@ Use only an archive you are authorized to process. The importer does not fetch w
 
 ```bash
 python -m pip install Pillow
-python scripts/screencap_zip.py --zip /path/to/approved-screenshots.zip \
-  --movie-id test-movie --output /tmp/test-movie-barcode.png \
-  --report /tmp/test-movie-review.json
+python3 scripts/screencap_zip.py --zip '/path/to/Film Name (2016).zip' --variants
 ```
 
 This is a private curation tool, not a scheduled image downloader. Add a separately authorized poster and review results before scheduling a puzzle. The full ZIP should not be committed to GitHub.
@@ -33,7 +31,7 @@ This is a private curation tool, not a scheduled image downloader. Add a separat
 Rerun the same approved ZIP with `--variants` to generate `*-original.png`, `*-dominant.png`, `*-perceptual.png`, `*-enhanced.png` and `*-comparison.png` in one pass. The original output path remains the unmodified average baseline. The review JSON contains per-method brightness, colorful fraction and bright fraction. Color treatments are preview experiments; review before using one in a public puzzle.
 
 ```bash
-python3 scripts/screencap_zip.py --zip 'hidden-figures(2016).zip' \
-  --movie-id hidden-figures --output hidden-figures-barcode.png \
-  --report hidden-figures-review.json --variants
+python3 scripts/screencap_zip.py --zip 'hidden-figures(2016).zip' --variants
 ```
+
+The ZIP filename automatically determines the movie name. Results are saved together under `generated/<movie-name>/` (for example, `generated/hidden-figures/hidden-figures-barcode-comparison.png`). The `--movie-id`, `--output` and `--report` arguments remain optional overrides. `generated/` and the local Python environment are Git-ignored.

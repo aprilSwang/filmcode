@@ -5,9 +5,11 @@ filenames are natural-sorted; numbered names are required for an ordered
 timeline. The report records that timestamp/coverage accuracy is *estimated*.
 
 Usage:
-  python scripts/screencap_zip.py --zip /path/to/approved.zip \
-      --movie-id example --output /tmp/example-barcode.png \
-      --report /tmp/example-review.json
+  python scripts/screencap_zip.py --zip '/path/to/Film Name (2016).zip' --variants
+
+By default results go to generated/film-name/film-name-barcode*.png,
+with the review JSON alongside them. --movie-id, --output and --report
+are optional overrides for existing automation.
 """
 import argparse
 import colorsys
@@ -23,6 +25,15 @@ from PIL import Image, ImageDraw, ImageFont, ImageStat
 
 STRIPES = 560
 IMAGE_EXTENSIONS = {'.jpg', '.jpeg', '.png', '.webp'}
+
+
+def movie_slug(zip_path):
+    name = Path(zip_path).stem
+    name = re.sub(r'\s*[\[(](?:19|20)\d{2}[\])](?=\s*$)', '', name)
+    slug = re.sub(r'[^a-z0-9]+', '-', name.casefold()).strip('-')
+    if not slug:
+        raise ValueError('Cannot determine movie name from ZIP filename; use --movie-id')
+    return slug
 
 
 def natural_key(name):
@@ -156,10 +167,16 @@ def comparison_image(paths, destination):
     sheet.save(destination, optimize=True)
 
 
-def build(zip_path, movie_id, output, report=None, variants=False):
+def build(zip_path, movie_id=None, output=None, report=None, variants=False):
     zip_path = Path(zip_path)
+    movie_id = movie_id or movie_slug(zip_path)
     if not re.fullmatch(r'[a-z0-9]+(?:-[a-z0-9]+)*', movie_id):
         raise ValueError('movie_id must be a lowercase hyphenated slug')
+    if output is None:
+        destination = Path('generated') / movie_id
+        output = destination / f'{movie_id}-barcode.png'
+        if report is None:
+            report = destination / f'{movie_id}-review.json'
     digest = hashlib.sha256()
     with zip_path.open('rb') as input_file:
         for block in iter(lambda: input_file.read(1024*1024), b''):
@@ -240,8 +257,8 @@ def build(zip_path, movie_id, output, report=None, variants=False):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--zip', required=True, type=Path)
-    parser.add_argument('--movie-id', required=True)
-    parser.add_argument('--output', required=True, type=Path)
+    parser.add_argument('--movie-id', help='Optional override; normally inferred from ZIP filename')
+    parser.add_argument('--output', type=Path, help='Optional output path; defaults to generated/<movie-name>/')
     parser.add_argument('--report', type=Path)
     parser.add_argument('--variants', action='store_true',
                         help='Generate four color treatments and a comparison sheet')
