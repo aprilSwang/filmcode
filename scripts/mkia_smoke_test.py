@@ -11,6 +11,7 @@ from pathlib import Path
 
 import mkia
 from stills_barcode import generate as generate_stills
+from screencap_zip import build as build_screencap_zip
 
 
 def command(args):
@@ -93,9 +94,27 @@ def main():
         assert report['sampling'] == 'timestamped_stills'
         assert report['shot_count'] == 30
         assert (root/'stills-report.json').exists()
+        # The ZIP importer must honor numbered ordering and exclude black
+        # leaders/tails without extracting thousands of frames to disk.
+        import io
+        import zipfile
+        screencaps = root/'synthetic-screencaps.zip'
+        with zipfile.ZipFile(screencaps, 'w', compression=zipfile.ZIP_DEFLATED) as archive:
+            for i in range(120):
+                color = '#050505' if i < 6 or i >= 114 else colors[min(4, (i-6)//22)]
+                buffer = io.BytesIO()
+                Image.new('RGB', (80, 45), color).save(buffer, format='PNG')
+                archive.writestr(f'stills/frame_{i+1:04d}.png', buffer.getvalue())
+        result = build_screencap_zip(screencaps, 'synthetic-test',
+                                    root/'zip-barcode.png', root/'zip-report.json')
+        assert result['stripe_count'] == 560
+        assert result['source_frame_count'] == 120
+        assert result['trimmed_opening_frames'] == 6
+        assert result['trimmed_ending_frames'] == 6
+        assert (root/'zip-barcode.png').exists()
         print(f"MKIA smoke test passed: {stripes} chronological stripes, "
               f"5 legacy frame selections, trimmed black head/tail ({start:.0f}s/{duration-end:.0f}s), "
-              'and 30 timestamped stills → 560 stripes')
+              '30 timestamped stills and ordered screencap ZIP → 560 stripes')
 
 
 if __name__ == "__main__":

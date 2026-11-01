@@ -14,3 +14,16 @@ Site: https://aprilswang.github.io/filmcode/
 ## Rights
 
 Famous-film research metadata does not grant permission to download or republish underlying movie footage. New sources will be checked individually before entering the playable queue. See [copyright and content reports](https://aprilswang.github.io/filmcode/copyright.html).
+
+## Offline screencap ZIP pilot
+
+Use only an archive you are authorized to process. The importer does not fetch websites, scrape galleries, publish screencaps, or upload the ZIP. It processes numbered local image filenames, removes sustained near-black edges, and emits a Method B barcode plus a source/quality report. Filename order is **assumed**, so verify the actual movie sequence manually.
+
+```bash
+python -m pip install Pillow
+python scripts/screencap_zip.py --zip /path/to/approved-screenshots.zip \
+  --movie-id test-movie --output /tmp/test-movie-barcode.png \
+  --report /tmp/test-movie-review.json
+```
+
+This is a private curation tool, not a scheduled image downloader. Add a separately authorized poster and review results before scheduling a puzzle. The full ZIP should not be committed to GitHub.
