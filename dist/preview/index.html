@@ -52,12 +52,18 @@
   </section>
   <p class="footer">This is a single experimental challenge. No countdown, saved score or daily streak.<br><a href="/">Back to Filmcode</a> · <a href="/copyright.html">Copyright &amp; content reports</a></p>
 </main>
+<script src="../analytics-config.js"></script>
+<script src="../telemetry.js"></script>
 <script>
   (()=>{
     const answer=2,choices=[...document.querySelectorAll('[data-choice]')],result=document.getElementById('result');
-    function reset(){result.hidden=true;choices.forEach(b=>{b.disabled=false;b.classList.remove('correct','incorrect')});document.getElementById('question').textContent='Which movie is this?'}
+    let started=false;
+    function reset(){started=false;result.hidden=true;choices.forEach(b=>{b.disabled=false;b.classList.remove('correct','incorrect')});document.getElementById('question').textContent='Which movie is this?'}
     choices.forEach(button=>button.addEventListener('click',()=>{
       const selected=Number(button.dataset.choice),correct=selected===answer;
+      if(!started){window.filmcodeTrack?.('challenge_started',{mode:'preview',puzzle:'how-to-train-your-dragon'});started=true;}
+      window.filmcodeTrack?.('guess_submitted',{mode:'preview',puzzle:'how-to-train-your-dragon',choice:selected,correct});
+      window.filmcodeTrack?.('challenge_completed',{mode:'preview',puzzle:'how-to-train-your-dragon',correct});
       choices.forEach(b=>{b.disabled=true;if(Number(b.dataset.choice)===answer)b.classList.add('correct');else if(b===button)b.classList.add('incorrect')});
       document.getElementById('result-label').textContent=correct?'YOU GOT IT!':'THE MOVIE WAS…';
       document.getElementById('question').textContent=correct?'Well played.':'Nice try!';
