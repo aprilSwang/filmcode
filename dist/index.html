@@ -62,19 +62,38 @@ footer{text-align:center;margin-top:28px;font-size:12px;color:#9992a2}footer a{t
     document.getElementById('puzzle-number').textContent='FILMCODE PILOT · ONE MOVIE';
     document.getElementById('barcode').src='assets/'+encodeURIComponent(puzzle.id)+'-barcode.png';
   }catch(error){fail(error.message);return;}
-  function reveal(guess){
+  const revealLines = {
+    correct: [
+      ['Nailed it!', 'You spotted the film hiding in those colors. Nicely done.'],
+      ['That\'s the one!', 'You\'ve got a good eye for a movie palette.'],
+      ['You got it!', 'Turns out you really know your movie colors.'],
+      ['Spot on!', 'You read that color story beautifully.'],
+      ['Well played!', 'That was a sharp guess. Thanks for playing Filmcode.']
+    ],
+    incorrect: [
+      ['Not quite!', 'A fair guess. This palette had a few tricks up its sleeve.'],
+      ['Ah, tricky one!', 'These colors can be surprisingly hard to place.'],
+      ['Good try!', 'This one was harder to read than it looked.'],
+      ['Not this time.', 'The colors led you somewhere else. Happens to the best of us.'],
+      ['That was sneaky!', 'Thanks for giving it a shot. There\'s more to a movie than its palette.']
+    ]
+  };
+  function reveal(guess, lineIndex){
     const correct=guess===puzzle.answer;
+    const lines=correct?revealLines.correct:revealLines.incorrect;
+    const line=lines[Number.isInteger(lineIndex)&&lineIndex>=0&&lineIndex<lines.length
+      ? lineIndex : Math.floor(Math.random()*lines.length)];
     question.hidden=true;result.hidden=false;
-    document.getElementById('outcome').textContent=correct?'YOU READ THE COLORS!':'THE REVEAL';
+    document.getElementById('outcome').textContent=line[0];
     document.getElementById('movie-title').textContent=puzzle.title;
     document.getElementById('movie-year').textContent=String(puzzle.year);
     document.getElementById('poster').src='assets/'+encodeURIComponent(puzzle.id)+'-poster.jpg';
     document.getElementById('poster').alt='Poster for '+puzzle.title;
-    document.getElementById('result-message').textContent=correct?'Well played! Thanks for testing Filmcode.':'Thanks for testing Filmcode!';
+    document.getElementById('result-message').textContent=line[1];
   }
   try{
     const saved=JSON.parse(localStorage.getItem(key)||'null');
-    if(saved&&saved.id===puzzle.id&&Number.isInteger(saved.guess)){reveal(saved.guess);return}
+    if(saved&&saved.id===puzzle.id&&Number.isInteger(saved.guess)){reveal(saved.guess,saved.lineIndex);return}
   }catch{}
   const box=document.getElementById('choices');
   puzzle.choices.forEach((choice,i)=>{
@@ -85,8 +104,9 @@ footer{text-align:center;margin-top:28px;font-size:12px;color:#9992a2}footer a{t
       window.filmcodeTrack?.('challenge_started',{mode:'pilot',puzzle:puzzle.id});
       window.filmcodeTrack?.('guess_submitted',{mode:'pilot',puzzle:puzzle.id,choice:i,correct:i===puzzle.answer});
       window.filmcodeTrack?.('challenge_completed',{mode:'pilot',puzzle:puzzle.id,correct:i===puzzle.answer});
-      try{localStorage.setItem(key,JSON.stringify({id:puzzle.id,guess:i}))}catch{}
-      reveal(i);
+      const lineIndex=Math.floor(Math.random()*revealLines[i===puzzle.answer?'correct':'incorrect'].length);
+      try{localStorage.setItem(key,JSON.stringify({id:puzzle.id,guess:i,lineIndex}))}catch{}
+      reveal(i,lineIndex);
     });
   });
 })();
