@@ -1,6 +1,33 @@
 {
-  "launch_date": "2026-10-29",
+  "launch_date": "2026-11-10",
   "time_zone": "UTC",
-  "status": "paused_for_catalog_rebuild",
-  "puzzles": []
+  "daily_date": "2026-11-10",
+  "puzzle_number": 1,
+  "puzzles": [
+    {
+      "id": "dune",
+      "title": "Dune",
+      "year": 2021,
+      "choices": [
+        {
+          "title": "Soul",
+          "year": 2020
+        },
+        {
+          "title": "Oppenheimer"
+        },
+        {
+          "title": "Dune",
+          "year": 2021
+        },
+        {
+          "title": "Everything Everywhere All at Once",
+          "year": 2022
+        }
+      ],
+      "answer": 2,
+      "genre": "science fiction film, action film, adventure film, speculative fiction film"
+    }
+  ],
+  "mode": "pilot"
 }
