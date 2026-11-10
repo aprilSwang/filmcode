@@ -10,11 +10,11 @@
 *{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 50% 0%,#25202c 0%,#090a10 65%);min-height:100vh}
 a{color:inherit}.top{border-bottom:1px solid #ffffff18;padding:22px max(22px,calc((100vw - 920px)/2));font-weight:850;letter-spacing:.06em}
 .top span,.accent{color:#efb96f}
-main{max-width:800px;margin:58px auto 90px;padding:0 20px}
+main{max-width:920px;margin:48px auto 90px;padding:0 20px}
 .overline{font-size:11px;letter-spacing:.2em;font-weight:800;color:#efb96f}h1{font-size:clamp(36px,7vw,62px);line-height:1.05;letter-spacing:-.05em;margin:18px 0}
 .lead,.muted{color:#bab2bf;line-height:1.6}
 .panel{margin-top:35px;padding:clamp(20px,4vw,34px);background:#16151d;border:1px solid #ffffff24;border-radius:18px}
-.barcode{width:100%;height:240px;object-fit:fill;border-radius:8px;border:1px solid #ffffff19;background:#0b0b10}
+.barcode{display:block;width:100%;height:clamp(260px,36vw,330px);object-fit:fill;border-radius:10px;border:1px solid #efb96f50;background:#0b0b10;box-shadow:0 0 0 1px #ffffff0a,0 22px 70px #0008}
 .timeline{display:flex;justify-content:space-between;font-size:10px;color:#9992a2;letter-spacing:.13em;margin-top:12px}
 h2{margin:33px 0 15px;font-size:23px}.choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 .choice{border-radius:10px;border:1px solid #ffffff29;background:#22212c;color:#fff;text-align:left;padding:17px;cursor:pointer;font:650 14px inherit;font-family:inherit}
@@ -23,7 +23,7 @@ h2{margin:33px 0 15px;font-size:23px}.choices{display:grid;grid-template-columns
 .result{margin-top:26px;padding:22px;background:#29232b;border-radius:12px;text-align:center}.result[hidden]{display:none}
 .poster{display:block;max-width:220px;max-height:320px;margin:20px auto;border-radius:8px}
 footer{text-align:center;margin-top:28px;font-size:12px;color:#9992a2}footer a{text-underline-offset:3px}
-@media(max-width:560px){main{margin:40px auto}.choices{grid-template-columns:1fr}.barcode{height:190px}}
+@media(max-width:560px){main{margin:34px auto}.choices{grid-template-columns:1fr}.barcode{height:230px}}
 </style>
 <script src="analytics-config.js"></script><script src="telemetry.js"></script>
 </head>
