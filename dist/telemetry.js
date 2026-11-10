@@ -16,7 +16,7 @@
     if (!allowed.has(name)) return;
     const clean = { event: name };
     if (typeof data.puzzle === 'string' && /^[a-z0-9-]{1,60}$/.test(data.puzzle)) clean.puzzle = data.puzzle;
-    if (['daily', 'preview'].includes(data.mode)) clean.mode = data.mode;
+    if (['daily', 'preview', 'pilot'].includes(data.mode)) clean.mode = data.mode;
     if (Number.isInteger(data.choice) && data.choice >= 0 && data.choice <= 3) clean.choice = data.choice;
     if (typeof data.correct === 'boolean') clean.correct = data.correct;
     try {
