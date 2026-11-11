@@ -2,9 +2,10 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#090a10">
+<meta name="theme-color" content="#f5f1e9" id="theme-color">
 <title>Filmcode — Guess the Movie in Color</title>
 <meta name="description" content="Can you recognize a movie from its chronological color barcode? One film, four choices.">
+<script>try{document.documentElement.dataset.theme=localStorage.getItem("filmcode-theme")==="dark"?"dark":"light"}catch{document.documentElement.dataset.theme="light"}</script>
 <style>
 :root{color-scheme:dark;font-family:Inter,ui-sans-serif,system-ui,-apple-system,sans-serif;background:#090a10;color:#f6f2eb}
 *{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 50% 0%,#25202c 0%,#090a10 65%);min-height:100vh}
@@ -24,11 +25,33 @@ h2{margin:33px 0 15px;font-size:23px}.choices{display:grid;grid-template-columns
 .poster{display:block;max-width:220px;max-height:320px;margin:20px auto;border-radius:8px}
 footer{text-align:center;margin-top:28px;font-size:12px;color:#9992a2}footer a{text-underline-offset:3px}
 @media(max-width:560px){main{margin:34px auto}.choices{grid-template-columns:1fr}.barcode{height:230px}}
+
+/* Filmcode appearance: warm gallery light mode and original cinematic dark mode. */
+:root{color-scheme:light;--page:#f5f1e9;--glow:#ece2d5;--ink:#24252a;--muted:#665e5a;--accent:#b65b42;--line:#cfc4b6;--panel:#ebe3d8;--choice:#fbf8f2;--choice-hover:#f2e5d7;--result:#e4d8cb;--timeline:#7a7068;--shadow:#40302722;--correct-bg:#d8ede0;--correct-line:#3b8464;--wrong-bg:#f4dadd;--wrong-line:#b6505e}
+:root[data-theme="dark"]{color-scheme:dark;--page:#090a10;--glow:#25202c;--ink:#f6f2eb;--muted:#bab2bf;--accent:#efb96f;--line:#ffffff24;--panel:#16151d;--choice:#22212c;--choice-hover:#302938;--result:#29232b;--timeline:#9992a2;--shadow:#0008;--correct-bg:#16372b;--correct-line:#5bd1a8;--wrong-bg:#39232b;--wrong-line:#ee8d94}
+html,body{background:var(--page);color:var(--ink)}
+body{background:radial-gradient(ellipse at 50% 0%,var(--glow) 0%,var(--page) 65%)}
+.top{display:flex;align-items:center;justify-content:space-between;gap:18px;border-color:var(--line)}
+.top span,.accent,.overline,.letter{color:var(--accent)}
+.lead,.muted{color:var(--muted)}
+.panel{background:var(--panel);border-color:var(--line)}
+.barcode{border-color:var(--line);box-shadow:0 0 0 1px var(--line),0 22px 60px var(--shadow)}
+.timeline,footer{color:var(--timeline)}
+.choice{border-color:var(--line);background:var(--choice);color:var(--ink)}
+.choice:hover:not(:disabled){border-color:var(--accent);background:var(--choice-hover)}
+.choice.correct{border-color:var(--correct-line);background:var(--correct-bg)}
+.choice.wrong{border-color:var(--wrong-line);background:var(--wrong-bg)}
+.result{background:var(--result)}
+.theme-switch{display:inline-flex;align-items:center;gap:9px;border:1px solid var(--line);background:var(--choice);color:var(--ink);border-radius:999px;padding:10px 15px;font:750 12px/1 Inter,ui-sans-serif,system-ui,sans-serif;cursor:pointer;letter-spacing:.02em}
+.theme-switch:hover{border-color:var(--accent);background:var(--choice-hover)}
+.theme-switch:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.theme-icon{font-size:16px;line-height:1}
+@media(max-width:560px){.theme-switch{padding:9px 11px}.top{gap:10px}}
 </style>
 <script src="analytics-config.js"></script><script src="telemetry.js"></script>
 </head>
 <body>
-<header class="top"><a href="/" style="text-decoration:none">FILM<span>CODE</span></a></header>
+<header class="top"><a href="/" style="text-decoration:none">FILM<span>CODE</span></a><button id="theme-switch" class="theme-switch" type="button" aria-label="Switch to dark theme" aria-pressed="false"><span id="theme-icon" class="theme-icon" aria-hidden="true">☾</span><span id="theme-label">Dark mode</span></button></header>
 <main>
 <div class="overline" id="puzzle-number">ONE MOVIE · FILMCODE PILOT</div>
 <h1>A movie. <span class="accent">Told in color.</span></h1>
@@ -45,6 +68,29 @@ footer{text-align:center;margin-top:28px;font-size:12px;color:#9992a2}footer a{t
 </section>
 <footer><a href="/copyright.html">Copyright &amp; content reports</a></footer>
 </main>
+<script>
+(function(){
+  const toggle=document.getElementById('theme-switch');
+  const label=document.getElementById('theme-label');
+  const icon=document.getElementById('theme-icon');
+  const meta=document.getElementById('theme-color');
+  function sync(){
+    const dark=document.documentElement.dataset.theme==='dark';
+    label.textContent=dark?'Light mode':'Dark mode';
+    icon.textContent=dark?'☀':'☾';
+    toggle.setAttribute('aria-label',dark?'Switch to light theme':'Switch to dark theme');
+    toggle.setAttribute('aria-pressed',dark?'true':'false');
+    meta.setAttribute('content',dark?'#090a10':'#f5f1e9');
+  }
+  toggle.addEventListener('click',function(){
+    const next=document.documentElement.dataset.theme==='dark'?'light':'dark';
+    document.documentElement.dataset.theme=next;
+    try{localStorage.setItem('filmcode-theme',next)}catch{}
+    sync();
+  });
+  sync();
+})();
+</script>
 <script>
 (async()=>{
   let key='filmcode-pilot-progress';
