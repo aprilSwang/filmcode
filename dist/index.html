@@ -297,7 +297,29 @@ body{background:radial-gradient(ellipse at 50% 0%,var(--glow) 0%,var(--page) 65%
     // Only scroll for a newly submitted guess, after the result has been laid out.
     if(animate)requestAnimationFrame(()=>{
       document.getElementById('outcome').focus({preventScroll:true});
-      result.scrollIntoView({behavior:reduceMotion()?'auto':'smooth',block:'start',inline:'nearest'});
+      if(reduceMotion()){
+        result.scrollIntoView({behavior:'instant',block:'start',inline:'nearest'});
+        return;
+      }
+      const start=window.scrollY;
+      const target=()=>Math.max(0,Math.min(window.scrollY+result.getBoundingClientRect().top-20,document.documentElement.scrollHeight-window.innerHeight));
+      // Browser-native smooth scrolling has no configurable duration.
+      const duration=1300;
+      let started=null,frame=0,cancelled=false;
+      const events=['wheel','touchstart','pointerdown','keydown'];
+      function cleanup(){events.forEach(type=>window.removeEventListener(type,cancel));document.removeEventListener('visibilitychange',cancel);}
+      function cancel(){cancelled=true;cancelAnimationFrame(frame);cleanup();}
+      events.forEach(type=>window.addEventListener(type,cancel,{passive:true}));
+      document.addEventListener('visibilitychange',cancel);
+      function step(now){
+        if(cancelled)return;
+        if(started===null)started=now;
+        const progress=Math.min(1,(now-started)/duration);
+        const eased=progress<.5?2*progress*progress:1-Math.pow(-2*progress+2,2)/2;
+        window.scrollTo({top:start+(target()-start)*eased,behavior:'instant'});
+        if(progress<1)frame=requestAnimationFrame(step);else cleanup();
+      }
+      frame=requestAnimationFrame(step);
     });
     const shareLines=correct?['I guessed the movie from its colors!','Movie decoded!','I got today\'s color challenge right!']:['Filmcode got me this time!','This movie palette fooled me!','I didn\'t crack this color code.'];
     const shareText=shareLines[validIndex(wording?.shareIndex,shareLines.length)]+' Can you decode the movie?';
