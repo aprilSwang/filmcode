@@ -271,24 +271,30 @@ body{background:radial-gradient(ellipse at 50% 0%,var(--glow) 0%,var(--page) 65%
     ]
   ]
 };
-  function reveal(guess, lineIndex, animate=false){
+  function pickCopy(guess){
+    const lines=revealLines[guess===puzzle.answer?'correct':'incorrect'];
+    return {headlineIndex:Math.floor(Math.random()*lines.length),messageIndex:Math.floor(Math.random()*lines.length),shareIndex:Math.floor(Math.random()*3)};
+  }
+  function validIndex(index,length){return Number.isInteger(index)&&index>=0&&index<length?index:0;}
+  function reveal(guess, wording, animate=false){
     const correct=guess===puzzle.answer;
     const lines=correct?revealLines.correct:revealLines.incorrect;
-    const line=lines[Number.isInteger(lineIndex)&&lineIndex>=0&&lineIndex<lines.length?lineIndex:0];
+    const headline=lines[validIndex(wording?.headlineIndex,lines.length)][0];
+    const message=lines[validIndex(wording?.messageIndex,lines.length)][1];
     result.classList.add(correct?'is-correct':'is-wrong');
     if(animate&&!reduceMotion())result.classList.add('reveal-enter');
     document.getElementById('outcome-symbol').textContent=correct?'✓':'×';
     document.getElementById('guess-summary').textContent=correct?'You guessed correctly.':'You guessed: '+puzzle.choices[guess].title;
     result.hidden=false;
     startCountdown(challengeDate);
-    document.getElementById('outcome').textContent=line[0];
+    document.getElementById('outcome').textContent=headline;
     document.getElementById('movie-title').textContent=puzzle.title;
     document.getElementById('movie-year').textContent=String(puzzle.year);
     document.getElementById('poster').src='assets/'+encodeURIComponent(puzzle.id)+'-poster.jpg';
     document.getElementById('poster').alt='Poster for '+puzzle.title;
-    document.getElementById('result-message').textContent=line[1];
-    const shareLines=correct?['I guessed the movie from its colors!','Movie decoded! Can you recognize it too?','I got today\'s color challenge right!']:['Filmcode got me this time!','This movie palette fooled me!','I didn\'t crack this color code.'];
-    const shareText=shareLines[(Number.isInteger(lineIndex)&&lineIndex>=0?lineIndex:0)%shareLines.length]+' Can you decode the movie?';
+    document.getElementById('result-message').textContent=message;
+    const shareLines=correct?['I guessed the movie from its colors!','Movie decoded!','I got today\'s color challenge right!']:['Filmcode got me this time!','This movie palette fooled me!','I didn\'t crack this color code.'];
+    const shareText=shareLines[validIndex(wording?.shareIndex,shareLines.length)]+' Can you decode the movie?';
     const url='https://playfilmcode.com/?utm_source=player_share&utm_medium=organic';
     const text=shareText+'\n'+url;
     const status=document.getElementById('share-status');
@@ -323,9 +329,9 @@ body{background:radial-gradient(ellipse at 50% 0%,var(--glow) 0%,var(--page) 65%
       window.filmcodeTrack?.('challenge_started',{mode:'daily',puzzle:puzzle.id});
       window.filmcodeTrack?.('guess_submitted',{mode:'daily',puzzle:puzzle.id,choice:i,correct:i===puzzle.answer});
       window.filmcodeTrack?.('challenge_completed',{mode:'daily',puzzle:puzzle.id,correct:i===puzzle.answer});
-      const lineIndex=Math.floor(Math.random()*revealLines[i===puzzle.answer?'correct':'incorrect'].length);
-      try{localStorage.setItem(key,JSON.stringify({id:puzzle.id,guess:i,lineIndex}))}catch{}
-      feedback(i,true,()=>reveal(i,lineIndex,true));
+      const wording=pickCopy(i);
+      try{localStorage.setItem(key,JSON.stringify({id:puzzle.id,guess:i,wording}))}catch{}
+      feedback(i,true,()=>reveal(i,wording,true));
     });
   });
   function feedback(guess,animate,done){
@@ -347,7 +353,10 @@ body{background:radial-gradient(ellipse at 50% 0%,var(--glow) 0%,var(--page) 65%
   try{
     const saved=JSON.parse(localStorage.getItem(key)||'null');
     if(saved&&saved.id===puzzle.id&&Number.isInteger(saved.guess)&&saved.guess>=0&&saved.guess<4){
-      feedback(saved.guess,false,()=>reveal(saved.guess,saved.lineIndex,false));
+      // Preserve wording from earlier versions of the game.
+      const old=validIndex(saved.lineIndex,revealLines[saved.guess===puzzle.answer?'correct':'incorrect'].length);
+      const wording=saved.wording??{headlineIndex:old,messageIndex:old,shareIndex:old%3};
+      feedback(saved.guess,false,()=>reveal(saved.guess,wording,false));
     }
   }catch{}
 })();
