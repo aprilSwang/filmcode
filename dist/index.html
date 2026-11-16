@@ -60,7 +60,28 @@ body{background:radial-gradient(ellipse at 50% 0%,var(--glow) 0%,var(--page) 65%
 .theme-icon{font-size:16px;line-height:1}
 @media(max-width:560px){.theme-switch{padding:9px 11px}.top{gap:10px}}
 .share-actions{display:flex;justify-content:center;flex-wrap:wrap;gap:10px;margin-top:20px}.share-actions button{font:inherit;font-weight:700;border:1px solid var(--line,#777);border-radius:9px;padding:12px 18px;cursor:pointer;background:var(--choice,#22212c);color:var(--ink,#fff)}.share-actions button:hover,.share-actions button:focus-visible{outline:2px solid var(--accent,#efb96f);outline-offset:2px}#share-status{font-size:13px;min-height:1.4em}#share-fallback{width:100%;font:inherit;padding:10px}footer a{margin:0 7px}
-.next-challenge{margin:22px auto 0;padding:18px 12px;border-top:1px solid var(--line);text-align:center}.next-challenge[hidden],.barcode[hidden]{display:none}.next-challenge .count-label{font-size:12px;font-weight:750;letter-spacing:.13em;text-transform:uppercase;color:var(--muted)}.next-challenge time{display:block;font-size:clamp(30px,7vw,46px);font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:.04em;color:var(--ink);margin:8px 0}.next-challenge p{font-size:13px;margin:8px 0}.next-challenge button{margin:10px auto 0;padding:10px 18px;border:1px solid var(--line);border-radius:8px;background:var(--choice);color:var(--ink);font:inherit;cursor:pointer}.next-challenge button[hidden]{display:none}
+.next-challenge{margin:22px auto 0;padding:18px 12px;border-top:1px solid var(--line);text-align:center}.next-challenge[hidden],.barcode[hidden]{display:none}.next-challenge .count-label{font-size:12px;font-weight:750;letter-spacing:.13em;text-transform:uppercase;color:var(--muted)}.next-challenge time{display:block;font-size:clamp(30px,7vw,46px);font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:.04em;color:var(--ink);margin:8px 0}.next-challenge p{font-size:13px;margin:8px 0}.next-challenge button{margin:10px auto 0;padding:10px 18px;border:1px solid var(--line);border-radius:8px;background:var(--choice);color:var(--ink);font:inherit;cursor:pointer}.next-challenge button[hidden],.next-challenge time[hidden]{display:none}
+
+/* Outcome feedback preserves the full barcode and all four choices. */
+:root{--correct-ink:#246344;--wrong-ink:#963847}
+:root[data-theme="dark"]{--correct-ink:#9ce9cc;--wrong-ink:#ffb0b5}
+.choice{display:flex;align-items:center;gap:10px;transition:background .22s,border-color .22s,opacity .25s,transform .2s;font-size:15px;font-weight:650}
+.choice .letter{margin-right:0;flex-shrink:0}.choice-title{flex:1;min-width:0;overflow-wrap:anywhere}.choice-mark{font-size:12px;font-weight:750;text-align:right;max-width:95px;flex-shrink:0}
+.choice.correct{color:var(--correct-ink);border:2px solid var(--correct-line);padding:16px}.choice.wrong{color:var(--wrong-ink);border:2px solid var(--wrong-line);padding:16px}
+.choice.correct .letter,.choice.wrong .letter{color:inherit}.choice.dim{opacity:.65}
+.choice.feedback-pop{animation:filmcode-pop .45s ease both}.choice.feedback-shake{animation:filmcode-shake .28s ease both}
+.result{border:1px solid var(--outcome-line,var(--line));background:var(--result);padding:clamp(18px,4vw,30px)}
+.result.is-correct{--outcome-line:var(--correct-line);--outcome-ink:var(--correct-ink);--outcome-bg:var(--correct-bg)}
+.result.is-wrong{--outcome-line:var(--wrong-line);--outcome-ink:var(--wrong-ink);--outcome-bg:var(--wrong-bg)}
+.outcome-symbol{width:60px;height:60px;display:grid;place-items:center;border:2px solid var(--outcome-line);border-radius:50%;background:var(--outcome-bg);color:var(--outcome-ink);font-size:34px;font-weight:700;margin:0 auto 12px}
+.result #outcome{color:var(--outcome-ink);font-size:clamp(24px,5vw,32px);font-weight:850;letter-spacing:-.035em;margin:0 0 8px;line-height:1.15}
+.guess-summary{color:var(--outcome-ink);font-weight:650;font-size:14px;overflow-wrap:anywhere;margin:10px 0}
+.result #movie-title{margin:18px 0 4px}.result #movie-year{margin:0;color:var(--muted)}.result .poster{max-width:min(220px,100%);height:auto}
+.result.reveal-enter{animation:filmcode-enter .48s ease both}.result.reveal-enter .poster{animation:filmcode-enter .55s .13s ease both}.result.reveal-enter .share-actions{animation:filmcode-enter .4s .22s ease both}
+@keyframes filmcode-pop{50%{transform:scale(1.025);box-shadow:0 0 16px var(--correct-bg)}}
+@keyframes filmcode-shake{25%,75%{transform:translateX(-3px)}50%{transform:translateX(3px)}}
+@keyframes filmcode-enter{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@media(prefers-reduced-motion:reduce){.choice,.result,.result *{animation:none!important;transition:none!important}}
 </style>
 <script src="analytics-config.js"></script><script src="telemetry.js"></script>
 <link rel="icon" type="image/png" sizes="64x64" href="/assets/filmcode-icon.png">
@@ -77,7 +98,7 @@ body{background:radial-gradient(ellipse at 50% 0%,var(--glow) 0%,var(--page) 65%
 <div class="timeline"><span>OPENING</span><span>THE FILM'S COLOR STORY</span><span>FINALE</span></div>
 <div id="question-area"><h2>Which movie is this?</h2><div class="choices" id="choices"></div></div>
 <div id="result" class="result" hidden aria-live="polite">
-<div class="overline" id="outcome"></div><h2 id="movie-title"></h2><p id="movie-year"></p>
+<div class="outcome-symbol" id="outcome-symbol" aria-hidden="true"></div><h2 id="outcome"></h2><p id="guess-summary" class="guess-summary"></p><h2 id="movie-title"></h2><p id="movie-year"></p>
 <img id="poster" class="poster" alt="Movie poster" loading="lazy">
 <p class="muted" id="result-message"></p>
 <div class="share-actions"><button type="button" id="share-result">Share result</button><button type="button" id="copy-result">Copy result</button></div><p id="share-status" role="status"></p><textarea id="share-fallback" aria-label="Copy this spoiler-free result" rows="3" readonly hidden></textarea>
@@ -180,16 +201,20 @@ body{background:radial-gradient(ellipse at 50% 0%,var(--glow) 0%,var(--page) 65%
     document.getElementById('puzzle-number').textContent='DAILY CHALLENGE #'+String(data.puzzle_number).padStart(3,'0');
     document.getElementById('barcode').src='assets/'+encodeURIComponent(puzzle.id)+'-barcode.png';
   }catch(error){fail(error.message);return;}
-  function reveal(guess){
+  function reveal(guess, animate=false){
     const correct=guess===puzzle.answer;
-    question.hidden=true;result.hidden=false;
+    result.classList.add(correct?'is-correct':'is-wrong');
+    if(animate&&!reduceMotion())result.classList.add('reveal-enter');
+    document.getElementById('outcome-symbol').textContent=correct?'✓':'×';
+    document.getElementById('guess-summary').textContent=correct?'You guessed correctly.':'You guessed: '+puzzle.choices[guess].title;
+    result.hidden=false;
     startCountdown(challengeDate);
-    document.getElementById('outcome').textContent=correct?'YOU READ THE COLORS!':'THE REVEAL';
+    document.getElementById('outcome').textContent=correct?'Nailed it!':'Not quite!';
     document.getElementById('movie-title').textContent=puzzle.title;
     document.getElementById('movie-year').textContent=String(puzzle.year);
     document.getElementById('poster').src='assets/'+encodeURIComponent(puzzle.id)+'-poster.jpg';
     document.getElementById('poster').alt='Poster for '+puzzle.title;
-    document.getElementById('result-message').textContent=correct?'Well played. See you at the next challenge!':'A new color story is on its way.';
+    document.getElementById('result-message').textContent=correct?'You recognized the movie from its colors.':'This one was tricky. A new color story awaits.';
     const shareText=(correct?'I guessed the movie from its colors!':'Filmcode got me this time!')+' Can you decode the movie?';
     const url='https://playfilmcode.com/?utm_source=player_share&utm_medium=organic';
     const text=shareText+'\n'+url;
@@ -207,26 +232,50 @@ body{background:radial-gradient(ellipse at 50% 0%,var(--glow) 0%,var(--page) 65%
       catch(error){if(error.name!=='AbortError')await copy();}
     };
   }
-  try{
-    const saved=JSON.parse(localStorage.getItem(key)||'null');
-    if(saved&&saved.id===puzzle.id&&Number.isInteger(saved.guess)){reveal(saved.guess);return}
-  }catch{}
   const box=document.getElementById('choices');
+  let answered=false;
+  const reduceMotion=()=>window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   puzzle.choices.forEach((choice,i)=>{
     const button=document.createElement('button');button.className='choice';
     const letter=document.createElement('span');letter.className='letter';letter.textContent='ABCD'[i];
-    button.append(letter,document.createTextNode(choice.title));box.append(button);
+    const title=document.createElement('span');title.className='choice-title';title.textContent=choice.title;
+    const mark=document.createElement('span');mark.className='choice-mark';
+    button.append(letter,title,mark);box.append(button);
     button.addEventListener('click',()=>{
+      if(answered)return;
       if(new Date().toISOString().slice(0,10)!==challengeDate){
         fail('The daily challenge has ended.');startCountdown(challengeDate);return;
       }
+      answered=true;
       window.filmcodeTrack?.('challenge_started',{mode:'daily',puzzle:puzzle.id});
       window.filmcodeTrack?.('guess_submitted',{mode:'daily',puzzle:puzzle.id,choice:i,correct:i===puzzle.answer});
       window.filmcodeTrack?.('challenge_completed',{mode:'daily',puzzle:puzzle.id,correct:i===puzzle.answer});
       try{localStorage.setItem(key,JSON.stringify({id:puzzle.id,guess:i}))}catch{}
-      reveal(i);
+      feedback(i,true,()=>reveal(i,true));
     });
   });
+  function feedback(guess,animate,done){
+    answered=true;
+    const buttons=Array.from(box.children);
+    const win=guess===puzzle.answer;
+    const motion=animate&&!reduceMotion();
+    buttons.forEach((b,j)=>{b.disabled=true;if(j!==guess&&j!==puzzle.answer)b.classList.add('dim');});
+    function mark(index,cls,label,animation){
+      const b=buttons[index];if(!b)return;
+      b.classList.add(cls);b.querySelector('.choice-mark').textContent=label;
+      if(motion&&animation)b.classList.add(animation);
+    }
+    mark(guess,win?'correct':'wrong',win?'✓ Your guess':'× Your guess',win?'feedback-pop':'feedback-shake');
+    const correct=()=>{if(!win)mark(puzzle.answer,'correct','✓ Correct answer','feedback-pop');};
+    if(motion&&!win)setTimeout(correct,280);else correct();
+    if(motion)setTimeout(done,620);else done();
+  }
+  try{
+    const saved=JSON.parse(localStorage.getItem(key)||'null');
+    if(saved&&saved.id===puzzle.id&&Number.isInteger(saved.guess)&&saved.guess>=0&&saved.guess<4){
+      feedback(saved.guess,false,()=>reveal(saved.guess,false));
+    }
+  }catch{}
 })();
 </script>
 </body>
