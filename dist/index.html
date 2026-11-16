@@ -81,6 +81,8 @@ body{background:radial-gradient(ellipse at 50% 0%,var(--glow) 0%,var(--page) 65%
 @keyframes filmcode-shake{25%,75%{transform:translateX(-3px)}50%{transform:translateX(3px)}}
 @keyframes filmcode-enter{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 @media(prefers-reduced-motion:reduce){.choice,.result,.result *{animation:none!important;transition:none!important}}
+
+#result{scroll-margin-top:20px}#outcome:focus{outline:none}#outcome:focus-visible{outline:2px solid var(--outcome-line,var(--line));outline-offset:5px;border-radius:4px}
 </style>
 <script src="analytics-config.js"></script><script src="telemetry.js"></script>
 <link rel="icon" type="image/png" sizes="64x64" href="/assets/filmcode-icon.png">
@@ -97,7 +99,7 @@ body{background:radial-gradient(ellipse at 50% 0%,var(--glow) 0%,var(--page) 65%
 <div class="timeline"><span>OPENING</span><span>THE FILM'S COLOR STORY</span><span>FINALE</span></div>
 <div id="question-area"><h2>Which movie is this?</h2><div class="choices" id="choices"></div></div>
 <div id="result" class="result" hidden aria-live="polite">
-<div class="outcome-symbol" id="outcome-symbol" aria-hidden="true"></div><h2 id="outcome"></h2><h2 id="movie-title"></h2><p id="movie-year"></p>
+<div class="outcome-symbol" id="outcome-symbol" aria-hidden="true"></div><h2 id="outcome" tabindex="-1"></h2><h2 id="movie-title"></h2><p id="movie-year"></p>
 <img id="poster" class="poster" alt="Movie poster" loading="lazy">
 <p class="muted" id="result-message"></p>
 <div class="share-actions"><button type="button" id="share-result">Share result</button><button type="button" id="copy-result">Copy result</button></div><p id="share-status" role="status"></p><textarea id="share-fallback" aria-label="Copy this spoiler-free result" rows="3" readonly hidden></textarea>
@@ -292,6 +294,11 @@ body{background:radial-gradient(ellipse at 50% 0%,var(--glow) 0%,var(--page) 65%
     document.getElementById('poster').src='assets/'+encodeURIComponent(puzzle.id)+'-poster.jpg';
     document.getElementById('poster').alt='Poster for '+puzzle.title;
     document.getElementById('result-message').textContent=message;
+    // Only scroll for a newly submitted guess, after the result has been laid out.
+    if(animate)requestAnimationFrame(()=>{
+      document.getElementById('outcome').focus({preventScroll:true});
+      result.scrollIntoView({behavior:reduceMotion()?'auto':'smooth',block:'start',inline:'nearest'});
+    });
     const shareLines=correct?['I guessed the movie from its colors!','Movie decoded!','I got today\'s color challenge right!']:['Filmcode got me this time!','This movie palette fooled me!','I didn\'t crack this color code.'];
     const shareText=shareLines[validIndex(wording?.shareIndex,shareLines.length)]+' Can you decode the movie?';
     const url='https://playfilmcode.com/?utm_source=player_share&utm_medium=organic';
