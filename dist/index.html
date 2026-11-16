@@ -85,7 +85,7 @@ body{background:radial-gradient(ellipse at 50% 0%,var(--glow) 0%,var(--page) 65%
 <div class="next-challenge" id="next-challenge" hidden>
 <div class="count-label" id="count-label">Next daily challenge in</div>
 <time id="next-countdown" role="timer" aria-live="off">--:--:--</time>
-<p id="next-note" class="muted" role="status">Daily reset at midnight UTC.</p>
+<p id="next-note" class="muted" role="status" hidden></p>
 <button type="button" id="next-check" hidden>Check for new challenge</button>
 </div>
 </section>
@@ -150,7 +150,7 @@ body{background:radial-gradient(ellipse at 50% 0%,var(--glow) 0%,var(--page) 65%
     }
     if(!expired){
       expired=true;clock.hidden=true;countLabel.textContent='Waiting for the next challenge';
-      note.textContent='The daily reset has arrived. Checking for the new movie…';checkButton.hidden=false;
+      note.hidden=false;note.textContent='Checking for the new movie…';checkButton.hidden=false;
     }
     if(Date.now()-lastCheck>=30000)checkNext();
   }
