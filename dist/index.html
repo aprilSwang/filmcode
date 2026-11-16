@@ -60,6 +60,7 @@ body{background:radial-gradient(ellipse at 50% 0%,var(--glow) 0%,var(--page) 65%
 .theme-icon{font-size:16px;line-height:1}
 @media(max-width:560px){.theme-switch{padding:9px 11px}.top{gap:10px}}
 .share-actions{display:flex;justify-content:center;flex-wrap:wrap;gap:10px;margin-top:20px}.share-actions button{font:inherit;font-weight:700;border:1px solid var(--line,#777);border-radius:9px;padding:12px 18px;cursor:pointer;background:var(--choice,#22212c);color:var(--ink,#fff)}.share-actions button:hover,.share-actions button:focus-visible{outline:2px solid var(--accent,#efb96f);outline-offset:2px}#share-status{font-size:13px;min-height:1.4em}#share-fallback{width:100%;font:inherit;padding:10px}footer a{margin:0 7px}
+.next-challenge{margin:22px auto 0;padding:18px 12px;border-top:1px solid var(--line);text-align:center}.next-challenge[hidden],.barcode[hidden]{display:none}.next-challenge .count-label{font-size:12px;font-weight:750;letter-spacing:.13em;text-transform:uppercase;color:var(--muted)}.next-challenge time{display:block;font-size:clamp(30px,7vw,46px);font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:.04em;color:var(--ink);margin:8px 0}.next-challenge p{font-size:13px;margin:8px 0}.next-challenge button{margin:10px auto 0;padding:10px 18px;border:1px solid var(--line);border-radius:8px;background:var(--choice);color:var(--ink);font:inherit;cursor:pointer}.next-challenge button[hidden]{display:none}
 </style>
 <script src="analytics-config.js"></script><script src="telemetry.js"></script>
 <link rel="icon" type="image/png" sizes="64x64" href="/assets/filmcode-icon.png">
@@ -80,6 +81,12 @@ body{background:radial-gradient(ellipse at 50% 0%,var(--glow) 0%,var(--page) 65%
 <img id="poster" class="poster" alt="Movie poster" loading="lazy">
 <p class="muted" id="result-message"></p>
 <div class="share-actions"><button type="button" id="share-result">Share result</button><button type="button" id="copy-result">Copy result</button></div><p id="share-status" role="status"></p><textarea id="share-fallback" aria-label="Copy this spoiler-free result" rows="3" readonly hidden></textarea>
+</div>
+<div class="next-challenge" id="next-challenge" hidden>
+<div class="count-label" id="count-label">Next daily challenge in</div>
+<time id="next-countdown" role="timer" aria-live="off">--:--:--</time>
+<p id="next-note" class="muted" role="status">Daily reset at midnight UTC.</p>
+<button type="button" id="next-check" hidden>Check for new challenge</button>
 </div>
 </section>
 <footer><a href="/about/">About</a><a href="/how-to-play/">How to play</a><a href="/copyright.html">Copyright &amp; content reports</a></footer>
@@ -109,15 +116,65 @@ body{background:radial-gradient(ellipse at 50% 0%,var(--glow) 0%,var(--page) 65%
 </script>
 <script>
 (async()=>{
-  const key='filmcode-played-'+new Date().toISOString().slice(0,10);
+  let key;
   const question=document.getElementById('question-area'),result=document.getElementById('result');
   function fail(message){question.textContent=message;document.getElementById('barcode').hidden=true;}
-  let puzzle;
+  let puzzle,challengeDate;
+  const countdown=document.getElementById('next-challenge');
+  const clock=document.getElementById('next-countdown');
+  const countLabel=document.getElementById('count-label');
+  const note=document.getElementById('next-note');
+  const checkButton=document.getElementById('next-check');
+  let checking=false,interval=null,lastCheck=0,nextAt=0,expired=false;
+  async function checkNext(){
+    if(checking)return;
+    checking=true;lastCheck=Date.now();checkButton.disabled=true;
+    try{
+      const response=await fetch('puzzles.json',{cache:'no-store'});
+      if(!response.ok)throw Error('Unavailable');
+      const data=await response.json();
+      if(data.mode==='daily'&&data.daily_date===new Date().toISOString().slice(0,10)&&data.daily_date!==challengeDate&&data.puzzles?.[0]?.choices?.length===4){
+        if(interval!==null)clearInterval(interval);
+        location.reload();
+        return;
+      }
+      note.textContent='The next challenge is being prepared. We will check again shortly.';
+    }catch{note.textContent='Unable to check for a new challenge. We will retry shortly.';}
+    finally{checking=false;checkButton.disabled=false;}
+  }
+  function tick(){
+    const seconds=Math.max(0,Math.ceil((nextAt-Date.now())/1000));
+    if(seconds>0){
+      clock.textContent=[Math.floor(seconds/3600),Math.floor(seconds%3600/60),seconds%60].map(n=>String(n).padStart(2,'0')).join(':');
+      return;
+    }
+    if(!expired){
+      expired=true;clock.hidden=true;countLabel.textContent='Waiting for the next challenge';
+      note.textContent='The daily reset has arrived. Checking for the new movie…';checkButton.hidden=false;
+    }
+    if(Date.now()-lastCheck>=30000)checkNext();
+  }
+  function startCountdown(date){
+    if(interval!==null)return;
+    nextAt=Date.parse(date+'T00:00:00Z')+86400000;
+    if(!Number.isFinite(nextAt))return;
+    countdown.hidden=false;tick();interval=setInterval(tick,1000);
+    document.addEventListener('visibilitychange',()=>{if(!document.hidden)tick();});
+    checkButton.addEventListener('click',checkNext);
+  }
   try{
     const response=await fetch('puzzles.json',{cache:'no-store'});
     if(!response.ok)throw Error('Puzzle unavailable');
     const data=await response.json();
-    if(data.daily_date!==new Date().toISOString().slice(0,10))throw Error('Next challenge is being prepared. Come back soon!');
+    if(data.mode!=='daily')throw Error('Daily challenge unavailable.');
+    challengeDate=data.daily_date;
+    if(!/^\d{4}-\d{2}-\d{2}$/.test(challengeDate||''))throw Error('Challenge date unavailable.');
+    if(challengeDate!==new Date().toISOString().slice(0,10)){
+      fail('The next challenge is being prepared. Come back soon!');
+      if(challengeDate<new Date().toISOString().slice(0,10))startCountdown(challengeDate);
+      return;
+    }
+    key='filmcode-played-'+challengeDate;
     puzzle=data.puzzles[0];
     if(!puzzle||!Array.isArray(puzzle.choices)||puzzle.choices.length!==4)throw Error('Challenge unavailable');
     document.getElementById('puzzle-number').textContent='DAILY CHALLENGE #'+String(data.puzzle_number).padStart(3,'0');
@@ -126,12 +183,13 @@ body{background:radial-gradient(ellipse at 50% 0%,var(--glow) 0%,var(--page) 65%
   function reveal(guess){
     const correct=guess===puzzle.answer;
     question.hidden=true;result.hidden=false;
+    startCountdown(challengeDate);
     document.getElementById('outcome').textContent=correct?'YOU READ THE COLORS!':'THE REVEAL';
     document.getElementById('movie-title').textContent=puzzle.title;
     document.getElementById('movie-year').textContent=String(puzzle.year);
     document.getElementById('poster').src='assets/'+encodeURIComponent(puzzle.id)+'-poster.jpg';
     document.getElementById('poster').alt='Poster for '+puzzle.title;
-    document.getElementById('result-message').textContent=correct?'Well played. See you tomorrow!':'A new color story arrives tomorrow.';
+    document.getElementById('result-message').textContent=correct?'Well played. See you at the next challenge!':'A new color story is on its way.';
     const shareText=(correct?'I guessed the movie from its colors!':'Filmcode got me this time!')+' Can you decode the movie?';
     const url='https://playfilmcode.com/?utm_source=player_share&utm_medium=organic';
     const text=shareText+'\n'+url;
@@ -159,6 +217,9 @@ body{background:radial-gradient(ellipse at 50% 0%,var(--glow) 0%,var(--page) 65%
     const letter=document.createElement('span');letter.className='letter';letter.textContent='ABCD'[i];
     button.append(letter,document.createTextNode(choice.title));box.append(button);
     button.addEventListener('click',()=>{
+      if(new Date().toISOString().slice(0,10)!==challengeDate){
+        fail('The daily challenge has ended.');startCountdown(challengeDate);return;
+      }
       window.filmcodeTrack?.('challenge_started',{mode:'daily',puzzle:puzzle.id});
       window.filmcodeTrack?.('guess_submitted',{mode:'daily',puzzle:puzzle.id,choice:i,correct:i===puzzle.answer});
       window.filmcodeTrack?.('challenge_completed',{mode:'daily',puzzle:puzzle.id,correct:i===puzzle.answer});
