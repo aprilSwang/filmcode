@@ -287,7 +287,8 @@ body{background:radial-gradient(ellipse at 50% 0%,var(--glow) 0%,var(--page) 65%
     startCountdown(challengeDate);
     document.getElementById('outcome').textContent=headline;
     document.getElementById('movie-title').textContent=puzzle.title;
-    document.getElementById('movie-year').textContent=String(puzzle.year);
+    const directors=Array.isArray(puzzle.directors)?puzzle.directors.filter(x=>typeof x==='string'&&x.trim()).map(x=>x.trim()):[];
+    document.getElementById('movie-year').textContent=String(puzzle.year)+(directors.length?' · Directed by '+directors.join(' & '):'');
     document.getElementById('poster').src='assets/'+encodeURIComponent(puzzle.id)+'-poster.jpg';
     document.getElementById('poster').alt='Poster for '+puzzle.title;
     document.getElementById('result-message').textContent=message;

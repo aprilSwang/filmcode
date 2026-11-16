@@ -28,7 +28,10 @@
         }
       ],
       "answer": 2,
-      "selected_variant": "original"
+      "selected_variant": "original",
+      "directors": [
+        "Denis Villeneuve"
+      ]
     }
   ],
   "mode": "daily"
