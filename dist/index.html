@@ -66,7 +66,7 @@ body{background:radial-gradient(ellipse at 50% 0%,var(--glow) 0%,var(--page) 65%
 :root{--correct-ink:#246344;--wrong-ink:#963847}
 :root[data-theme="dark"]{--correct-ink:#9ce9cc;--wrong-ink:#ffb0b5}
 .choice{display:flex;align-items:center;gap:10px;transition:background .22s,border-color .22s,opacity .25s,transform .2s;font-size:15px;font-weight:650}
-.choice .letter{margin-right:0;flex-shrink:0}.choice-title{flex:1;min-width:0;overflow-wrap:anywhere}.choice-mark{font-size:12px;font-weight:750;text-align:right;max-width:95px;flex-shrink:0}
+.choice .letter{margin-right:0;flex-shrink:0}.choice-title{flex:1;min-width:0;overflow-wrap:anywhere}.choice-mark{font-size:16px;font-weight:750;text-align:center;white-space:nowrap;flex-shrink:0;min-width:1em;line-height:1} .choice-mark:empty{display:none}
 .choice.correct{color:var(--correct-ink);border:2px solid var(--correct-line);padding:16px}.choice.wrong{color:var(--wrong-ink);border:2px solid var(--wrong-line);padding:16px}
 .choice.correct .letter,.choice.wrong .letter{color:inherit}.choice.dim{opacity:.65}
 .choice.feedback-pop{animation:filmcode-pop .45s ease both}.choice.feedback-shake{animation:filmcode-shake .28s ease both}
@@ -341,11 +341,11 @@ body{background:radial-gradient(ellipse at 50% 0%,var(--glow) 0%,var(--page) 65%
     buttons.forEach((b,j)=>{b.disabled=true;if(j!==guess&&j!==puzzle.answer)b.classList.add('dim');});
     function mark(index,cls,label,animation){
       const b=buttons[index];if(!b)return;
-      b.classList.add(cls);b.querySelector('.choice-mark').textContent=label;
+      b.classList.add(cls);const mark=b.querySelector('.choice-mark');mark.textContent=cls==='correct'?'✓':'×';mark.setAttribute('aria-label',label);mark.title=label;
       if(motion&&animation)b.classList.add(animation);
     }
-    mark(guess,win?'correct':'wrong',win?'✓ Your guess':'× Your guess',win?'feedback-pop':'feedback-shake');
-    const correct=()=>{if(!win)mark(puzzle.answer,'correct','✓ Correct answer','feedback-pop');};
+    mark(guess,win?'correct':'wrong',win?'Your guess — correct':'Your guess — incorrect',win?'feedback-pop':'feedback-shake');
+    const correct=()=>{if(!win)mark(puzzle.answer,'correct','Correct answer','feedback-pop');};
     if(motion&&!win)setTimeout(correct,280);else correct();
     if(motion)setTimeout(done,620);else done();
   }
