@@ -1,33 +1,35 @@
 {
-  "launch_date": "2026-11-10",
+  "launch_date": "2026-11-16",
   "time_zone": "UTC",
-  "daily_date": "2026-11-10",
+  "daily_date": "2026-11-16",
   "puzzle_number": 1,
   "puzzles": [
     {
-      "id": "dune",
-      "title": "Dune",
-      "year": 2021,
+      "id": "blade-runner-2049",
+      "title": "Blade Runner 2049",
+      "year": 2017,
+      "genre": "science fiction film, mystery film, cyberpunk, dystopian film, neo-noir, thriller film, drama film, action film",
       "choices": [
         {
-          "title": "Soul",
-          "year": 2020
+          "title": "The Shape of Water",
+          "year": 2017
         },
         {
-          "title": "Oppenheimer"
+          "title": "Coco",
+          "year": 2017
         },
         {
-          "title": "Dune",
-          "year": 2021
+          "title": "Blade Runner 2049",
+          "year": 2017
         },
         {
-          "title": "Everything Everywhere All at Once",
-          "year": 2022
+          "title": "Thor: Ragnarok",
+          "year": 2017
         }
       ],
       "answer": 2,
-      "genre": "science fiction film, action film, adventure film, speculative fiction film"
+      "selected_variant": "original"
     }
   ],
-  "mode": "pilot"
+  "mode": "daily"
 }
