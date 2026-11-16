@@ -75,7 +75,6 @@ body{background:radial-gradient(ellipse at 50% 0%,var(--glow) 0%,var(--page) 65%
 .result.is-wrong{--outcome-line:var(--wrong-line);--outcome-ink:var(--wrong-ink);--outcome-bg:var(--wrong-bg)}
 .outcome-symbol{width:60px;height:60px;display:grid;place-items:center;border:2px solid var(--outcome-line);border-radius:50%;background:var(--outcome-bg);color:var(--outcome-ink);font-size:34px;font-weight:700;margin:0 auto 12px}
 .result #outcome{color:var(--outcome-ink);font-size:clamp(24px,5vw,32px);font-weight:850;letter-spacing:-.035em;margin:0 0 8px;line-height:1.15}
-.guess-summary{color:var(--outcome-ink);font-weight:650;font-size:14px;overflow-wrap:anywhere;margin:10px 0}
 .result #movie-title{margin:18px 0 4px}.result #movie-year{margin:0;color:var(--muted)}.result .poster{max-width:min(220px,100%);height:auto}
 .result.reveal-enter{animation:filmcode-enter .48s ease both}.result.reveal-enter .poster{animation:filmcode-enter .55s .13s ease both}.result.reveal-enter .share-actions{animation:filmcode-enter .4s .22s ease both}
 @keyframes filmcode-pop{50%{transform:scale(1.025);box-shadow:0 0 16px var(--correct-bg)}}
@@ -98,7 +97,7 @@ body{background:radial-gradient(ellipse at 50% 0%,var(--glow) 0%,var(--page) 65%
 <div class="timeline"><span>OPENING</span><span>THE FILM'S COLOR STORY</span><span>FINALE</span></div>
 <div id="question-area"><h2>Which movie is this?</h2><div class="choices" id="choices"></div></div>
 <div id="result" class="result" hidden aria-live="polite">
-<div class="outcome-symbol" id="outcome-symbol" aria-hidden="true"></div><h2 id="outcome"></h2><p id="guess-summary" class="guess-summary"></p><h2 id="movie-title"></h2><p id="movie-year"></p>
+<div class="outcome-symbol" id="outcome-symbol" aria-hidden="true"></div><h2 id="outcome"></h2><h2 id="movie-title"></h2><p id="movie-year"></p>
 <img id="poster" class="poster" alt="Movie poster" loading="lazy">
 <p class="muted" id="result-message"></p>
 <div class="share-actions"><button type="button" id="share-result">Share result</button><button type="button" id="copy-result">Copy result</button></div><p id="share-status" role="status"></p><textarea id="share-fallback" aria-label="Copy this spoiler-free result" rows="3" readonly hidden></textarea>
@@ -284,7 +283,6 @@ body{background:radial-gradient(ellipse at 50% 0%,var(--glow) 0%,var(--page) 65%
     result.classList.add(correct?'is-correct':'is-wrong');
     if(animate&&!reduceMotion())result.classList.add('reveal-enter');
     document.getElementById('outcome-symbol').textContent=correct?'✓':'×';
-    document.getElementById('guess-summary').textContent=correct?'You guessed correctly.':'You guessed: '+puzzle.choices[guess].title;
     result.hidden=false;
     startCountdown(challengeDate);
     document.getElementById('outcome').textContent=headline;
