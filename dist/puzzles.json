@@ -1,36 +1,37 @@
 {
-  "launch_date": "2026-11-16",
+  "launch_date": "2026-11-17",
   "time_zone": "UTC",
-  "daily_date": "2026-11-16",
-  "puzzle_number": 1,
+  "daily_date": "2026-11-17",
+  "puzzle_number": 2,
   "puzzles": [
     {
-      "id": "blade-runner-2049",
-      "title": "Blade Runner 2049",
-      "year": 2017,
-      "genre": "science fiction film, mystery film, cyberpunk, dystopian film, neo-noir, thriller film, drama film, action film",
+      "id": "how-to-train-your-dragon",
+      "title": "How to Train Your Dragon",
+      "year": 2010,
+      "genre": "fantasy film, children's film, adventure film, comedy film, medieval film, action film, family film, monster film",
       "choices": [
         {
-          "title": "The Shape of Water",
-          "year": 2017
+          "title": "Inception",
+          "year": 2010
         },
         {
-          "title": "Coco",
-          "year": 2017
+          "title": "How to Train Your Dragon",
+          "year": 2010
         },
         {
-          "title": "Blade Runner 2049",
-          "year": 2017
+          "title": "Toy Story 3",
+          "year": 2010
         },
         {
-          "title": "Thor: Ragnarok",
-          "year": 2017
+          "title": "Avatar",
+          "year": 2009
         }
       ],
-      "answer": 2,
-      "selected_variant": "original",
+      "answer": 1,
+      "selected_variant": "perceptual",
       "directors": [
-        "Denis Villeneuve"
+        "Dean DeBlois",
+        "Chris Sanders"
       ]
     }
   ],
