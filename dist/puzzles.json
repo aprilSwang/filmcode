@@ -1,37 +1,35 @@
 {
-  "launch_date": "2026-11-17",
+  "launch_date": "2026-11-18",
   "time_zone": "UTC",
-  "daily_date": "2026-11-17",
-  "puzzle_number": 2,
+  "daily_date": "2026-11-18",
+  "puzzle_number": 3,
   "puzzles": [
     {
-      "id": "how-to-train-your-dragon",
-      "title": "How to Train Your Dragon",
-      "year": 2010,
-      "genre": "fantasy film, children's film, adventure film, comedy film, medieval film, action film, family film, monster film",
+      "id": "the-matrix-reloaded-2003",
+      "title": "The Matrix Reloaded",
+      "year": 2003,
+      "genre": "action film, thriller film, science fiction film, martial arts film, cyberpunk, dystopian film, superhero film",
       "choices": [
         {
-          "title": "Inception",
-          "year": 2010
+          "title": "The Chronicles of Narnia: Prince Caspian"
         },
         {
-          "title": "How to Train Your Dragon",
-          "year": 2010
+          "title": "The Matrix Reloaded",
+          "year": 2003
         },
         {
-          "title": "Toy Story 3",
-          "year": 2010
+          "title": "The Matrix"
         },
         {
-          "title": "Avatar",
-          "year": 2009
+          "title": "Kill Bill: Vol. 1",
+          "year": 2003
         }
       ],
       "answer": 1,
-      "selected_variant": "perceptual",
+      "selected_variant": "original",
       "directors": [
-        "Dean DeBlois",
-        "Chris Sanders"
+        "Lana Wachowski",
+        "Lilly Wachowski"
       ]
     }
   ],
