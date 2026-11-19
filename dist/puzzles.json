@@ -1,35 +1,35 @@
 {
-  "launch_date": "2026-11-18",
+  "launch_date": "2026-11-19",
   "time_zone": "UTC",
-  "daily_date": "2026-11-18",
-  "puzzle_number": 3,
+  "daily_date": "2026-11-19",
+  "puzzle_number": 4,
   "puzzles": [
     {
-      "id": "the-matrix-reloaded-2003",
-      "title": "The Matrix Reloaded",
-      "year": 2003,
-      "genre": "action film, thriller film, science fiction film, martial arts film, cyberpunk, dystopian film, superhero film",
+      "id": "last-night-in-soho-2021",
+      "title": "Last Night in Soho",
+      "year": 2021,
+      "genre": "psychological thriller, psychological horror fiction",
       "choices": [
         {
-          "title": "The Chronicles of Narnia: Prince Caspian"
+          "title": "Blade Runner 2049"
         },
         {
-          "title": "The Matrix Reloaded",
-          "year": 2003
+          "title": "Everything Everywhere All at Once",
+          "year": 2022
         },
         {
-          "title": "The Matrix"
+          "title": "The Green Knight",
+          "year": 2021
         },
         {
-          "title": "Kill Bill: Vol. 1",
-          "year": 2003
+          "title": "Last Night in Soho",
+          "year": 2021
         }
       ],
-      "answer": 1,
-      "selected_variant": "original",
+      "answer": 3,
+      "selected_variant": "perceptual",
       "directors": [
-        "Lana Wachowski",
-        "Lilly Wachowski"
+        "Edgar Wright"
       ]
     }
   ],
