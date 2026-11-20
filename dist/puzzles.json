@@ -1,35 +1,36 @@
 {
-  "launch_date": "2026-11-19",
+  "launch_date": "2026-11-20",
   "time_zone": "UTC",
-  "daily_date": "2026-11-19",
-  "puzzle_number": 4,
+  "daily_date": "2026-11-20",
+  "puzzle_number": 5,
   "puzzles": [
     {
-      "id": "last-night-in-soho-2021",
-      "title": "Last Night in Soho",
-      "year": 2021,
-      "genre": "psychological thriller, psychological horror fiction",
+      "id": "avatar",
+      "title": "Avatar",
+      "year": 2009,
+      "genre": "science fiction film, action film, adventure film, military science fiction, live-action/animated film, epic film, white savior film",
       "choices": [
         {
-          "title": "Blade Runner 2049"
+          "title": "Avatar",
+          "year": 2009
         },
         {
-          "title": "Everything Everywhere All at Once",
-          "year": 2022
+          "title": "Up",
+          "year": 2009
         },
         {
-          "title": "The Green Knight",
-          "year": 2021
+          "title": "Fantastic Mr. Fox",
+          "year": 2009
         },
         {
-          "title": "Last Night in Soho",
-          "year": 2021
+          "title": "How to Train Your Dragon",
+          "year": 2010
         }
       ],
-      "answer": 3,
-      "selected_variant": "perceptual",
+      "answer": 0,
+      "selected_variant": "original",
       "directors": [
-        "Edgar Wright"
+        "James Cameron"
       ]
     }
   ],
