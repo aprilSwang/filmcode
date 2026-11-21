@@ -1,36 +1,36 @@
 {
-  "launch_date": "2026-11-20",
+  "launch_date": "2026-11-21",
   "time_zone": "UTC",
-  "daily_date": "2026-11-20",
-  "puzzle_number": 5,
+  "daily_date": "2026-11-21",
+  "puzzle_number": 6,
   "puzzles": [
     {
-      "id": "avatar",
-      "title": "Avatar",
-      "year": 2009,
-      "genre": "science fiction film, action film, adventure film, military science fiction, live-action/animated film, epic film, white savior film",
+      "id": "rogue-one-2016",
+      "title": "Rogue One",
+      "year": 2016,
+      "genre": "space opera, fantasy film, action film, science fiction film, war film",
       "choices": [
         {
-          "title": "Avatar",
-          "year": 2009
+          "title": "Rogue One",
+          "year": 2016
         },
         {
-          "title": "Up",
-          "year": 2009
+          "title": "La La Land",
+          "year": 2016
         },
         {
-          "title": "Fantastic Mr. Fox",
-          "year": 2009
+          "title": "Doctor Strange",
+          "year": 2016
         },
         {
-          "title": "How to Train Your Dragon",
-          "year": 2010
+          "title": "Moonlight",
+          "year": 2016
         }
       ],
       "answer": 0,
-      "selected_variant": "original",
+      "selected_variant": "perceptual",
       "directors": [
-        "James Cameron"
+        "Gareth Edwards"
       ]
     }
   ],
