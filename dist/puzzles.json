@@ -1,36 +1,35 @@
 {
-  "launch_date": "2026-11-21",
+  "launch_date": "2026-11-22",
   "time_zone": "UTC",
-  "daily_date": "2026-11-21",
-  "puzzle_number": 6,
+  "daily_date": "2026-11-22",
+  "puzzle_number": 7,
   "puzzles": [
     {
-      "id": "rogue-one-2016",
-      "title": "Rogue One",
-      "year": 2016,
-      "genre": "space opera, fantasy film, action film, science fiction film, war film",
+      "id": "spider-man-across-the-spider-verse-2022",
+      "title": "Spider-Man: Across the Spider-Verse",
+      "year": 2022,
+      "genre": "action comedy film, superhero film, action film, comedy film, drama fiction",
       "choices": [
         {
-          "title": "Rogue One",
-          "year": 2016
+          "title": "The Grand Budapest Hotel"
         },
         {
-          "title": "La La Land",
-          "year": 2016
+          "title": "Barbie"
         },
         {
-          "title": "Doctor Strange",
-          "year": 2016
+          "title": "La La land"
         },
         {
-          "title": "Moonlight",
-          "year": 2016
+          "title": "Spider-Man: Across the Spider-Verse",
+          "year": 2022
         }
       ],
-      "answer": 0,
-      "selected_variant": "perceptual",
+      "answer": 3,
+      "selected_variant": "original",
       "directors": [
-        "Gareth Edwards"
+        "Joaquim Dos Santos",
+        "Kemp Powers",
+        "Justin K. Thompson"
       ]
     }
   ],
