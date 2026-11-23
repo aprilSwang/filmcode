@@ -1,36 +1,34 @@
 {
-  "launch_date": "2026-11-22",
+  "launch_date": "2026-11-23",
   "time_zone": "UTC",
-  "daily_date": "2026-11-22",
-  "puzzle_number": 7,
+  "daily_date": "2026-11-23",
+  "puzzle_number": 8,
   "puzzles": [
     {
-      "id": "spider-man-across-the-spider-verse-2022",
-      "title": "Spider-Man: Across the Spider-Verse",
-      "year": 2022,
-      "genre": "action comedy film, superhero film, action film, comedy film, drama fiction",
+      "id": "interstellar-film-2014",
+      "title": "Interstellar",
+      "year": 2014,
+      "genre": "science fiction film, adventure film, dystopian film, drama film, time-travel film, thriller film, hard science fiction",
       "choices": [
         {
-          "title": "The Grand Budapest Hotel"
+          "title": "Interstellar",
+          "year": 2014
         },
         {
-          "title": "Barbie"
+          "title": "The Martian"
         },
         {
-          "title": "La La land"
+          "title": "The Grand Budapest Hotel",
+          "year": 2014
         },
         {
-          "title": "Spider-Man: Across the Spider-Verse",
-          "year": 2022
+          "title": "Guardians of the Galaxy",
+          "year": 2014
         }
       ],
-      "answer": 3,
+      "answer": 0,
       "selected_variant": "original",
-      "directors": [
-        "Joaquim Dos Santos",
-        "Kemp Powers",
-        "Justin K. Thompson"
-      ]
+      "directors": []
     }
   ],
   "mode": "daily"
