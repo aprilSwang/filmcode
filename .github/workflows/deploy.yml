@@ -21,4 +21,8 @@ jobs:
       - uses: actions/upload-pages-artifact@v3
         with:
           path: ${{ runner.temp }}/filmcode-pages
+      # Pages artifact metadata can briefly lag behind a successful upload.
+      # Allow GitHub's artifact API to index the upload before deployment.
+      - name: Allow Pages artifact metadata to become available
+        run: sleep 20
       - uses: actions/deploy-pages@v4
