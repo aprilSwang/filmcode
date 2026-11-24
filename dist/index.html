@@ -327,7 +327,7 @@ body{background:radial-gradient(ellipse at 50% 0%,var(--glow) 0%,var(--page) 65%
     const text=shareText+'\n'+url;
     const status=document.getElementById('share-status');
     const fallback=document.getElementById('share-fallback');
-    const record=()=>{try{window.filmcodeTrack?.('result_shared',{mode:'daily',puzzle:puzzle.id,correct})}catch{}};
+    const record=()=>{try{window.filmcodeTrack?.('result_shared',{mode:'daily',puzzle:puzzle.edition_id||puzzle.id,correct})}catch{}};
     const copy=async()=>{
       try{await navigator.clipboard.writeText(text);status.textContent='Copied!';fallback.hidden=true;record();}
       catch{fallback.hidden=false;fallback.value=text;fallback.focus();fallback.select();status.textContent='Select and copy this message.';}
@@ -354,9 +354,9 @@ body{background:radial-gradient(ellipse at 50% 0%,var(--glow) 0%,var(--page) 65%
         fail('The daily challenge has ended.');startCountdown(challengeDate);return;
       }
       answered=true;
-      window.filmcodeTrack?.('challenge_started',{mode:'daily',puzzle:puzzle.id});
-      window.filmcodeTrack?.('guess_submitted',{mode:'daily',puzzle:puzzle.id,choice:i,correct:i===puzzle.answer});
-      window.filmcodeTrack?.('challenge_completed',{mode:'daily',puzzle:puzzle.id,correct:i===puzzle.answer});
+      window.filmcodeTrack?.('challenge_started',{mode:'daily',puzzle:puzzle.edition_id||puzzle.id});
+      window.filmcodeTrack?.('guess_submitted',{mode:'daily',puzzle:puzzle.edition_id||puzzle.id,choice:i,correct:i===puzzle.answer});
+      window.filmcodeTrack?.('challenge_completed',{mode:'daily',puzzle:puzzle.edition_id||puzzle.id,correct:i===puzzle.answer});
       const wording=pickCopy(i);
       try{localStorage.setItem(key,JSON.stringify({id:puzzle.id,guess:i,wording}))}catch{}
       feedback(i,true,()=>reveal(i,wording,true));

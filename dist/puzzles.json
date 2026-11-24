@@ -1,34 +1,37 @@
 {
-  "launch_date": "2026-11-23",
+  "launch_date": "2026-11-24",
   "time_zone": "UTC",
-  "daily_date": "2026-11-23",
-  "puzzle_number": 8,
+  "daily_date": "2026-11-24",
+  "puzzle_number": 9,
   "puzzles": [
     {
-      "id": "interstellar-film-2014",
-      "title": "Interstellar",
-      "year": 2014,
-      "genre": "science fiction film, adventure film, dystopian film, drama film, time-travel film, thriller film, hard science fiction",
+      "id": "jurassic-park",
+      "title": "Jurassic Park",
+      "year": 1993,
+      "genre": "science fiction film, adventure film, action film, thriller film",
       "choices": [
         {
-          "title": "Interstellar",
-          "year": 2014
+          "title": "Jurassic Park",
+          "year": 1993
         },
         {
-          "title": "The Martian"
+          "title": "The Lion King",
+          "year": 1994
         },
         {
-          "title": "The Grand Budapest Hotel",
-          "year": 2014
+          "title": "Pulp Fiction",
+          "year": 1994
         },
         {
-          "title": "Guardians of the Galaxy",
-          "year": 2014
+          "title": "Ghost in the Shell",
+          "year": 1995
         }
       ],
       "answer": 0,
       "selected_variant": "original",
-      "directors": []
+      "directors": [
+        "Steven Spielberg"
+      ]
     }
   ],
   "mode": "daily"
