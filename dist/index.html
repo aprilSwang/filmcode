@@ -191,15 +191,19 @@ body{background:radial-gradient(ellipse at 50% 0%,var(--glow) 0%,var(--page) 65%
     if(data.mode!=='daily')throw Error('Daily challenge unavailable.');
     challengeDate=data.daily_date;
     if(!/^\d{4}-\d{2}-\d{2}$/.test(challengeDate||''))throw Error('Challenge date unavailable.');
-    if(challengeDate!==new Date().toISOString().slice(0,10)){
-      fail('The next challenge is being prepared. Come back soon!');
-      if(challengeDate<new Date().toISOString().slice(0,10))startCountdown(challengeDate);
+    const today=new Date().toISOString().slice(0,10);
+    if(challengeDate>today){
+      fail('The next challenge is not available yet.');
       return;
     }
+    // Keep the previous approved challenge available during a delayed release.
+    // Label it explicitly and check periodically for the new published challenge.
+    const previousChallenge=challengeDate<today;
+    if(previousChallenge)startCountdown(challengeDate);
     key='filmcode-played-'+challengeDate;
     puzzle=data.puzzles[0];
     if(!puzzle||!Array.isArray(puzzle.choices)||puzzle.choices.length!==4)throw Error('Challenge unavailable');
-    document.getElementById('puzzle-number').textContent='DAILY CHALLENGE #'+String(data.puzzle_number).padStart(3,'0');
+    document.getElementById('puzzle-number').textContent=(previousChallenge?'PREVIOUS CHALLENGE #':'DAILY CHALLENGE #')+String(data.puzzle_number).padStart(3,'0');
     document.getElementById('barcode').src='assets/'+encodeURIComponent(puzzle.id)+'-barcode.png';
   }catch(error){fail(error.message);return;}
   const revealLines = {
@@ -350,9 +354,7 @@ body{background:radial-gradient(ellipse at 50% 0%,var(--glow) 0%,var(--page) 65%
     button.append(letter,title,mark);box.append(button);
     button.addEventListener('click',()=>{
       if(answered)return;
-      if(new Date().toISOString().slice(0,10)!==challengeDate){
-        fail('The daily challenge has ended.');startCountdown(challengeDate);return;
-      }
+      // Keep the last published challenge playable until the new one arrives.
       answered=true;
       window.filmcodeTrack?.('challenge_started',{mode:'daily',puzzle:puzzle.edition_id||puzzle.id});
       window.filmcodeTrack?.('guess_submitted',{mode:'daily',puzzle:puzzle.edition_id||puzzle.id,choice:i,correct:i===puzzle.answer});
