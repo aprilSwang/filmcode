@@ -1,36 +1,35 @@
 {
-  "launch_date": "2026-11-24",
+  "launch_date": "2026-11-25",
   "time_zone": "UTC",
-  "daily_date": "2026-11-24",
-  "puzzle_number": 9,
+  "daily_date": "2026-11-25",
+  "puzzle_number": 10,
   "puzzles": [
     {
-      "id": "jurassic-park",
-      "title": "Jurassic Park",
-      "year": 1993,
-      "genre": "science fiction film, adventure film, action film, thriller film",
+      "id": "the-empire-strikes-back-1980",
+      "title": "The Empire Strikes Back",
+      "year": 1980,
+      "genre": "science fiction film, adventure film, action film, fantasy film, epic film, space opera",
       "choices": [
         {
-          "title": "Jurassic Park",
-          "year": 1993
+          "title": "The Shining",
+          "year": 1980
         },
         {
-          "title": "The Lion King",
-          "year": 1994
+          "title": "The Empire Strikes Back",
+          "year": 1980
         },
         {
-          "title": "Pulp Fiction",
-          "year": 1994
+          "title": "E.T"
         },
         {
-          "title": "Ghost in the Shell",
-          "year": 1995
+          "title": "Alien",
+          "year": 1979
         }
       ],
-      "answer": 0,
+      "answer": 1,
       "selected_variant": "original",
       "directors": [
-        "Steven Spielberg"
+        "Irvin Kershner"
       ]
     }
   ],
