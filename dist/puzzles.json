@@ -1,35 +1,37 @@
 {
-  "launch_date": "2026-11-25",
+  "launch_date": "2026-11-26",
   "time_zone": "UTC",
-  "daily_date": "2026-11-25",
-  "puzzle_number": 10,
+  "daily_date": "2026-11-26",
+  "puzzle_number": 11,
   "puzzles": [
     {
-      "id": "the-empire-strikes-back-1980",
-      "title": "The Empire Strikes Back",
-      "year": 1980,
-      "genre": "science fiction film, adventure film, action film, fantasy film, epic film, space opera",
+      "id": "everything-everywhere-all-at-once",
+      "title": "Everything Everywhere All at Once",
+      "year": 2022,
+      "genre": "science fiction film, action film, comedy drama, absurdist fiction, martial arts film, psychedelic film",
       "choices": [
         {
-          "title": "The Shining",
-          "year": 1980
+          "title": "Nope",
+          "year": 2022
         },
         {
-          "title": "The Empire Strikes Back",
-          "year": 1980
+          "title": "The Batman",
+          "year": 2022
         },
         {
-          "title": "E.T"
+          "title": "Everything Everywhere All at Once",
+          "year": 2022
         },
         {
-          "title": "Alien",
-          "year": 1979
+          "title": "Barbie",
+          "year": 2023
         }
       ],
-      "answer": 1,
+      "answer": 2,
       "selected_variant": "original",
       "directors": [
-        "Irvin Kershner"
+        "Dan Kwan",
+        "Daniel Scheinert"
       ]
     }
   ],
