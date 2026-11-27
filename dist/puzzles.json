@@ -1,37 +1,35 @@
 {
-  "launch_date": "2026-11-26",
+  "launch_date": "2026-11-27",
   "time_zone": "UTC",
-  "daily_date": "2026-11-26",
-  "puzzle_number": 11,
+  "daily_date": "2026-11-27",
+  "puzzle_number": 12,
   "puzzles": [
     {
-      "id": "everything-everywhere-all-at-once",
-      "title": "Everything Everywhere All at Once",
-      "year": 2022,
-      "genre": "science fiction film, action film, comedy drama, absurdist fiction, martial arts film, psychedelic film",
+      "id": "the-fifth-element",
+      "title": "The Fifth Element",
+      "year": 1997,
+      "genre": "science fiction film, adventure film, comedy film, action film, fantasy film, dystopian film",
       "choices": [
         {
-          "title": "Nope",
-          "year": 2022
+          "title": "Dune: Part Two"
         },
         {
-          "title": "The Batman",
-          "year": 2022
+          "title": "The Fifth Element",
+          "year": 1997
         },
         {
-          "title": "Everything Everywhere All at Once",
-          "year": 2022
+          "title": "Titanic",
+          "year": 1997
         },
         {
-          "title": "Barbie",
-          "year": 2023
+          "title": "The Truman Show",
+          "year": 1998
         }
       ],
-      "answer": 2,
+      "answer": 1,
       "selected_variant": "original",
       "directors": [
-        "Dan Kwan",
-        "Daniel Scheinert"
+        "Luc Besson"
       ]
     }
   ],
