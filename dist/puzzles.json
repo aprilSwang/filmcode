@@ -1,35 +1,33 @@
 {
-  "launch_date": "2026-11-27",
+  "launch_date": "2026-11-28",
   "time_zone": "UTC",
-  "daily_date": "2026-11-27",
-  "puzzle_number": 12,
+  "daily_date": "2026-11-28",
+  "puzzle_number": 13,
   "puzzles": [
     {
-      "id": "the-fifth-element",
-      "title": "The Fifth Element",
-      "year": 1997,
-      "genre": "science fiction film, adventure film, comedy film, action film, fantasy film, dystopian film",
+      "id": "guardians-of-the-galaxy-film-2014",
+      "title": "Guardians of the Galaxy",
+      "year": 2014,
+      "genre": "science fiction film, superhero film, comedy film, crime film",
       "choices": [
         {
-          "title": "Dune: Part Two"
+          "title": "Forrest Gump"
         },
         {
-          "title": "The Fifth Element",
-          "year": 1997
+          "title": "Guardians of the Galaxy",
+          "year": 2014
         },
         {
-          "title": "Titanic",
-          "year": 1997
+          "title": "Suicide Squad"
         },
         {
-          "title": "The Truman Show",
-          "year": 1998
+          "title": "The Martian"
         }
       ],
       "answer": 1,
-      "selected_variant": "original",
+      "selected_variant": "perceptual",
       "directors": [
-        "Luc Besson"
+        "James Gunn"
       ]
     }
   ],
